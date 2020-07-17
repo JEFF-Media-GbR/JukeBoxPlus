@@ -1,0 +1,6 @@
+main: de.jeff_media.JukeBoxPlus.Main
+name: JukeBoxPlus
+version: ${project.version}
+api-version: "1.13"
+author: mfnalex
+#website: https://www.chestsort.de
