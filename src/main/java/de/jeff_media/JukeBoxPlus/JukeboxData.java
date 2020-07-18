@@ -1,6 +1,7 @@
 package de.jeff_media.JukeBoxPlus;
 
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.yaml.snakeyaml.Yaml;
@@ -33,11 +34,21 @@ public class JukeboxData {
         this.z=z;
     }
 
+    public JukeboxData(Block block) {
+        this.world = block.getWorld().getUID();
+        this.x=block.getX();
+        this.y=block.getY();
+        this.z=block.getZ();
+    }
 
 
     void save(File file) {
         YamlConfiguration yaml = new YamlConfiguration();
         yaml.set("records",recordsToStringList());
+        yaml.set("world",world.toString());
+        yaml.set("x",x);
+        yaml.set("y",y);
+        yaml.set("z",z);
         try {
             yaml.save(file);
         } catch (IOException e) {
@@ -61,7 +72,10 @@ public class JukeboxData {
     }
 
     boolean add(ItemStack is) {
-        if(records.contains(is.getType())) return false;
+        if(records.contains(is.getType())) {
+            System.out.println("Already contains "+is.getType().name());
+            return false;
+        }
         records.add(is.getType());
         System.out.println("Added disc "+is.getType().name());
         return true;

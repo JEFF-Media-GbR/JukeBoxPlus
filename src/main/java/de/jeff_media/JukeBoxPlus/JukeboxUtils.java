@@ -19,13 +19,32 @@ public class JukeboxUtils {
     }
 
     void startJukebox(Jukebox jb, Material r) {
+        stopJukebox(jb);
         jb.setRecord(new ItemStack(r));
         jb.update();
     }
 
     void stopJukebox(Jukebox jb) {
-        jb.stopPlaying();
         jb.setRecord(null);
         jb.update();
+    }
+
+    static boolean isRecord(ItemStack is) {
+        if(is==null) return false;
+        return is.getType().name().startsWith("MUSIC_DISC_");
+    }
+
+    JukeboxData getJukebox(Block block) {
+        if(main.jukeboxes.containsKey(block)) {
+            System.out.println("This JB already is loaded");
+            return main.jukeboxes.get(block);
+        }
+
+        // TODO: When Jukebox contains record on creation, add it to the record list
+        System.out.println("This JB was new created");
+        JukeboxData newJukebox = new JukeboxData(block);
+        main.jukeboxes.put(block,newJukebox);
+
+        return newJukebox;
     }
 }

@@ -10,7 +10,7 @@ public class Utils {
         int x = block.getX();
         int y = block.getY();
         int z = block.getZ();
-        String fileName = String.format("%s_%d_%d_%d");
+        String fileName = String.format("%s_%d_%d_%d.yml",uuid,x,y,z);
         return new File(main.getDataFolder()+File.separator+"jukeboxes"+File.separator+fileName);
     }
 
