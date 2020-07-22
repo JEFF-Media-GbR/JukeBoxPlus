@@ -1,12 +1,16 @@
 package de.jeff_media.JukeBoxPlus;
 
+import org.apache.commons.collections4.MultiValuedMap;
+import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Main extends JavaPlugin {
@@ -15,24 +19,63 @@ public class Main extends JavaPlugin {
 
     JukeboxUtils jukeboxUtils;
     Messages msg;
-    HashMap<Block, JukeboxData> jukeboxes = new HashMap<>();
+    HashMap<Block, JukeboxData> jukeboxes;
     TaskController taskController;
     SongUtils songUtils;
     Utils utils;
+    Listener listener;
+    GUIListener guiListener;
+    MessageUtils messageUtils;
+    HashMap<UUID, BossBar> bossbars;
     int configVersion = 3;
 
-    private void createFolders() {
-        debug("Creating directories");
-        getDataFolder().getAbsoluteFile().mkdirs();
-        new File(getDataFolder() + File.separator + "jukeboxes").getAbsoluteFile().mkdirs();
-
-        debug(getDataFolder().getAbsolutePath());
-        debug(getDataFolder().getAbsoluteFile().toString());
-
+    void debug(String text) {
+        if (getConfig().getBoolean("debug"))
+            getLogger().warning("[DEBUG] " + text);
     }
 
-    void debug(String text) {
-        if (getConfig().getBoolean("debug")) getLogger().warning("[DEBUG] " + text);
+    public void onDisable() {
+        saveJukeboxes();
+    }
+
+    public void onEnable( ) {
+        onEnable(false);
+    }
+
+    public void onEnable(boolean reload) {
+
+        if(reload) {
+            saveJukeboxes();
+        }
+
+        createConfig();
+        jukeboxes = new HashMap<>();
+        msg = new Messages(this);
+        jukeboxUtils = new JukeboxUtils(this);
+        listener = new Listener(this);
+        guiListener = new GUIListener(this);
+        this.getServer().getPluginManager().registerEvents(listener, this);
+        this.getServer().getPluginManager().registerEvents(guiListener,this);
+        taskController = new TaskController(this);
+        songUtils = new SongUtils(this);
+        utils = new Utils(this);
+        messageUtils = new MessageUtils((this));
+        bossbars=new HashMap<>();
+
+        loadJukeboxes();
+    }
+
+    private void createConfig() {
+        getDataFolder().getAbsoluteFile().mkdirs();
+        getFile("jukeboxes").getAbsoluteFile().mkdirs();
+        saveDefaultConfig();
+        if(!getFile("durations.yml").exists()) {
+            saveResource("durations.yml", false);
+        }
+    }
+
+    File getFile(String name) {
+        return new File(getDataFolder()+File.separator+name);
     }
 
     public void loadJukeboxes() {
@@ -44,33 +87,18 @@ public class Main extends JavaPlugin {
             int x = yaml.getInt("x");
             int y = yaml.getInt("y");
             int z = yaml.getInt("z");
-            Block block = getServer().getWorld(world).getBlockAt(x, y, z);
+            World worldByUUID = getServer().getWorld(world);
+            if(worldByUUID==null) {
+                getLogger().warning("World with uuid "+world.toString()+" not found. Did you generate it? To restore jukeboxes, type /jukebox admin restore <worldname>");
+                continue;
+            }
+            Block block = Objects.requireNonNull(getServer().getWorld(world).getBlockAt(x, y, z),"Block is null");
             JukeboxData jbData = new JukeboxData(world, x, y, z, file, this);
             jbData.loadRecords(file);
             jukeboxes.put(block, jbData);
 
             file.delete();
         }
-    }
-
-    public void onDisable() {
-        saveJukeboxes();
-    }
-
-    public void onEnable() {
-
-        createFolders();
-        saveResource("durations.yml",false);
-
-        msg = new Messages(this);
-
-        jukeboxUtils = new JukeboxUtils(this);
-        this.getServer().getPluginManager().registerEvents(new Listener(this), this);
-
-        loadJukeboxes();
-        taskController = new TaskController(this);
-        songUtils = new SongUtils(this);
-        utils = new Utils(this);
     }
 
     private void saveJukeboxes() {

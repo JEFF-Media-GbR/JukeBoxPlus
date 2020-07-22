@@ -1,21 +1,25 @@
 package de.jeff_media.JukeBoxPlus;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.World;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Jukebox;
+import org.bukkit.boss.BarColor;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class JukeboxData {
 
     Main main;
-
+    int radius = 4; // * 16
     UUID world;
     int x, y, z;
     ArrayList<Material> records = new ArrayList<>();
@@ -41,13 +45,15 @@ public class JukeboxData {
         this.main = main;
     }
 
-    boolean add(ItemStack is) {
+    boolean addRecord(ItemStack is, Player p) {
         if (records.contains(is.getType())) {
             main.debug("Already contains " + is.getType().name());
+            main.messageUtils.send("Jukebox already contains "+is.getType().name(),  false,p,true);
             return false;
         }
         records.add(is.getType());
         main.debug("Added disc " + is.getType().name());
+        main.messageUtils.send("Added "+is.getType().name()+" to Jukebox",true,p,true);
         main.utils.updateInventoryViews("Record added");
         return true;
     }
@@ -70,6 +76,23 @@ public class JukeboxData {
             records.add(Material.getMaterial(s));
         }
         //record = Material.getMaterial(yaml.getString("record", "nothing")); // TODO (and not here)
+    }
+
+    boolean radiusPlus() {
+        radius++;
+        if(radius>16) {
+            radius=16;
+            return false;
+        }
+        return true;
+    }
+    boolean radiusMinus() {
+        radius--;
+        if(radius<1) {
+            radius=1;
+            return false;
+        }
+        return true;
     }
 
     void randomRecord() {
@@ -128,38 +151,78 @@ public class JukeboxData {
         main.jukeboxes.remove(block);
     }
 
-    void startJukebox(Jukebox jb, Material r) {
+    void startJukebox(Jukebox jb, Material r,@Nullable Player p) {
         if (r == null || r == Material.AIR) {
             main.debug("Cannot start without a record");
+            if(p != null) {
+                main.messageUtils.send("Choose a record first.",false,p,true);
+            }
             return;
         }
         main.debug("Starting Jukebox with " + r.name());
         int duration = main.songUtils.getDuration(r);
         //stopJukebox(jb);
-        jb.setRecord(new ItemStack(r));
-        jb.update();
+        //jb.setRecord(new ItemStack(r));
+        //jb.update();
+        getBlock().getWorld().playSound(
+                getBlock().getLocation(),
+                Objects.requireNonNull(SongUtils.getSound(r),"Sound is null"),
+                SoundCategory.BLOCKS,radius,1);
         setEndTime(duration);
         record = r;
         main.utils.updateInventoryViews("Started Jukebox");
+        //startFakeJukeboxes(jb.getBlock().getLocation(),record);
+    }
+
+    private void startFakeJukeboxes(Location location, Material record) {
+        ArrayList<Location> locs = JukeboxUtils.getDistandSpeakers(location);
+        for(Location loc : locs) {
+            loc.getWorld().playSound(loc,SongUtils.getSound(record), SoundCategory.BLOCKS,100,1);
+            TestUtils.spawnPillar(loc);
+        }
     }
 
     void stopJukebox(Jukebox jb) {
-        record = null;
+
         //record = jb.getPlaying();
-        jb.setRecord(null);
+        //jb.setRecord(null);
         endTime = 0;
         loop=false;
         shuffle=false;
-        jb.update();
+        //jb.update();
+        Collection<Entity> nearbyEntities = jb.getBlock().getWorld().getNearbyEntities(getBlock().getLocation(), radius * 16, radius * 16, radius * 16, new Predicate<Entity>() {
+            @Override
+            public boolean test(Entity entity) {
+                return true;
+                //return (entity instanceof Player);
+            }
+        });
+        for(Entity entity : nearbyEntities) {
+            main.debug("Stopping " +record+" for player "+entity.getName());
+            ((Player)entity).stopSound(SongUtils.getSound(record),SoundCategory.BLOCKS);
+        }
+
+        if(main.getConfig().getBoolean("debug")) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        record = null;
         main.utils.updateInventoryViews("Stopped Jukebox");
     }
 
-    void toggleLoop(Main main) {
+    void toggleLoop(Main main,@Nullable Player p) {
         this.loop = !loop;
         main.debug("Loop: " + loop);
         if (loop) {
             if (record == null || record == Material.AIR) {
                 main.debug("Cannot loop without record");
+                if(p!=null) {
+                    main.messageUtils.send("Choose a record first.",false,p,true);
+                }
                 this.loop = false;
                 return;
             }
@@ -170,7 +233,7 @@ public class JukeboxData {
         main.utils.updateInventoryViews("Toggled Loop");
     }
 
-    public void toggleShuffle(Main main) {
+    public void toggleShuffle(Main main,Player p) {
         this.shuffle = !shuffle;
         main.debug("Shuffle: " + shuffle);
         if (shuffle) {
@@ -182,7 +245,7 @@ public class JukeboxData {
                 if (endTime == 0 || new Date().getTime() >= endTime) {
                     try {
                         randomRecord();
-                        startJukebox(getJukebox(),record); //main.taskController.startLoop(getBlock());
+                        startJukebox(getJukebox(),record,p); //main.taskController.startLoop(getBlock());
                     } catch (BlockIsNoJukeboxException e) {
                         e.printStackTrace();
                     }

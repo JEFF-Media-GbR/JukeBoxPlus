@@ -1,9 +1,12 @@
 package de.jeff_media.JukeBoxPlus;
 
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Jukebox;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
 
 
 public class JukeboxUtils {
@@ -36,5 +39,17 @@ public class JukeboxUtils {
         main.jukeboxes.put(block, newJukebox);
 
         return newJukebox;
+    }
+
+    static ArrayList<Location> getDistandSpeakers(Location loc) {
+        int distance = 65;
+        ArrayList<Location> locs = new ArrayList<>();
+        for(int x = -1; x<=1; x++) {
+            for(int z = -1; z<=1; z++) {
+                if(x==0&&z==0) continue;
+                locs.add(new Location(loc.getWorld(),loc.getBlockX()+x*distance,loc.getBlockY(),loc.getBlockZ()+z*distance));
+            }
+        }
+        return locs;
     }
 }

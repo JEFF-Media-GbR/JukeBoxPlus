@@ -7,6 +7,6 @@ public class Config {
     Config(Main main) {
         this.main=main;
 
-
+        main.getConfig().addDefault("ticks-per-bossbar-message",60);
     }
 }

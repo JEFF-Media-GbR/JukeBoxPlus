@@ -11,6 +11,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -89,12 +90,42 @@ public class JukeboxGUI implements InventoryHolder {
         inv.setItem(4 * 9 + 2, button);
     }
 
+    static boolean isJukeboxGUI(Inventory inv) {
+        if(inv==null) return false;
+        if(inv.getHolder()==null) return false;
+        return inv.getHolder() instanceof JukeboxGUI;
+    }
+
     private void addStopButton() {
         ItemStack button = HeadCreator.getHead(main.getConfig().getString("button-stop"));
         ItemMeta meta = button.getItemMeta();
         meta.setDisplayName("§6Stop");
         button.setItemMeta(meta);
         inv.setItem(4 * 9 + 7, button);
+    }
+
+    private List<String> StringToList(String s) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add(s);
+        return list;
+    }
+
+    private void addRadiusMinusButton() {
+        ItemStack button = HeadCreator.getHead(main.getConfig().getString("button-radius-minus"));
+        ItemMeta meta = button.getItemMeta();
+        meta.setDisplayName("&6Radius -");
+        meta.setLore(StringToList("&7Radius: "+jd.radius*16));
+        button.setItemMeta(meta);
+        inv.setItem(4*9+4,button);
+    }
+
+    private void addRadiusPlusButton() {
+        ItemStack button = HeadCreator.getHead(main.getConfig().getString("button-radius-plus"));
+        ItemMeta meta = button.getItemMeta();
+        meta.setDisplayName("&6Radius +");
+        meta.setLore(StringToList("&7Radius: "+jd.radius*16));
+        button.setItemMeta(meta);
+        inv.setItem(4*9+5,button);
     }
 
     void drawLine(ItemStack is, int line) {
@@ -136,6 +167,8 @@ public class JukeboxGUI implements InventoryHolder {
         addLoopButton();
         addStopButton();
         addShuffleButton();
+        addRadiusMinusButton();
+        addRadiusPlusButton();
         // TODO heads must not glow as it cannot be seen anyway
 
         if (p.getOpenInventory() == null || p.getOpenInventory().getTopInventory() != inv) {

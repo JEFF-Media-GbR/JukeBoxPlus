@@ -50,10 +50,10 @@ public class TaskController {
                 if (time >= jd.endTime) {
                     //main.debug("time >=endTime");
 
-
+                    jd.stopJukebox(jb);
                     if ((!jd.loop
                             && !jd.shuffle)) {
-                        jd.stopJukebox(jb);
+
                         continue;
 
                     }
@@ -62,7 +62,7 @@ public class TaskController {
                     if (jd.shuffle) jd.randomRecord();
                     jd.setEndTime(main.songUtils.getDuration(jd.record));
                     //startLoop(entry.getKey());
-                    jd.startJukebox(jb, jd.record);
+                    jd.startJukebox(jb, jd.record,null);
 
                     main.utils.updateInventoryViews("TaskController##52");
 

@@ -1,6 +1,7 @@
 package de.jeff_media.JukeBoxPlus;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -71,6 +72,19 @@ public class SongUtils {
         }
         main.debug("Could not find duration for "+songName);
         return -1;
+    }
+
+    static Sound getSound(Material r) {
+        if(r==null) {
+            System.out.println("SOUT: MATERIAL R IS NULL");
+            return null;
+        }
+        System.out.println("SOUT: GETTING SONG FOR MATERIAL " + r.name());
+        if(!r.name().startsWith("MUSIC_DISC_")) {
+            System.out.println("SOUT: THIS IS NOT A MUSIC DISC");
+            return null;
+        }
+        return Sound.valueOf(r.name());
     }
 
 }
