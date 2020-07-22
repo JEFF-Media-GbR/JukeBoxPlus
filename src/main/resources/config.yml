@@ -1,0 +1,16 @@
+# You can use base64 strings to customize the Loop, Shuffle and Stop button.
+# You can for example use this website: https://minecraft-heads.com/custom-heads
+# At the bottom of each head's page, copy the string at Other -> Value
+button-loop-enabled: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmM4ZGVmNjdhMTI2MjJlYWQxZGVjZDNkODkzNjQyNTdiNTMxODk2ZDg3ZTQ2OTgxMzEzMWNhMjM1YjVjNyJ9fX0="
+button-loop-disabled: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTUzZGQ0NTc5ZWRjMmE2ZjIwMzJmOTViMWMxODk4MTI5MWI2YzdjMTFlYjM0YjZhOGVkMzZhZmJmYmNlZmZmYiJ9fX0="
+button-shuffle-enabled: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY1Y2IxODVjNjQxY2JlNzRlNzBiY2U2ZTZhMWVkOTBhMTgwZWMxYTQyMDM0ZDVjNGFlZDU3YWY1NjBmYzgzYSJ9fX0=="
+button-shuffle-disabled: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTU1MTE1M2ExNTE5MzU3YjYyNDFhYjFkZGNhZTgzMWRmZjA4MDA3OWMwYjI5NjA3OTdjNzAyZGQ5MjI2NjgzNSJ9fX0=="
+button-stop: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBkMzI3NTJkYzRiNWIxMjgyOTE4NmJjZjlkM2RjNDhiYmYxN2U1ODhhZGZhNDRiODkyNTFkYzVhYjAyY2JkZiJ9fX0="
+
+# How many ticks to wait between Jukebox check
+# Setting this too high will result in pauses between loops, but setting it too low
+# can cause lags on very large servers
+# Recommended: 20 to 40 (1 to 2 seconds)
+tick-delay: 40
+
+debug: true

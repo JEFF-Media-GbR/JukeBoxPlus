@@ -1,53 +1,149 @@
 package de.jeff_media.JukeBoxPlus;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Jukebox;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class JukeboxGUI implements InventoryHolder {
+
+    Main main;
 
     Jukebox jb;
     JukeboxData jd;
     Inventory inv;
 
-    JukeboxGUI(Jukebox jb, JukeboxData jd) {
-        this.jb=jb;
-        this.jd=jd;
-        this.inv=Bukkit.createInventory(this,54,"§6Jukebox");
-        for(Material record : jd.records) {
-            inv.addItem(new ItemStack(record));
-        }
+    ItemStack frame;
+
+
+    JukeboxGUI(Jukebox jb, JukeboxData jd, Main main) {
+        this.jb = jb;
+        this.jd = jd;
+        this.main = main;
+        frame = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+        ItemMeta meta = frame.getItemMeta();
+        meta.setDisplayName("");
+        frame.setItemMeta(meta);
+        this.inv = Bukkit.createInventory(this, 54, "§6Jukebox");
+
     }
 
     void addFrame() {
-/*
-GUI should look likes this:
-XXXXXXXXX
-XmmmmmmmX
-XmmmmmmmX
-XXXXXXXXX
-XoptionsX
-XXXXXXXXX
-Where X is border, m is stored music discs, and options includes:
-- Stop play
-- Enable loop
-- open playlist
-- toggle global/only for player
-*/
+
+        drawLine(frame, 0);
+        inv.setItem(1 * 9 + 0, frame);
+        inv.setItem(1 * 9 + 8, frame);
+        inv.setItem(2 * 9 + 0, frame);
+        inv.setItem(2 * 9 + 8, frame);
+        drawLine(frame, 3);
+        inv.setItem(4 * 9 + 0, frame);
+        inv.setItem(4 * 9 + 8, frame);
+        inv.setItem(4 * 9 + 0, frame);
+        inv.setItem(4 * 9 + 8, frame);
+        drawLine(frame, 5);
+
     }
 
-    void open(Player p) {
-        p.openInventory(inv);
-        System.out.println("OPENED");
+    void addLoopButton() {
+
+        ItemStack button = HeadCreator.getHead(jd.loop ?
+                main.getConfig().getString("button-loop-enabled")
+                :
+                main.getConfig().getString("button-loop-disabled"));
+
+        ItemMeta meta = button.getItemMeta();
+        meta.setDisplayName("§6Loop: " + enabledString(jd.loop));
+        button.setItemMeta(meta);
+        if(jd.loop) makeItShine(button);
+        inv.setItem(4 * 9 + 1, button);
+    }
+
+    void makeItShine(ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        NamespacedKey key = new NamespacedKey(main, main.getDescription().getName());
+        Glow glow = new Glow(key);
+        meta.addEnchant(glow, 1, true);
+        item.setItemMeta(meta);
+    }
+
+    void addShuffleButton() {
+
+        ItemStack button = HeadCreator.getHead(jd.shuffle ?
+                main.getConfig().getString("button-shuffle-enabled")
+                :
+                main.getConfig().getString("button-shuffle-disabled"));
+        ItemMeta meta = button.getItemMeta();
+        meta.setDisplayName("§6Shuffle: " + enabledString(jd.shuffle));
+        button.setItemMeta(meta);
+        if(jd.shuffle) makeItShine(button);
+        inv.setItem(4 * 9 + 2, button);
+    }
+
+    private void addStopButton() {
+        ItemStack button = HeadCreator.getHead(main.getConfig().getString("button-stop"));
+        ItemMeta meta = button.getItemMeta();
+        meta.setDisplayName("§6Stop");
+        button.setItemMeta(meta);
+        inv.setItem(4 * 9 + 7, button);
+    }
+
+    void drawLine(ItemStack is, int line) {
+        for (int i = line * 9; i < 9 + line * 9; i++) {
+            inv.setItem(i, is);
+        }
+    }
+
+    String enabledString(Boolean b) {
+        if (b) return ChatColor.GREEN + "Enabled";
+        return ChatColor.RED + "Disabled";
     }
 
     @Override
     public Inventory getInventory() {
         return inv;
+    }
+
+    void update() {
+        getInventory().getViewers().forEach((viewer) -> {
+            if(viewer instanceof Player) {
+                open((Player)viewer);
+            }
+        });
+    }
+
+    void open(Player p) {
+        inv.clear();
+
+        addFrame();
+
+        for (Material record : Objects.requireNonNull(Objects.requireNonNull(jd, "jd is null").records, "jd.records is null")) {
+            ItemStack disk = new ItemStack((record));
+            if (record == jd.record) {
+                makeItShine(disk);
+            }
+            inv.addItem(new ItemStack(disk));
+        }
+        addLoopButton();
+        addStopButton();
+        addShuffleButton();
+        // TODO heads must not glow as it cannot be seen anyway
+
+        if (p.getOpenInventory() == null || p.getOpenInventory().getTopInventory() != inv) {
+            p.openInventory(inv);
+            main.debug("Opening new inv");
+        } else {
+            p.updateInventory();
+            main.debug("Updating inv");
+        }
     }
 }
