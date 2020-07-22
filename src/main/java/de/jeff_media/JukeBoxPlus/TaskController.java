@@ -22,6 +22,9 @@ public class TaskController {
 
     private void checkJukeboxes() {
 
+        // TODO Skip this if no player is online
+        // TODO Skip jukeboxes in worlds where no player is online or where no player is nearby
+
         long time = new Date().getTime();
 
         for (Map.Entry<Block, JukeboxData> entry : main.jukeboxes.entrySet()) {
