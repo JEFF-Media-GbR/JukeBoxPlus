@@ -9,6 +9,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.block.Block;
 
 public class Listener implements org.bukkit.event.Listener {
     private final Main main;
@@ -23,19 +24,54 @@ public class Listener implements org.bukkit.event.Listener {
 
     @EventHandler
     public void onJukeboxInteract(PlayerInteractEvent e) {
-        if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK
+                && e.getAction() != Action.LEFT_CLICK_BLOCK) return;
         if (!(e.getClickedBlock().getState() instanceof Jukebox)) return;
         if (e.getHand() != EquipmentSlot.HAND) return;
         e.setCancelled(true);
         Player p = e.getPlayer();
+        Jukebox jb = (Jukebox) e.getClickedBlock().getState();
 
-        /*if(e.getItem()==null || e.getItem().getType()==Material.SAND) {
-            main.jukeboxUtils.getJukebox(e.getClickedBlock()).records.forEach((m) -> {
-                p.sendMessage(m.name());
-            });
-            return;
-        }*/
+        if(e.getAction() == Action.LEFT_CLICK_BLOCK ) {
+            main.debug("Left-Click Jukebox");
+            // Shuffle: Next random song
+            // Loop: Restart song
+            // Normal: Next song
+            Block block = e.getClickedBlock();
+            if (!main.jukeboxes.containsKey(block)) {
+                main.debug("This Jukebox is not registered yet");
+                return;
+            }
+            JukeboxData jd = main.jukeboxes.get(block);
+            if (!p.isSneaking()) {
 
+                // Not sneaking, start
+                jd.stopJukebox(jb, false);
+
+                if (jd.loop) {
+                    jd.startJukebox(jb, p);
+                    return;
+                }
+                if (jd.shuffle) {
+                    jd.randomRecord();
+                    jd.startJukebox(jb, p);
+                    return;
+                }
+                jd.nextRecord();
+                jd.startJukebox(jb, p);
+                return;
+            } else {
+                // Sneaking, stop
+
+                jd.stopJukebox(jb,false);
+                //if(jd.loop) jd.toggleLoop(main,null);
+                //if(jd.shuffle) jd.toggleShuffle(main,null);
+                return;
+
+            }
+        }
+
+        if(e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         if (JukeboxUtils.isRecord(e.getItem())) {
             if (main.jukeboxUtils.getJukeboxData(e.getClickedBlock()).addRecord(e.getItem(),p)) {

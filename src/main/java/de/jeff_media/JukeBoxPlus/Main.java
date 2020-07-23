@@ -46,6 +46,7 @@ public class Main extends JavaPlugin {
 
         if(reload) {
             saveJukeboxes();
+            reloadConfig();
         }
 
         createConfig();
@@ -87,6 +88,7 @@ public class Main extends JavaPlugin {
             int x = yaml.getInt("x");
             int y = yaml.getInt("y");
             int z = yaml.getInt("z");
+            int radius = yaml.getInt("radius",4);
             World worldByUUID = getServer().getWorld(world);
             if(worldByUUID==null) {
                 getLogger().warning("World with uuid "+world.toString()+" not found. Did you generate it? To restore jukeboxes, type /jukebox admin restore <worldname>");
@@ -94,6 +96,7 @@ public class Main extends JavaPlugin {
             }
             Block block = Objects.requireNonNull(getServer().getWorld(world).getBlockAt(x, y, z),"Block is null");
             JukeboxData jbData = new JukeboxData(world, x, y, z, file, this);
+            jbData.radius=radius;
             jbData.loadRecords(file);
             jukeboxes.put(block, jbData);
 

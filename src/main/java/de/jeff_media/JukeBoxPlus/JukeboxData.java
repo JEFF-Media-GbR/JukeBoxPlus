@@ -19,7 +19,8 @@ import java.util.function.Predicate;
 public class JukeboxData {
 
     Main main;
-    int radius = 4; // * 16
+    static int defaultRadius = 4;
+    int radius = defaultRadius; // * 16
     UUID world;
     int x, y, z;
     ArrayList<Material> records = new ArrayList<>();
@@ -95,6 +96,21 @@ public class JukeboxData {
         return true;
     }
 
+    void nextRecord() {
+        if(record==null && records.size()==0) {
+            main.debug("This jukebox is empty");
+            return;
+        }
+        if(record==null && records.size()>0) {
+            record = records.get(0);
+            return;
+        }
+        int current = records.indexOf(record);
+        current++;
+        if(current>=records.size()) current = 0;
+        record = records.get(current);
+    }
+
     void randomRecord() {
         switch (records.size()) {
             case 0:
@@ -133,6 +149,7 @@ public class JukeboxData {
         yaml.set("x", x);
         yaml.set("y", y);
         yaml.set("z", z);
+        yaml.set("radius",radius);
         try {
             yaml.save(file);
         } catch (IOException e) {
@@ -151,6 +168,10 @@ public class JukeboxData {
         main.jukeboxes.remove(block);
     }
 
+    void startJukebox(Jukebox jb, @Nullable Player p) {
+        startJukebox(jb,record,p);
+    }
+
     void startJukebox(Jukebox jb, Material r,@Nullable Player p) {
         if (r == null || r == Material.AIR) {
             main.debug("Cannot start without a record");
@@ -164,10 +185,18 @@ public class JukeboxData {
         //stopJukebox(jb);
         //jb.setRecord(new ItemStack(r));
         //jb.update();
-        getBlock().getWorld().playSound(
+        /*getBlock().getWorld().playSound(
                 getBlock().getLocation(),
                 Objects.requireNonNull(SongUtils.getSound(r),"Sound is null"),
-                SoundCategory.BLOCKS,radius,1);
+                SoundCategory.BLOCKS,radius,1);*/
+        Collection<Entity> nearby = Utils.getNearbyPlayers(jb.getBlock(),radius);
+        for(Entity entity : nearby) {
+            Player pn = (Player) entity;
+            if(record!=null) {
+                pn.stopSound(SongUtils.getSound(record), SoundCategory.BLOCKS);
+            }
+            pn.playSound(getBlock().getLocation(),SongUtils.getSound(r),SoundCategory.BLOCKS,radius,1);
+        }
         setEndTime(duration);
         record = r;
         main.utils.updateInventoryViews("Started Jukebox");
@@ -182,35 +211,35 @@ public class JukeboxData {
         }
     }
 
-    void stopJukebox(Jukebox jb) {
+    void stopJukebox(Jukebox jb, boolean reset) {
 
-        //record = jb.getPlaying();
-        //jb.setRecord(null);
+        if(endTime == 0) return;
+
         endTime = 0;
-        loop=false;
-        shuffle=false;
+        if(reset) {
+            loop = false;
+            shuffle = false;
+        }
         //jb.update();
-        Collection<Entity> nearbyEntities = jb.getBlock().getWorld().getNearbyEntities(getBlock().getLocation(), radius * 16, radius * 16, radius * 16, new Predicate<Entity>() {
-            @Override
-            public boolean test(Entity entity) {
-                return true;
-                //return (entity instanceof Player);
+        Collection<Entity> nearbyEntities = Utils.getNearbyPlayers(jb.getBlock(),radius);
+        if(record!=null) {
+            for (Entity entity : nearbyEntities) {
+                main.debug("Stopping " + record + " for player " + entity.getName());
+                if (entity instanceof Player)
+                    ((Player) entity).stopSound(SongUtils.getSound(record), SoundCategory.BLOCKS);
             }
-        });
-        for(Entity entity : nearbyEntities) {
-            main.debug("Stopping " +record+" for player "+entity.getName());
-            ((Player)entity).stopSound(SongUtils.getSound(record),SoundCategory.BLOCKS);
         }
 
-        if(main.getConfig().getBoolean("debug")) {
+        /*if(main.getConfig().getBoolean("debug")) {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }*/
+        if(reset) {
+            record = null;
         }
-
-        record = null;
         main.utils.updateInventoryViews("Stopped Jukebox");
     }
 
@@ -239,6 +268,7 @@ public class JukeboxData {
         if (shuffle) {
             if (records.size() == 0) {
                 main.debug("Cannot shuffle without records");
+                main.messageUtils.send("Cannot shuffle without records",false,p,true);
                 this.shuffle = false;
                 return;
             } else {

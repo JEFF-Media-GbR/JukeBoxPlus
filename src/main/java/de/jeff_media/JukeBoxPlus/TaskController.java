@@ -50,12 +50,13 @@ public class TaskController {
                 if (time >= jd.endTime) {
                     //main.debug("time >=endTime");
 
-                    jd.stopJukebox(jb);
+
                     if ((!jd.loop
                             && !jd.shuffle)) {
-
+                        jd.stopJukebox(jb,true);
                         continue;
-
+                    } else {
+                        jd.stopJukebox(jb,false);
                     }
 
                     main.debug("TaskController#checkLoopedJukeboxes(): Restarting Jukebox");

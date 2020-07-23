@@ -52,7 +52,7 @@ public class SongUtils {
 
         Material pigstep = Material.getMaterial("MUSIC_DISC_PIGSTEP");
         if (pigstep != null) {
-            addSong(pigstep, 2, 28);
+            addSong(pigstep, 2, 24);
         }
 
     }
@@ -76,12 +76,12 @@ public class SongUtils {
 
     static Sound getSound(Material r) {
         if(r==null) {
-            System.out.println("SOUT: MATERIAL R IS NULL");
+            //System.out.println("SOUT: MATERIAL R IS NULL");
             return null;
         }
-        System.out.println("SOUT: GETTING SONG FOR MATERIAL " + r.name());
+        //System.out.println("SOUT: GETTING SONG FOR MATERIAL " + r.name());
         if(!r.name().startsWith("MUSIC_DISC_")) {
-            System.out.println("SOUT: THIS IS NOT A MUSIC DISC");
+            //System.out.println("SOUT: THIS IS NOT A MUSIC DISC");
             return null;
         }
         return Sound.valueOf(r.name());

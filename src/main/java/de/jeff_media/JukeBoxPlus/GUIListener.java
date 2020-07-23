@@ -72,7 +72,8 @@ public class GUIListener implements Listener {
 
             if (remove) {
                 if (jd.record == clicked.getType()) {
-                    jd.stopJukebox(jb);
+                    // TODO: Only reset if played record is loop or standalone, but not when shuffle
+                    jd.stopJukebox(jb,true);
                 }
                 jd.records.remove(clicked.getType());
                 //gui.getInventory().setItem(e.getSlot(),null);
@@ -93,7 +94,7 @@ public class GUIListener implements Listener {
                 case 4 * 9 + 7:
                     main.debug("Stop");
                     if (jd.loop) jd.toggleLoop(main,null);
-                    jd.stopJukebox(jb);
+                    jd.stopJukebox(jb,true);
                     break;
                 case 4 * 9 + 2:
                     main.debug("Toggle Shuffle");

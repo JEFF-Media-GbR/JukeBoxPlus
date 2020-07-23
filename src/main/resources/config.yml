@@ -5,6 +5,23 @@
 
 
 
+# For the SPigotMC description:
+# random player who doesnt know this plugin is installed:
+# roaming around in the wilderness, starts hearing odd music
+# that slowly gets louder, but can't figure out where it's coming from.
+# little do they know, a tiny dirt hut hidden at the base of a
+# hill is blasting mellohi on loop at 256 radius lol
+
+# Left-Click Jukebox:
+#   - When on loop: restart song
+#   - When on shuffle: random next song
+#   - When on normal: next song
+
+# TODO: Rearrange discs by just dragging them
+
+# TODO: Insert discs from inventory using shift-click or by just dragging them
+
+
 # You can use base64 strings to customize the Loop, Shuffle and Stop button.
 # You can for example use this website: https://minecraft-heads.com/custom-heads
 # At the bottom of each head's page, copy the string at Other -> Value
@@ -16,6 +33,10 @@ button-stop: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3
 button-radius-plus: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzIzMzJiNzcwYTQ4NzQ2OTg4NjI4NTVkYTViM2ZlNDdmMTlhYjI5MWRmNzY2YjYwODNiNWY5YTBjM2M2ODQ3ZSJ9fX0="
 button-radius-minus: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzJjYmRjOWQ0YzU5MGVhYzI4NWE0NTQ0ZjJiMWUwNjhiZDI3ZmQ1MjE3M2FjOGQ3Njc5MDEzODIzY2JhYjk1YSJ9fX0="
 
+gui-title: "§4§l[§c§lJukeboxPlus§4§l]"
+
+max-jukebox-radius: 512
+
 # How many ticks to wait between Jukebox check
 # Setting this too high will result in pauses between loops, but setting it too low
 # can cause lags on very large servers
@@ -24,6 +45,12 @@ tick-delay: 40
 
 # When using the bossbar for messages, you can change the duration for those messages here
 # 20 ticks = 1 second
-ticks-per-bossbar-message: 50
+ticks-per-bossbar-message: 80
+
+
+
 
 debug: true
+
+### Do not change
+config-version: 1
