@@ -68,11 +68,15 @@ public class JukeboxData {
 
         if(autostart) {
             main.debug("Autostart enabled: ");
-            loop = !yaml.getString("loop").equals("none");
+            loop = yaml.getBoolean("loop");
+            if(lastRecord==null) {
+                loop = false;
+                main.debug("Disabling Autostart because loop is true but lastRecord is null");
+            }
             boolean shuffleOnStart = yaml.getBoolean("shuffle");
 
             if(loop) {
-                main.debug("Autostart loop "+yaml.getString("loop"));
+                main.debug("Autostart loop "+lastRecord.name());
                 //record = Material.getMaterial(yaml.getString("loop"));
                 startJukebox();
             } else if(shuffleOnStart) {
@@ -190,7 +194,7 @@ public class JukeboxData {
         yaml.set("records", recordsToStringList());
         String recordName = record == null || record == Material.AIR ? "none" : record.name();
         //yaml.set("record", recordName); // TODO
-        yaml.set("loop",loop ? record.name() : "none");
+        yaml.set("loop",loop);
         yaml.set("shuffle",shuffle);
         yaml.set("autostart",autostart);
         yaml.set("world", world.toString());

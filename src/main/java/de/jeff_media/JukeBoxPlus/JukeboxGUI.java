@@ -168,7 +168,8 @@ public class JukeboxGUI implements InventoryHolder {
         meta.setDisplayName(main.getConfig().getString(Config.DISC_NAME).replaceAll("\\{NAME}",main.songUtils.getName(record)));
         ArrayList<String> lore = new ArrayList<>();
         for(String line : main.getConfig().getString(Config.DISC_LORE).split("\n")) {
-            lore.add(line.replaceAll("\\{DURATION}",main.songUtils.getFormattedDuration(record)));
+            lore.add(line.replaceAll("\\{DURATION}",main.songUtils.getFormattedDuration(record))
+                    .replaceAll("\\{NAME}",main.songUtils.getName(record)));
         }
         meta.setLore(lore);
         disc.setItemMeta(meta);

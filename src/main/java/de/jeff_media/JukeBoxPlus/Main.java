@@ -30,6 +30,7 @@ public class Main extends JavaPlugin {
     MessageUtils messageUtils;
     HashMap<UUID, BossBar> bossbars;
     HashMap<UUID, JukeboxGUI> openGUIs;
+    String uid = "%%__USER__%%";
     int configVersion = 3;
 
     void debug(String text) {

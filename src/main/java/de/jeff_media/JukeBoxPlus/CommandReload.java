@@ -24,7 +24,7 @@ public class CommandReload implements CommandExecutor {
 
         main.onEnable(true);
         commandSender.sendMessage(ChatColor.GREEN+"JukeBoxPlus has been reloaded.");
-        commandSender.sendMessage(ChatColor.GRAY+"Restarted all looped Jukeboxes.");
+        //commandSender.sendMessage(ChatColor.GRAY+"Restarted all looped Jukeboxes.");
 
         return true;
     }

@@ -1,41 +1,28 @@
+###############################
+#         JukeBoxPlus         #
+###############################
+#         by mfnalex          #
+#  https://www.jeff-media.de  #
+###############################
+
 # Permissions:
+# jukebox.use       - Whether a user can interact with Jukeboxes
+# jukebox.reload    - Allows to use /jukebox to reload the config
+# jukebox.radius    - Allows to change a Jukeboxes' radius
+# jukebox.shuffle   - Allows to set a Jukebox to shuffle
+# jukebox.loop      - Allows to set a Jukebox to loop
+# jukebox.autostart - Allows to set a Jukebox to autostart
 
-# jukebox.use - Whether a user can interact with Jukeboxes
-# jukebox.reload - Allows to use /jukebox to reload the config
-# jukebox.radius - Allows to change a Jukeboxes' radius
-
-
-
-# For the SPigotMC description:
-# random player who doesnt know this plugin is installed:
-# roaming around in the wilderness, starts hearing odd music
-# that slowly gets louder, but can't figure out where it's coming from.
-# little do they know, a tiny dirt hut hidden at the base of a
-# hill is blasting mellohi on loop at 256 radius lol
+# Right-Click Jukebox:
+#   - When holding a disc: Add disc to Jukebox
+#   - Otherwise: Open Jukebox GUI
 
 # Left-Click Jukebox:
 #   - When on loop: restart song
 #   - When on shuffle: random next song
 #   - When on normal: next song
 
-# TODO: Rearrange discs by just dragging them
-# TODO: Insert discs from inventory using shift-click or by just dragging them
 
-
-# You can use base64 strings to customize the Loop, Shuffle and Stop button.
-# You can for example use this website: https://minecraft-heads.com/custom-heads
-# At the bottom of each head's page, copy the string at Other -> Value
-button-loop-enabled: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmM4ZGVmNjdhMTI2MjJlYWQxZGVjZDNkODkzNjQyNTdiNTMxODk2ZDg3ZTQ2OTgxMzEzMWNhMjM1YjVjNyJ9fX0="
-button-loop-disabled: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTUzZGQ0NTc5ZWRjMmE2ZjIwMzJmOTViMWMxODk4MTI5MWI2YzdjMTFlYjM0YjZhOGVkMzZhZmJmYmNlZmZmYiJ9fX0="
-button-shuffle-enabled: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY1Y2IxODVjNjQxY2JlNzRlNzBiY2U2ZTZhMWVkOTBhMTgwZWMxYTQyMDM0ZDVjNGFlZDU3YWY1NjBmYzgzYSJ9fX0=="
-button-shuffle-disabled: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTU1MTE1M2ExNTE5MzU3YjYyNDFhYjFkZGNhZTgzMWRmZjA4MDA3OWMwYjI5NjA3OTdjNzAyZGQ5MjI2NjgzNSJ9fX0=="
-button-autostart-disabled: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTc5NmRlNjAxYjUxYjk4Y2VhNWI4OTk5NDRiMWE0ODcxODQ4NDAxNzRkODQ4ZjhjNTdmZTBiNDRjODQ5Y2U0MCJ9fX0="
-button-autostart-enabled: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjVhODRlNjM5NGJhZjhiZDc5NWZlNzQ3ZWZjNTgyY2RlOTQxNGZjY2YyZjFjODYwOGYxYmUxOGMwZTA3OTEzOCJ9fX0="
-button-stop: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBkMzI3NTJkYzRiNWIxMjgyOTE4NmJjZjlkM2RjNDhiYmYxN2U1ODhhZGZhNDRiODkyNTFkYzVhYjAyY2JkZiJ9fX0="
-button-radius-plus: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzIzMzJiNzcwYTQ4NzQ2OTg4NjI4NTVkYTViM2ZlNDdmMTlhYjI5MWRmNzY2YjYwODNiNWY5YTBjM2M2ODQ3ZSJ9fX0="
-button-radius-minus: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzJjYmRjOWQ0YzU5MGVhYzI4NWE0NTQ0ZjJiMWUwNjhiZDI3ZmQ1MjE3M2FjOGQ3Njc5MDEzODIzY2JhYjk1YSJ9fX0="
-
-gui-title: "§4§l[§c§lJukeboxPlus§4§l]"
 
 # When set to true, you can change the music disc's name in the Jukebox GUI.
 # Since Minecraft automatically adds the "default" song name, this is only
@@ -64,14 +51,28 @@ max-jukebox-radius: 512
 radius-change-interval: 16
 
 # How many ticks to wait between Jukebox check
-# Setting this too high will result in pauses between loops, but setting it too low
-# can cause lags on very large servers
+# Setting this too high will result in pauses between loops
 # Recommended: 20 to 40 (1 to 2 seconds)
 tick-delay: 40
 
 # When using the bossbar for messages, you can change the duration for those messages here
 # 20 ticks = 1 second
 ticks-per-bossbar-message: 80
+
+# You can use base64 strings to customize the Loop, Shuffle and Stop button.
+# You can for example use this website: https://minecraft-heads.com/custom-heads
+# At the bottom of each head's page, copy the string at Other -> Value
+button-loop-enabled: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmM4ZGVmNjdhMTI2MjJlYWQxZGVjZDNkODkzNjQyNTdiNTMxODk2ZDg3ZTQ2OTgxMzEzMWNhMjM1YjVjNyJ9fX0="
+button-loop-disabled: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTUzZGQ0NTc5ZWRjMmE2ZjIwMzJmOTViMWMxODk4MTI5MWI2YzdjMTFlYjM0YjZhOGVkMzZhZmJmYmNlZmZmYiJ9fX0="
+button-shuffle-enabled: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY1Y2IxODVjNjQxY2JlNzRlNzBiY2U2ZTZhMWVkOTBhMTgwZWMxYTQyMDM0ZDVjNGFlZDU3YWY1NjBmYzgzYSJ9fX0=="
+button-shuffle-disabled: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTU1MTE1M2ExNTE5MzU3YjYyNDFhYjFkZGNhZTgzMWRmZjA4MDA3OWMwYjI5NjA3OTdjNzAyZGQ5MjI2NjgzNSJ9fX0=="
+button-autostart-disabled: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTc5NmRlNjAxYjUxYjk4Y2VhNWI4OTk5NDRiMWE0ODcxODQ4NDAxNzRkODQ4ZjhjNTdmZTBiNDRjODQ5Y2U0MCJ9fX0="
+button-autostart-enabled: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjVhODRlNjM5NGJhZjhiZDc5NWZlNzQ3ZWZjNTgyY2RlOTQxNGZjY2YyZjFjODYwOGYxYmUxOGMwZTA3OTEzOCJ9fX0="
+button-stop: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBkMzI3NTJkYzRiNWIxMjgyOTE4NmJjZjlkM2RjNDhiYmYxN2U1ODhhZGZhNDRiODkyNTFkYzVhYjAyY2JkZiJ9fX0="
+button-radius-plus: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzIzMzJiNzcwYTQ4NzQ2OTg4NjI4NTVkYTViM2ZlNDdmMTlhYjI5MWRmNzY2YjYwODNiNWY5YTBjM2M2ODQ3ZSJ9fX0="
+button-radius-minus: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzJjYmRjOWQ0YzU5MGVhYzI4NWE0NTQ0ZjJiMWUwNjhiZDI3ZmQ1MjE3M2FjOGQ3Njc5MDEzODIzY2JhYjk1YSJ9fX0="
+
+gui-title: "§4§l[§c§lJukeboxPlus§4§l]"
 
 message-added-disc: "Added {NAME} to this Jukebox"
 message-already-added: "This Jukebox already contains {NAME}."
