@@ -1,6 +1,5 @@
 package de.jeff_media.JukeBoxPlus;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Jukebox;
@@ -16,6 +15,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.block.Block;
 
+import java.util.Iterator;
+import java.util.List;
+
 public class Listener implements org.bukkit.event.Listener {
     private final Main main;
 
@@ -30,22 +32,31 @@ public class Listener implements org.bukkit.event.Listener {
     @EventHandler
     public void onJukeboxInteract(PlayerInteractEvent e) {
 
+        // Don't continue if the block is protected from being interacted with
         if(e.useInteractedBlock() == Event.Result.DENY) {
             return;
         }
 
+        // Only continue if a block is left or right clicked
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK
                 && e.getAction() != Action.LEFT_CLICK_BLOCK) return;
+
+        // Only continue if this is a Jukebox
         if (!(e.getClickedBlock().getState() instanceof Jukebox)) return;
 
-        if(!e.getPlayer().hasPermission(Permissions.ALLOW_USE)) {
-            if(e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                e.setCancelled(true);
+        // Cancel Right-Click if player is not sneaking and doesnt have permission
+        if(!e.getPlayer().isSneaking()) {
+            if (!e.getPlayer().hasPermission(Permissions.ALLOW_USE)) {
+                if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    e.setCancelled(true);
+                }
+                return;
             }
-            return;
         }
 
+        // Ignore offhand slot event
         if (e.getHand() != EquipmentSlot.HAND) return;
+
         Player p = e.getPlayer();
         Jukebox jb = (Jukebox) e.getClickedBlock().getState();
 
@@ -93,19 +104,25 @@ public class Listener implements org.bukkit.event.Listener {
             }
         }
 
-        if(e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-        e.setCancelled(true);
+        if(e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
-        if (JukeboxUtils.isRecord(e.getItem())) {
-            if (main.jukeboxUtils.getJukeboxData(e.getClickedBlock()).addRecord(e.getItem(),p)) {
-                e.getItem().setAmount(e.getItem().getAmount() - 1);
+            // Allow placement of blocks next to the Jukebox
+            if(p.isSneaking()) {
+                return;
             }
-            return;
+
+            e.setCancelled(true);
+
+            if (JukeboxUtils.isRecord(e.getItem())) {
+                if (main.jukeboxUtils.getJukeboxData(e.getClickedBlock()).addRecord(e.getItem(), p)) {
+                    e.getItem().setAmount(e.getItem().getAmount() - 1);
+                }
+                return;
+            }
+
+            JukeboxGUI gui = new JukeboxGUI((Jukebox) e.getClickedBlock().getState(), main.jukeboxUtils.getJukeboxData(e.getClickedBlock()), main);
+            gui.open(p);
         }
-
-        JukeboxGUI gui = new JukeboxGUI((Jukebox) e.getClickedBlock().getState(), main.jukeboxUtils.getJukeboxData(e.getClickedBlock()), main);
-        gui.open(p);
-
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -139,18 +156,24 @@ public class Listener implements org.bukkit.event.Listener {
 
     @EventHandler
     public void onExplode(EntityExplodeEvent event) {
-        for(Block block : event.blockList()) {
-            if(main.jukeboxes.containsKey(block)) {
-                event.blockList().remove(block);
-            }
-        }
+        removeJukeboxesFromList(event.blockList());
     }
 
     @EventHandler
     public void onExplode(BlockExplodeEvent event) {
-        for(Block block : event.blockList()) {
+        /*for(Block block : event.blockList()) {
             if(main.jukeboxes.containsKey(block)) {
                 event.blockList().remove(block);
+            }
+        }*/
+        removeJukeboxesFromList(event.blockList());
+    }
+
+    private void removeJukeboxesFromList(List<Block> list) {
+        Iterator<Block> iterator = list.iterator();
+        while(iterator.hasNext()) {
+            if(main.jukeboxes.containsKey(iterator.next())) {
+                iterator.remove();
             }
         }
     }

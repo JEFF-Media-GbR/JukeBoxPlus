@@ -56,7 +56,6 @@ public class JukeboxGUI implements InventoryHolder {
     }
 
     void addLoopButton() {
-
         ItemStack button = HeadCreator.getHead(jd.loop ?
                 main.getConfig().getString("button-loop-enabled")
                 :
@@ -78,7 +77,6 @@ public class JukeboxGUI implements InventoryHolder {
     }
 
     void addShuffleButton() {
-
         ItemStack button = HeadCreator.getHead(jd.shuffle ?
                 main.getConfig().getString("button-shuffle-enabled")
                 :
@@ -88,6 +86,18 @@ public class JukeboxGUI implements InventoryHolder {
         button.setItemMeta(meta);
         if(jd.shuffle) makeItShine(button);
         inv.setItem(4 * 9 + 2, button);
+    }
+
+    void addAutostartButton() {
+        ItemStack button = HeadCreator.getHead(jd.autostart ?
+                main.getConfig().getString("button-autostart-enabled")
+                :
+                main.getConfig().getString("button-autostart-disabled"));
+        ItemMeta meta = button.getItemMeta();
+        meta.setDisplayName("§6Autostart: " + enabledString(jd.autostart));
+        button.setItemMeta(meta);
+        if(jd.autostart) makeItShine(button);
+        inv.setItem(4 * 9 + 3, button);
     }
 
     static boolean isJukeboxGUI(Inventory inv) {
@@ -152,21 +162,38 @@ public class JukeboxGUI implements InventoryHolder {
         });
     }
 
+    ItemStack getDiscItem(Material record) {
+        ItemStack disc = new ItemStack(record);
+        ItemMeta meta = disc.getItemMeta();
+        meta.setDisplayName(main.getConfig().getString(Config.DISC_NAME).replaceAll("\\{NAME}",main.songUtils.getName(record)));
+        ArrayList<String> lore = new ArrayList<>();
+        for(String line : main.getConfig().getString(Config.DISC_LORE).split("\n")) {
+            lore.add(line.replaceAll("\\{DURATION}",main.songUtils.getFormattedDuration(record)));
+        }
+        meta.setLore(lore);
+        disc.setItemMeta(meta);
+        return disc;
+    }
+
     void open(Player p) {
         inv.clear();
 
         addFrame();
 
         for (Material record : Objects.requireNonNull(Objects.requireNonNull(jd, "jd is null").records, "jd.records is null")) {
-            ItemStack disk = new ItemStack((record));
+            ItemStack disc = getDiscItem(record);
+
             if (record == jd.record) {
-                makeItShine(disk);
+                makeItShine(disc);
             }
-            inv.addItem(new ItemStack(disk));
+            inv.addItem(new ItemStack(disc));
         }
-        addLoopButton();
+
         addStopButton();
-        addShuffleButton();
+
+        if(p.hasPermission(Permissions.ALLOW_LOOP)) addLoopButton();
+        if(p.hasPermission(Permissions.ALLOW_SHUFFLE)) addShuffleButton();
+        if(p.hasPermission(Permissions.ALLOW_AUTOSTART)) addAutostartButton();
         if(p.hasPermission(Permissions.ALLOW_CHANGE_RADIUS)) {
             addRadiusMinusButton();
             addRadiusPlusButton();

@@ -105,4 +105,13 @@ public class SongUtils {
         return Sound.valueOf(r.name());
     }
 
+    public String getFormattedDuration(Material record) {
+        int seconds = getDuration(record);
+        int minutes = 0;
+        while(seconds >= 60) {
+            seconds-=60;
+            minutes++;
+        }
+        return String.format("%d:%02d",minutes,seconds);
+    }
 }

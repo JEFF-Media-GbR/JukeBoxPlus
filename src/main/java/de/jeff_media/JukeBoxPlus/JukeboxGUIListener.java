@@ -88,19 +88,27 @@ public class JukeboxGUIListener implements Listener {
 
             switch (slot) {
                 case 4 * 9 + 1:
-                    main.debug("Toggle Loop");
-                    if (jd.shuffle) jd.toggleShuffle(main,p);
-                    jd.toggleLoop(main,p);
-                    break;
-                case 4 * 9 + 7:
-                    main.debug("Stop");
-                    if (jd.loop) jd.toggleLoop(main,null);
-                    jd.stopJukebox(jb,true);
+                    if(p.hasPermission(Permissions.ALLOW_LOOP)) {
+                        main.debug("Toggle Loop");
+                        if (jd.shuffle) jd.toggleShuffle(p);
+                        jd.toggleLoop(main, p);
+                    }
                     break;
                 case 4 * 9 + 2:
-                    main.debug("Toggle Shuffle");
-                    if (jd.loop) jd.toggleLoop(main,null);
-                    jd.toggleShuffle(main,null);
+                    if(p.hasPermission(Permissions.ALLOW_SHUFFLE)) {
+                        main.debug("Toggle Shuffle");
+                        if (jd.loop) {
+                            jd.toggleLoop(main, null);
+                            jd.stopJukebox(jb,false);
+                        }
+                        jd.toggleShuffle(null);
+                    }
+                    break;
+                case 4 * 9 + 3:
+                    if(p.hasPermission(Permissions.ALLOW_AUTOSTART)) {
+                        main.debug("Toggle Autostart");
+                        jd.autostart=!jd.autostart;
+                    }
                     break;
                 case 4*9 + 4:
                     if (p.hasPermission(Permissions.ALLOW_CHANGE_RADIUS)) {
@@ -113,6 +121,11 @@ public class JukeboxGUIListener implements Listener {
                         main.debug("Radius plus");
                         jd.radiusPlus();
                     }
+                    break;
+                case 4 * 9 + 7:
+                    main.debug("Stop");
+                    if (jd.loop) jd.toggleLoop(main,null);
+                    jd.stopJukebox(jb,true);
                     break;
                 default:
                     break;
