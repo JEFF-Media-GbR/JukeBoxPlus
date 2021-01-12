@@ -114,7 +114,7 @@ public class JukeboxGUI implements InventoryHolder {
         ItemStack button = HeadCreator.getHead(main.getConfig().getString("button-radius-minus"));
         ItemMeta meta = button.getItemMeta();
         meta.setDisplayName("§6Radius -");
-        meta.setLore(StringToList("§7Radius: "+jd.radius*16));
+        meta.setLore(StringToList("§7Radius: "+jd.radius));
         button.setItemMeta(meta);
         inv.setItem(4*9+4,button);
     }
@@ -123,7 +123,7 @@ public class JukeboxGUI implements InventoryHolder {
         ItemStack button = HeadCreator.getHead(main.getConfig().getString("button-radius-plus"));
         ItemMeta meta = button.getItemMeta();
         meta.setDisplayName("§6Radius +");
-        meta.setLore(StringToList("§7Radius: "+jd.radius*16));
+        meta.setLore(StringToList("§7Radius: "+jd.radius));
         button.setItemMeta(meta);
         inv.setItem(4*9+5,button);
     }
@@ -167,8 +167,10 @@ public class JukeboxGUI implements InventoryHolder {
         addLoopButton();
         addStopButton();
         addShuffleButton();
-        addRadiusMinusButton();
-        addRadiusPlusButton();
+        if(p.hasPermission(Permissions.ALLOW_CHANGE_RADIUS)) {
+            addRadiusMinusButton();
+            addRadiusPlusButton();
+        }
         // TODO heads must not glow as it cannot be seen anyway
 
         if (p.getOpenInventory() == null || p.getOpenInventory().getTopInventory() != inv) {
@@ -178,5 +180,7 @@ public class JukeboxGUI implements InventoryHolder {
             p.updateInventory();
             main.debug("Updating inv");
         }
+
+        main.openGUIs.put(p.getUniqueId(),this);
     }
 }

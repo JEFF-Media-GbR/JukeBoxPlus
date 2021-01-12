@@ -7,7 +7,9 @@ import org.bukkit.block.Jukebox;
 import org.bukkit.boss.BarColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,8 +21,7 @@ import java.util.function.Predicate;
 public class JukeboxData {
 
     Main main;
-    static int defaultRadius = 4;
-    int radius = defaultRadius; // * 16
+    int radius;
     UUID world;
     int x, y, z;
     ArrayList<Material> records = new ArrayList<>();
@@ -28,25 +29,51 @@ public class JukeboxData {
     boolean shuffle = false;
     Material record = null;
     long endTime = 0;
+    File file;
+    YamlConfiguration yaml;
     Random random = new Random();
 
     JukeboxData(Block block, Main main) {
-        this.world = block.getWorld().getUID();
+        /*this.world = block.getWorld().getUID();
         this.x = block.getX();
         this.y = block.getY();
         this.z = block.getZ();
         this.main = main;
+        radius = main.getConfig().getInt(Config.DEFAULT_JUKEBOX_RADIUS);*/
+        this(block.getWorld().getUID(),block.getX(),block.getY(), block.getZ(), main);
     }
 
-    JukeboxData(UUID world, int x, int y, int z, File file, Main main) {
+    JukeboxData(File file, Main main) throws WorldNotFoundException {
+        this.main=main;
+        main.debug("LOADING JB " + file.getName());
+        yaml = YamlConfiguration.loadConfiguration(file);
+        world = UUID.fromString(yaml.getString("world"));
+        x = yaml.getInt("x");
+        y = yaml.getInt("y");
+        z = yaml.getInt("z");
+        radius = yaml.getInt("radius",64);
+        this.file = file;
+        World worldByUUID = main.getServer().getWorld(world);
+        if(worldByUUID==null) {
+            main.getLogger().warning("World with uuid "+world.toString()+" not found. Did you generate it? To restore jukeboxes, type /jukebox admin restore <worldname>");
+            throw new WorldNotFoundException();
+        }
+        loadRecords();
+
+        //file.delete();
+    }
+
+    JukeboxData(UUID world, int x, int y, int z, Main main) {
         this.world = world;
         this.x = x;
         this.y = y;
         this.z = z;
         this.main = main;
+        this.radius = main.getConfig().getInt(Config.DEFAULT_JUKEBOX_RADIUS);
     }
 
     boolean addRecord(ItemStack is, Player p) {
+        main.debug("Trying to add music disc to jukebox...");
         if (records.contains(is.getType())) {
             main.debug("Already contains " + is.getType().name());
             main.messageUtils.send("Jukebox already contains "+is.getType().name(),  false,p,true);
@@ -71,7 +98,7 @@ public class JukeboxData {
         throw new BlockIsNoJukeboxException();
     }
 
-    void loadRecords(File file) {
+    void loadRecords() {
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
         for (String s : yaml.getStringList("records")) {
             records.add(Material.getMaterial(s));
@@ -80,15 +107,15 @@ public class JukeboxData {
     }
 
     boolean radiusPlus() {
-        radius++;
-        if(radius>16) {
-            radius=16;
+        radius+=main.getConfig().getInt(Config.RADIUS_CHANGE_INTERVAL);
+        if(radius>main.getConfig().getInt(Config.MAX_JUKEBOX_RADIUS)) {
+            radius=main.getConfig().getInt(Config.MAX_JUKEBOX_RADIUS);
             return false;
         }
         return true;
     }
     boolean radiusMinus() {
-        radius--;
+        radius-=main.getConfig().getInt(Config.RADIUS_CHANGE_INTERVAL);
         if(radius<1) {
             radius=1;
             return false;
@@ -162,6 +189,7 @@ public class JukeboxData {
     }
 
     void destroy(Block block) {
+        closeAllInventoryViews();
         for(Material mat : records) {
             block.getWorld().dropItem(block.getLocation(),new ItemStack(mat));
         }
@@ -180,7 +208,7 @@ public class JukeboxData {
             }
             return;
         }
-        main.debug("Starting Jukebox with " + r.name());
+        main.debug("Starting Jukebox with " + r.name() + " (radius="+radius+")");
         int duration = main.songUtils.getDuration(r);
         //stopJukebox(jb);
         //jb.setRecord(new ItemStack(r));
@@ -188,27 +216,19 @@ public class JukeboxData {
         /*getBlock().getWorld().playSound(
                 getBlock().getLocation(),
                 Objects.requireNonNull(SongUtils.getSound(r),"Sound is null"),
-                SoundCategory.BLOCKS,radius,1);*/
+                SoundCategory.RECORDS,radius,1);*/
         Collection<Entity> nearby = Utils.getNearbyPlayers(jb.getBlock(),radius);
         for(Entity entity : nearby) {
             Player pn = (Player) entity;
             if(record!=null) {
-                pn.stopSound(SongUtils.getSound(record), SoundCategory.BLOCKS);
+                pn.stopSound(SongUtils.getSound(record), SoundCategory.RECORDS);
             }
-            pn.playSound(getBlock().getLocation(),SongUtils.getSound(r),SoundCategory.BLOCKS,radius,1);
+            pn.playSound(getBlock().getLocation(),SongUtils.getSound(r),SoundCategory.RECORDS,radius,1);
         }
         setEndTime(duration);
         record = r;
         main.utils.updateInventoryViews("Started Jukebox");
         //startFakeJukeboxes(jb.getBlock().getLocation(),record);
-    }
-
-    private void startFakeJukeboxes(Location location, Material record) {
-        ArrayList<Location> locs = JukeboxUtils.getDistandSpeakers(location);
-        for(Location loc : locs) {
-            loc.getWorld().playSound(loc,SongUtils.getSound(record), SoundCategory.BLOCKS,100,1);
-            TestUtils.spawnPillar(loc);
-        }
     }
 
     void stopJukebox(Jukebox jb, boolean reset) {
@@ -226,7 +246,7 @@ public class JukeboxData {
             for (Entity entity : nearbyEntities) {
                 main.debug("Stopping " + record + " for player " + entity.getName());
                 if (entity instanceof Player)
-                    ((Player) entity).stopSound(SongUtils.getSound(record), SoundCategory.BLOCKS);
+                    ((Player) entity).stopSound(SongUtils.getSound(record), SoundCategory.RECORDS);
             }
         }
 
@@ -285,7 +305,19 @@ public class JukeboxData {
         main.utils.updateInventoryViews("Toggled Shuffle");
     }
 
+    void closeAllInventoryViews() {
+        for(Map.Entry<UUID, JukeboxGUI> entry : main.openGUIs.entrySet()) {
+            for(HumanEntity viewer : entry.getValue().getInventory().getViewers()) {
+                viewer.closeInventory();
+            }
+        }
+    }
+
     private class BlockIsNoJukeboxException extends Exception {
+
+    }
+
+    class WorldNotFoundException extends Exception {
 
     }
 

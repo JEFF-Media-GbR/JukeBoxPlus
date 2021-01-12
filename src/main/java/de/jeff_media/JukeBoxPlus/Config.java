@@ -3,12 +3,16 @@ package de.jeff_media.JukeBoxPlus;
 public class Config {
 
     Main main;
+    public static final String MAX_JUKEBOX_RADIUS = "max-jukebox-radius";
+    public static final String DEFAULT_JUKEBOX_RADIUS = "default-jukebox-radius";
+    public static final String RADIUS_CHANGE_INTERVAL = "radius-change-interval";
 
     Config(Main main) {
         this.main = main;
 
+
         main.getConfig().addDefault("ticks-per-bossbar-message", 80);
-        main.getConfig().addDefault("max-jukebox-radius", 512);
+        main.getConfig().addDefault(MAX_JUKEBOX_RADIUS, 512);
         main.getConfig().addDefault("gui-title", "§4§l[§c§lJukeboxPlus§4§l]");
         main.getConfig().addDefault("tick-delay", 40);
 

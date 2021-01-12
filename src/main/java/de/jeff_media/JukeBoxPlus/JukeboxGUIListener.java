@@ -1,6 +1,7 @@
 package de.jeff_media.JukeBoxPlus;
 
 import org.bukkit.block.Jukebox;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -9,11 +10,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class GUIListener implements Listener {
+public class JukeboxGUIListener implements Listener {
 
     final Main main;
 
-    GUIListener(Main main) {
+    JukeboxGUIListener(Main main) {
         this.main=main;
     }
 
@@ -102,12 +103,16 @@ public class GUIListener implements Listener {
                     jd.toggleShuffle(main,null);
                     break;
                 case 4*9 + 4:
-                    main.debug("Radius minus");
-                    jd.radiusMinus();
+                    if (p.hasPermission(Permissions.ALLOW_CHANGE_RADIUS)) {
+                        main.debug("Radius minus");
+                        jd.radiusMinus();
+                    }
                     break;
                 case 4*9 + 5:
-                    main.debug("Radius plus");
-                    jd.radiusPlus();
+                    if (p.hasPermission(Permissions.ALLOW_CHANGE_RADIUS)) {
+                        main.debug("Radius plus");
+                        jd.radiusPlus();
+                    }
                     break;
                 default:
                     break;
@@ -115,6 +120,12 @@ public class GUIListener implements Listener {
         }
 
         gui.open((Player) e.getWhoClicked());
+        for(HumanEntity entity : gui.getInventory().getViewers()) {
+            if(entity instanceof Player) {
+                Player viewer = (Player) entity;
+                gui.open(viewer);
+            }
+        }
 
     }
 }

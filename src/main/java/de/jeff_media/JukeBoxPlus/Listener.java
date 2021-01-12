@@ -1,12 +1,17 @@
 package de.jeff_media.JukeBoxPlus;
 
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Jukebox;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.block.Block;
@@ -24,16 +29,33 @@ public class Listener implements org.bukkit.event.Listener {
 
     @EventHandler
     public void onJukeboxInteract(PlayerInteractEvent e) {
+
+        if(e.useInteractedBlock() == Event.Result.DENY) {
+            return;
+        }
+
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK
                 && e.getAction() != Action.LEFT_CLICK_BLOCK) return;
         if (!(e.getClickedBlock().getState() instanceof Jukebox)) return;
+
+        if(!e.getPlayer().hasPermission(Permissions.ALLOW_USE)) {
+            if(e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                e.setCancelled(true);
+            }
+            return;
+        }
+
         if (e.getHand() != EquipmentSlot.HAND) return;
-        e.setCancelled(true);
         Player p = e.getPlayer();
         Jukebox jb = (Jukebox) e.getClickedBlock().getState();
 
         if(e.getAction() == Action.LEFT_CLICK_BLOCK ) {
             main.debug("Left-Click Jukebox");
+            if(p.getGameMode()== GameMode.CREATIVE) {
+                main.debug("Ignoring Left-Click in Creative Mode");
+                return;
+            }
+
             // Shuffle: Next random song
             // Loop: Restart song
             // Normal: Next song
@@ -72,6 +94,7 @@ public class Listener implements org.bukkit.event.Listener {
         }
 
         if(e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        e.setCancelled(true);
 
         if (JukeboxUtils.isRecord(e.getItem())) {
             if (main.jukeboxUtils.getJukeboxData(e.getClickedBlock()).addRecord(e.getItem(),p)) {
@@ -87,15 +110,49 @@ public class Listener implements org.bukkit.event.Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onBreak(BlockBreakEvent e) {
-        if(e.isCancelled()) return;
+        main.debug("BlockBreak");
+        if(e.isCancelled()) {
+            main.debug("E: Cancelled");
+            return;
+        }
 
-        if(e.getBlock().getType() != Material.JUKEBOX) return;
-        if(!(e.getBlock().getState() instanceof Jukebox)) return;
+        if(e.getBlock().getType() != Material.JUKEBOX) {
+            main.debug("E: Material");
+            return;
+        }
+        if(!(e.getBlock().getState() instanceof Jukebox)) {
+            main.debug("E: State");
+            return;
+        }
 
         Jukebox jb = (Jukebox) e.getBlock().getState();
-        main.jukeboxes.get(e.getBlock()).destroy(e.getBlock());
+        JukeboxData jd = main.jukeboxes.get(e.getBlock());
+        jd.stopJukebox(jb,true);
+        jd.destroy(e.getBlock());
         main.jukeboxes.remove(e.getBlock());
 
+        /*Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {
+            jd.stopJukebox(jb,true);
+        },1l);*/
+
+    }
+
+    @EventHandler
+    public void onExplode(EntityExplodeEvent event) {
+        for(Block block : event.blockList()) {
+            if(main.jukeboxes.containsKey(block)) {
+                event.blockList().remove(block);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onExplode(BlockExplodeEvent event) {
+        for(Block block : event.blockList()) {
+            if(main.jukeboxes.containsKey(block)) {
+                event.blockList().remove(block);
+            }
+        }
     }
 
 }

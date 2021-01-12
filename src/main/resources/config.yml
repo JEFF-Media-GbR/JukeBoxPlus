@@ -1,7 +1,8 @@
 # Permissions:
 
-# jukebox.loop - Allows to set Jukeboxes to loop or shuffle
-# jukebox.loop.autostart - Allows to set Jukeboxes to loop or shuffle on server start
+# jukebox.use - Whether a user can interact with Jukeboxes
+# jukebox.reload - Allows to use /jukebox to reload the config
+# jukebox.radius - Allows to change a Jukeboxes' radius
 
 
 
@@ -18,7 +19,6 @@
 #   - When on normal: next song
 
 # TODO: Rearrange discs by just dragging them
-
 # TODO: Insert discs from inventory using shift-click or by just dragging them
 
 
@@ -35,7 +35,14 @@ button-radius-minus: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy
 
 gui-title: "§4§l[§c§lJukeboxPlus§4§l]"
 
+# Default radius for new jukeboxes (vanilla = 64)
+default-jukebox-radius: 64
+
+# Maximum allowed radius that a jukebox can have
 max-jukebox-radius: 512
+
+# Interval used when changing the radius of a jukebox
+radius-change-interval: 16
 
 # How many ticks to wait between Jukebox check
 # Setting this too high will result in pauses between loops, but setting it too low
@@ -47,10 +54,7 @@ tick-delay: 40
 # 20 ticks = 1 second
 ticks-per-bossbar-message: 80
 
-
-
-
-debug: true
+debug: false
 
 ### Do not change
 config-version: 1

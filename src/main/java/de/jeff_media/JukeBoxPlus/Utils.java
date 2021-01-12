@@ -22,10 +22,15 @@ public class Utils {
     }
 
     static Collection<Entity> getNearbyPlayers(Block block, int radius) {
-        return block.getWorld().getNearbyEntities(block.getLocation(), radius * 16, radius * 16, radius * 16, new Predicate<Entity>() {
+        return block.getWorld().getNearbyEntities(block.getLocation(), radius, radius, radius, new Predicate<Entity>() {
             @Override
             public boolean test(Entity entity) {
-                return entity instanceof Player;
+                if (entity instanceof Player) {
+                    if(entity.getLocation().distance(block.getLocation()) <= radius) {
+                        return true;
+                    }
+                }
+                return false;
             }
         });
     }

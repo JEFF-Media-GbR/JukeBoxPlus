@@ -14,61 +14,79 @@ public class SongUtils {
     SongUtils(Main main)  {
         this.main=main;
         addSongs();
-        customSongs = YamlConfiguration.loadConfiguration(new File(main.getDataFolder()+ File.separator+"durations.yml"));
+        customSongs = YamlConfiguration.loadConfiguration(new File(main.getDataFolder()+ File.separator+ "discs.yml"));
     }
 
-    HashMap<Material, Integer> songs = new HashMap<>();
+    HashMap<Material, Integer> defaultDurations = new HashMap<>();
+    HashMap<Material, String> defaultNames = new HashMap<>();
     YamlConfiguration customSongs;
 
-    void addSong(Material mat, int minutes, int seconds) {
-        songs.put(mat, minutes * 60 + seconds);
+    void addSong(Material mat, String name, int minutes, int seconds) {
+        defaultDurations.put(mat, minutes * 60 + seconds);
+        defaultNames.put(mat, name);
     }
 
     void addSongs() {
 
-        addSong(Material.MUSIC_DISC_13, 2, 58);
+        addSong(Material.MUSIC_DISC_13, "13",2, 58);
 
-        addSong(Material.MUSIC_DISC_CAT, 3, 5);
+        addSong(Material.MUSIC_DISC_CAT, "Cat",3, 5);
 
-        addSong(Material.MUSIC_DISC_BLOCKS, 5, 45);
+        addSong(Material.MUSIC_DISC_BLOCKS, "Blocks",5, 45);
 
-        addSong(Material.MUSIC_DISC_CHIRP, 3, 5);
+        addSong(Material.MUSIC_DISC_CHIRP, "Chirp",3, 5);
 
-        addSong(Material.MUSIC_DISC_FAR, 2, 54);
+        addSong(Material.MUSIC_DISC_FAR, "Far",2, 54);
 
-        addSong(Material.MUSIC_DISC_MALL, 3, 17);
+        addSong(Material.MUSIC_DISC_MALL, "Mall",3, 17);
 
-        addSong(Material.MUSIC_DISC_MELLOHI, 1, 36);
+        addSong(Material.MUSIC_DISC_MELLOHI, "Mellohi",1, 36);
 
-        addSong(Material.MUSIC_DISC_STAL, 2, 30);
+        addSong(Material.MUSIC_DISC_STAL, "Stal",2, 30);
 
-        addSong(Material.MUSIC_DISC_STRAD, 3, 8);
+        addSong(Material.MUSIC_DISC_STRAD, "Strad",3, 8);
 
-        addSong(Material.MUSIC_DISC_WARD, 4, 11);
+        addSong(Material.MUSIC_DISC_WARD, "Ward",4, 11);
 
-        addSong(Material.MUSIC_DISC_11, 1, 11);
+        addSong(Material.MUSIC_DISC_11, "11",1, 11);
 
-        addSong(Material.MUSIC_DISC_WAIT, 3, 58);
+        addSong(Material.MUSIC_DISC_WAIT, "Wait",3, 58);
 
         Material pigstep = Material.getMaterial("MUSIC_DISC_PIGSTEP");
         if (pigstep != null) {
-            addSong(pigstep, 2, 24);
+            addSong(pigstep, "Pigstep",2, 24);
         }
 
+    }
+
+    String getName(Material mat) {
+        String songName = mat.name().replaceFirst("MUSIC_DISC_","").toLowerCase();
+
+        if(customSongs.getString(songName+".name")!=null) {
+            main.debug("Custom name for "+songName+" is "+customSongs.getString(songName+".name"));
+            return customSongs.getString(songName+".name");
+        }
+
+        if (defaultDurations.containsKey(mat)) {
+            main.debug("Default name for "+songName+" is "+ defaultNames.get(mat));
+            return defaultNames.get(mat);
+        }
+        main.debug("Could not find name for "+songName);
+        return "<UnknownSong>";
     }
 
     Integer getDuration(Material mat) {
 
         String songName = mat.name().replaceFirst("MUSIC_DISC_","").toLowerCase();
 
-        if(customSongs.getInt(songName,0)!=0) {
-            main.debug("Custom duration for "+songName+" is "+customSongs.getInt(songName));
-            return customSongs.getInt(songName);
+        if(customSongs.getInt(songName+".duration",0)!=0) {
+            main.debug("Custom duration for "+songName+" is "+customSongs.getInt(songName+".duration"));
+            return customSongs.getInt(songName+".duration");
         }
 
-        if (songs.containsKey(mat)) {
-            main.debug("Default duration for "+songName+" is "+songs.get(mat));
-            return songs.get(mat);
+        if (defaultDurations.containsKey(mat)) {
+            main.debug("Default duration for "+songName+" is "+ defaultDurations.get(mat));
+            return defaultDurations.get(mat);
         }
         main.debug("Could not find duration for "+songName);
         return -1;

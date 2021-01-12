@@ -1,10 +1,11 @@
 package de.jeff_media.JukeBoxPlus;
 
-import org.apache.commons.collections4.MultiValuedMap;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.Hash;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -17,6 +18,7 @@ public class Main extends JavaPlugin {
 
     // TODO Allow some Jukeboxes with extra permission to autoloop on server start (for spawn etc)
 
+    String spigotUserId = "%%__USER__%%";
     JukeboxUtils jukeboxUtils;
     Messages msg;
     HashMap<Block, JukeboxData> jukeboxes;
@@ -24,9 +26,10 @@ public class Main extends JavaPlugin {
     SongUtils songUtils;
     Utils utils;
     Listener listener;
-    GUIListener guiListener;
+    JukeboxGUIListener jukeboxGuiListener;
     MessageUtils messageUtils;
     HashMap<UUID, BossBar> bossbars;
+    HashMap<UUID, JukeboxGUI> openGUIs;
     int configVersion = 3;
 
     void debug(String text) {
@@ -47,6 +50,8 @@ public class Main extends JavaPlugin {
         if(reload) {
             saveJukeboxes();
             reloadConfig();
+            songUtils = new SongUtils(this);
+            return;
         }
 
         createConfig();
@@ -54,9 +59,11 @@ public class Main extends JavaPlugin {
         msg = new Messages(this);
         jukeboxUtils = new JukeboxUtils(this);
         listener = new Listener(this);
-        guiListener = new GUIListener(this);
+        jukeboxGuiListener = new JukeboxGUIListener(this);
+        openGUIs = new HashMap<>();
         this.getServer().getPluginManager().registerEvents(listener, this);
-        this.getServer().getPluginManager().registerEvents(guiListener,this);
+        this.getServer().getPluginManager().registerEvents(jukeboxGuiListener,this);
+        getCommand("jukebox").setExecutor(new CommandReload(this));
         taskController = new TaskController(this);
         songUtils = new SongUtils(this);
         utils = new Utils(this);
@@ -70,8 +77,8 @@ public class Main extends JavaPlugin {
         getDataFolder().getAbsoluteFile().mkdirs();
         getFile("jukeboxes").getAbsoluteFile().mkdirs();
         saveDefaultConfig();
-        if(!getFile("durations.yml").exists()) {
-            saveResource("durations.yml", false);
+        if(!getFile("discs.yml").exists()) {
+            saveResource("discs.yml", false);
         }
     }
 
@@ -82,24 +89,12 @@ public class Main extends JavaPlugin {
     public void loadJukeboxes() {
         File jukeboxesDir = new File(getDataFolder() + File.separator + "jukeboxes");
         for (File file : jukeboxesDir.listFiles()) {
-            debug("LOADING JB " + file.getName());
-            YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
-            UUID world = UUID.fromString(yaml.getString("world"));
-            int x = yaml.getInt("x");
-            int y = yaml.getInt("y");
-            int z = yaml.getInt("z");
-            int radius = yaml.getInt("radius",4);
-            World worldByUUID = getServer().getWorld(world);
-            if(worldByUUID==null) {
-                getLogger().warning("World with uuid "+world.toString()+" not found. Did you generate it? To restore jukeboxes, type /jukebox admin restore <worldname>");
-                continue;
+            try {
+                JukeboxData jbData = new JukeboxData(file,this);
+                jukeboxes.put(jbData.getBlock(), jbData);
+            } catch (JukeboxData.WorldNotFoundException e) {
+                e.printStackTrace();
             }
-            Block block = Objects.requireNonNull(getServer().getWorld(world).getBlockAt(x, y, z),"Block is null");
-            JukeboxData jbData = new JukeboxData(world, x, y, z, file, this);
-            jbData.radius=radius;
-            jbData.loadRecords(file);
-            jukeboxes.put(block, jbData);
-
             file.delete();
         }
     }

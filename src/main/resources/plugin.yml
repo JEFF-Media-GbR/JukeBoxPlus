@@ -4,3 +4,7 @@ version: ${project.version}
 api-version: "1.13"
 author: mfnalex
 #website: https://www.chestsort.de
+commands:
+  jukebox:
+    description: Reloads JukeBoxPlus
+    permission: jukebox.reload
