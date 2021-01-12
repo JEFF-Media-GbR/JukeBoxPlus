@@ -10,11 +10,10 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Collection;
-import java.util.function.Predicate;
 
 public class Utils {
 
-    Main main;
+    final Main main;
 
     Utils(Main main) {
         this.main = main;
@@ -22,16 +21,11 @@ public class Utils {
     }
 
     static Collection<Entity> getNearbyPlayers(Block block, int radius) {
-        return block.getWorld().getNearbyEntities(block.getLocation(), radius, radius, radius, new Predicate<Entity>() {
-            @Override
-            public boolean test(Entity entity) {
-                if (entity instanceof Player) {
-                    if(entity.getLocation().distance(block.getLocation()) <= radius) {
-                        return true;
-                    }
-                }
-                return false;
+        return block.getWorld().getNearbyEntities(block.getLocation(), radius, radius, radius, entity -> {
+            if (entity instanceof Player) {
+                return entity.getLocation().distance(block.getLocation()) <= radius;
             }
+            return false;
         });
     }
 
@@ -57,7 +51,6 @@ public class Utils {
 
             Glow glow = new Glow(key);
             Enchantment.registerEnchantment(glow);
-        } catch (IllegalArgumentException e) {
         } catch (Exception e) {
             e.printStackTrace();
         }

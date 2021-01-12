@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class SongUtils {
 
-    Main main;
+    final Main main;
 
     SongUtils(Main main)  {
         this.main=main;
@@ -17,9 +17,9 @@ public class SongUtils {
         customSongs = YamlConfiguration.loadConfiguration(new File(main.getDataFolder()+ File.separator+ "discs.yml"));
     }
 
-    HashMap<Material, Integer> defaultDurations = new HashMap<>();
-    HashMap<Material, String> defaultNames = new HashMap<>();
-    YamlConfiguration customSongs;
+    final HashMap<Material, Integer> defaultDurations = new HashMap<>();
+    final HashMap<Material, String> defaultNames = new HashMap<>();
+    final YamlConfiguration customSongs;
 
     void addSong(Material mat, String name, int minutes, int seconds) {
         defaultDurations.put(mat, minutes * 60 + seconds);

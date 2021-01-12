@@ -6,7 +6,7 @@ public class Messages {
 
     final String ADDED_DISK,
             ALREADY_ADDED;
-    Main main;
+    final Main main;
 
     Messages(Main main) {
         this.main = main;

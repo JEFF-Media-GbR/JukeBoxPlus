@@ -15,7 +15,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.block.Block;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class Listener implements org.bukkit.event.Listener {
@@ -170,12 +169,7 @@ public class Listener implements org.bukkit.event.Listener {
     }
 
     private void removeJukeboxesFromList(List<Block> list) {
-        Iterator<Block> iterator = list.iterator();
-        while(iterator.hasNext()) {
-            if(main.jukeboxes.containsKey(iterator.next())) {
-                iterator.remove();
-            }
-        }
+        list.removeIf(block -> main.jukeboxes.containsKey(block));
     }
 
 }

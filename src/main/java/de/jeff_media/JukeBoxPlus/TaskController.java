@@ -14,9 +14,7 @@ public class TaskController {
 
     TaskController(Main main) {
         this.main = main;
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
-            checkJukeboxes();
-        }, 0L, main.getConfig().getLong("tick-delay",40));
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(main, this::checkJukeboxes, 0L, main.getConfig().getLong("tick-delay",40));
 
     }
 

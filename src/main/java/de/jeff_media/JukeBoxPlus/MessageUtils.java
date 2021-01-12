@@ -3,7 +3,6 @@ package de.jeff_media.JukeBoxPlus;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.Bukkit;
@@ -15,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MessageUtils {
 
-    Main main;
+    final Main main;
 
     MessageUtils(Main main) {
         this.main=main;
@@ -97,9 +96,7 @@ public class MessageUtils {
                 if(task.get() != -1)
                 Bukkit.getScheduler().cancelTask(task.get());
             }
-        },1l,1l));
-        Bukkit.getScheduler().runTaskLater(main, () -> {
-            removeBossbar(bar);
-        },ticksPerMessage);
+        }, 1L, 1L));
+        Bukkit.getScheduler().runTaskLater(main, () -> removeBossbar(bar),ticksPerMessage);
     }
 }

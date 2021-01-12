@@ -1,17 +1,12 @@
 package de.jeff_media.JukeBoxPlus;
 
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.boss.BossBar;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.Hash;
-import org.bukkit.inventory.InventoryView;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 public class Main extends JavaPlugin {

@@ -2,7 +2,7 @@ package de.jeff_media.JukeBoxPlus;
 
 public class Config {
 
-    Main main;
+    final Main main;
     public static final String MAX_JUKEBOX_RADIUS = "max-jukebox-radius";
     public static final String DEFAULT_JUKEBOX_RADIUS = "default-jukebox-radius";
     public static final String RADIUS_CHANGE_INTERVAL = "radius-change-interval";

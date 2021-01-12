@@ -10,21 +10,21 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class JukeboxGUI implements InventoryHolder {
 
-    Main main;
+    final Main main;
 
-    Jukebox jb;
-    JukeboxData jd;
-    Inventory inv;
+    final Jukebox jb;
+    final JukeboxData jd;
+    final Inventory inv;
 
-    ItemStack frame;
+    final ItemStack frame;
 
 
     JukeboxGUI(Jukebox jb, JukeboxData jd, Main main) {
@@ -100,6 +100,7 @@ public class JukeboxGUI implements InventoryHolder {
         inv.setItem(4 * 9 + 3, button);
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     static boolean isJukeboxGUI(Inventory inv) {
         if(inv==null) return false;
         if(inv.getHolder()==null) return false;
@@ -150,7 +151,7 @@ public class JukeboxGUI implements InventoryHolder {
     }
 
     @Override
-    public Inventory getInventory() {
+    public @NotNull Inventory getInventory() {
         return inv;
     }
 

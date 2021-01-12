@@ -7,14 +7,13 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 
-import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class ConfigUpdater {
 
-    Main plugin;
+    final Main plugin;
 
     ConfigUpdater(Main plugin) {
         this.plugin = plugin;
@@ -29,7 +28,7 @@ public class ConfigUpdater {
         try {
             Files.deleteIfExists(new File(plugin.getDataFolder().getAbsolutePath()+File.separator+"config.old.yml").toPath());
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
 
         Utils.renameFileInPluginDir(plugin, "config.yml", "config.old.yml");
@@ -48,7 +47,7 @@ public class ConfigUpdater {
         Map<String, Object> oldValues = oldConfig.getValues(false);
 
         // Read default config to keep comments
-        ArrayList<String> linesInDefaultConfig = new ArrayList<String>();
+        ArrayList<String> linesInDefaultConfig = new ArrayList<>();
         try {
 
             Scanner scanner = new Scanner(
@@ -61,7 +60,7 @@ public class ConfigUpdater {
             e.printStackTrace();
         }
 
-        ArrayList<String> newLines = new ArrayList<String>();
+        ArrayList<String> newLines = new ArrayList<>();
         for (String line : linesInDefaultConfig) {
             String newline = line;
             if (line.startsWith("config-version:")) {
@@ -94,8 +93,8 @@ public class ConfigUpdater {
         String[] linesArray = newLines.toArray(new String[linesInDefaultConfig.size()]);
         try {
             fw = Files.newBufferedWriter(new File(plugin.getDataFolder().getAbsolutePath() + File.separator + "config.yml").toPath(), StandardCharsets.UTF_8);
-            for (int i = 0; i < linesArray.length; i++) {
-                fw.write(linesArray[i] + "\n");
+            for (String s : linesArray) {
+                fw.write(s + "\n");
             }
             fw.close();
         } catch (IOException e) {

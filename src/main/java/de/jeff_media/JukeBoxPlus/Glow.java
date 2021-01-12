@@ -4,6 +4,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class Glow extends Enchantment {
 
@@ -12,12 +13,12 @@ public class Glow extends Enchantment {
     }
 
     @Override
-    public boolean canEnchantItem(ItemStack arg0) {
+    public boolean canEnchantItem(@NotNull ItemStack arg0) {
         return false;
     }
 
     @Override
-    public boolean conflictsWith(Enchantment arg0) {
+    public boolean conflictsWith(@NotNull Enchantment arg0) {
         return false;
     }
 

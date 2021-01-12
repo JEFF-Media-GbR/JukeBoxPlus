@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class JukeboxUtils {
 
-    Main main;
+    final Main main;
 
     JukeboxUtils(Main main) {
         this.main = main;

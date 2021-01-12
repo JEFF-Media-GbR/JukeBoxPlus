@@ -1,30 +1,28 @@
 package de.jeff_media.JukeBoxPlus;
 
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Jukebox;
-import org.bukkit.boss.BarColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Predicate;
 
 public class JukeboxData {
 
-    Main main;
+    final Main main;
     int radius;
-    UUID world;
-    int x, y, z;
-    ArrayList<Material> records = new ArrayList<>();
+    final UUID world;
+    final int x;
+    final int y;
+    final int z;
+    final ArrayList<Material> records = new ArrayList<>();
     boolean loop = false;
     boolean shuffle = false;
     boolean autostart = false;
@@ -33,7 +31,7 @@ public class JukeboxData {
     long endTime = 0;
     File file;
     YamlConfiguration yaml;
-    Random random = new Random();
+    final Random random = new Random();
 
     JukeboxData(Block block, Main main) {
         /*this.world = block.getWorld().getUID();
@@ -182,7 +180,7 @@ public class JukeboxData {
     }
 
     ArrayList<String> recordsToStringList() {
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         for (Material record : records) {
             list.add(record.name());
         }
