@@ -1,5 +1,6 @@
 package de.jeff_media.JukeBoxPlus;
 
+import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
 import org.bukkit.block.Block;
 import org.bukkit.boss.BossBar;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,6 +27,15 @@ public class Main extends JavaPlugin {
     HashMap<UUID, BossBar> bossbars;
     HashMap<UUID, JukeboxGUI> openGUIs;
     String uid = "%%__USER__%%";
+    PluginUpdateChecker updateChecker;
+
+    private static final String SPIGOT_RESOURCE_ID = "87750";
+    private static final int BSTATS_ID = 10139;
+    private static final String UPDATECHECKER_LINK_API = "https://api.jeff-media.de/angelchestplus/latest-version.txt";
+    private static final String UPDATECHECKER_LINK_DOWNLOAD = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID;
+    private static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID+"/updates";
+    private static final String UPDATECHECKER_LINK_DONATE = "https://paypal.me/mfnalex";
+
     int configVersion = 3;
 
     void debug(String text) {
@@ -66,7 +76,31 @@ public class Main extends JavaPlugin {
         messageUtils = new MessageUtils((this));
         bossbars=new HashMap<>();
 
+        initUpdateChecker();
+
         loadJukeboxes();
+    }
+
+    private void initUpdateChecker() {
+        if(updateChecker == null) {
+            updateChecker = new PluginUpdateChecker(this,
+                    UPDATECHECKER_LINK_API,
+                    UPDATECHECKER_LINK_DOWNLOAD,
+                    UPDATECHECKER_LINK_CHANGELOG,
+                    UPDATECHECKER_LINK_DONATE);
+        } else {
+            updateChecker.stop();
+        }
+
+        switch(getConfig().getString(Config.CHECK_FOR_UPDATES).toLowerCase()) {
+            case "true":
+                updateChecker.check((long) (getConfig().getDouble(Config.UPDATE_CHECK_INTERVAL) * 60 * 60));
+                break;
+            case "false":
+                break;
+            default:
+                updateChecker.check();
+        }
     }
 
     private void createConfig() {
