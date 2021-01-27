@@ -10,10 +10,14 @@ public class Config {
     public static final String DISC_LORE = "disc-lore";
     public static final String MSG_ALREADY_ADDED = "message-already-added";
     public static final String MSG_ADDED_DISC = "message-added-disc";
+    public static final String CHECK_FOR_UPDATES = "check-for-updates";
+    public static final String UPDATE_CHECK_INTERVAL = "check-for-update-interval";
 
     Config(Main main) {
         this.main = main;
 
+        main.getConfig().addDefault(CHECK_FOR_UPDATES, "true");
+        main.getConfig().addDefault(UPDATE_CHECK_INTERVAL,4);
 
         main.getConfig().addDefault("ticks-per-bossbar-message", 80);
         main.getConfig().addDefault(MAX_JUKEBOX_RADIUS, 512);
