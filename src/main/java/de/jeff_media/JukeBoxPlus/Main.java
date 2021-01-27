@@ -61,6 +61,8 @@ public class Main extends JavaPlugin {
             ConfigUpdater.updateConfig(this);
             songUtils = new SongUtils(this);
             initUpdateChecker();
+            msg = new Messages(this);
+            messageUtils = new MessageUtils((this));
             return;
         }
 

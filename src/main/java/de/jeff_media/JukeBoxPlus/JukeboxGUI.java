@@ -62,7 +62,7 @@ public class JukeboxGUI implements InventoryHolder {
                 main.getConfig().getString("button-loop-disabled"));
 
         ItemMeta meta = button.getItemMeta();
-        meta.setDisplayName("§6Loop: " + enabledString(jd.loop));
+        meta.setDisplayName(main.msg.LOOP+": " + enabledString(jd.loop));
         button.setItemMeta(meta);
         if(jd.loop) makeItShine(button);
         inv.setItem(4 * 9 + 1, button);
@@ -82,7 +82,7 @@ public class JukeboxGUI implements InventoryHolder {
                 :
                 main.getConfig().getString("button-shuffle-disabled"));
         ItemMeta meta = button.getItemMeta();
-        meta.setDisplayName("§6Shuffle: " + enabledString(jd.shuffle));
+        meta.setDisplayName(main.msg.SHUFFLE+": " + enabledString(jd.shuffle));
         button.setItemMeta(meta);
         if(jd.shuffle) makeItShine(button);
         inv.setItem(4 * 9 + 2, button);
@@ -94,7 +94,7 @@ public class JukeboxGUI implements InventoryHolder {
                 :
                 main.getConfig().getString("button-autostart-disabled"));
         ItemMeta meta = button.getItemMeta();
-        meta.setDisplayName("§6Autostart: " + enabledString(jd.autostart));
+        meta.setDisplayName(main.msg.AUTOSTART+": " + enabledString(jd.autostart));
         button.setItemMeta(meta);
         if(jd.autostart) makeItShine(button);
         inv.setItem(4 * 9 + 3, button);
@@ -110,7 +110,7 @@ public class JukeboxGUI implements InventoryHolder {
     private void addStopButton() {
         ItemStack button = HeadCreator.getHead(main.getConfig().getString("button-stop"));
         ItemMeta meta = button.getItemMeta();
-        meta.setDisplayName("§6Stop");
+        meta.setDisplayName(main.msg.STOP);
         button.setItemMeta(meta);
         inv.setItem(4 * 9 + 7, button);
     }
@@ -124,8 +124,8 @@ public class JukeboxGUI implements InventoryHolder {
     private void addRadiusMinusButton() {
         ItemStack button = HeadCreator.getHead(main.getConfig().getString("button-radius-minus"));
         ItemMeta meta = button.getItemMeta();
-        meta.setDisplayName("§6Radius -");
-        meta.setLore(StringToList("§7Radius: "+jd.radius));
+        meta.setDisplayName(main.msg.RADIUS+" -");
+        meta.setLore(StringToList(main.msg.RADIUS+": "+jd.radius));
         button.setItemMeta(meta);
         inv.setItem(4*9+4,button);
     }
@@ -133,8 +133,8 @@ public class JukeboxGUI implements InventoryHolder {
     private void addRadiusPlusButton() {
         ItemStack button = HeadCreator.getHead(main.getConfig().getString("button-radius-plus"));
         ItemMeta meta = button.getItemMeta();
-        meta.setDisplayName("§6Radius +");
-        meta.setLore(StringToList("§7Radius: "+jd.radius));
+        meta.setDisplayName(main.msg.RADIUS+" +");
+        meta.setLore(StringToList(main.msg.RADIUS+": "+jd.radius));
         button.setItemMeta(meta);
         inv.setItem(4*9+5,button);
     }
@@ -146,8 +146,8 @@ public class JukeboxGUI implements InventoryHolder {
     }
 
     String enabledString(Boolean b) {
-        if (b) return ChatColor.GREEN + "Enabled";
-        return ChatColor.RED + "Disabled";
+        if (b) return main.msg.ENABLED;
+        return main.msg.DISABLED;
     }
 
     @Override

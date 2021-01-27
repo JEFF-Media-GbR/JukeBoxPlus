@@ -12,8 +12,19 @@ public class Config {
     public static final String RADIUS_CHANGE_INTERVAL = "radius-change-interval";
     public static final String DISC_NAME = "disc-name";
     public static final String DISC_LORE = "disc-lore";
+
+
     public static final String MSG_ALREADY_ADDED = "message-already-added";
     public static final String MSG_ADDED_DISC = "message-added-disc";
+
+    public static final String MSG_ENABLED = "message-enabled";
+    public static final String MSG_DISABLED = "message-disabled";
+    public static final String MSG_LOOP = "message-loop";
+    public static final String MSG_SHUFFLE = "message-shuffle";
+    public static final String MSG_AUTOSTART = "message-autostart";
+    public static final String MSG_STOP = "message-stop";
+    public static final String MSG_RADIUS = "message-radius";
+
     public static final String CHECK_FOR_UPDATES = "check-for-updates";
     public static final String UPDATE_CHECK_INTERVAL = "check-for-updates-interval";
     public static final String CONFIG_VERSION = "config-version";
