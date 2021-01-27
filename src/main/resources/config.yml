@@ -101,6 +101,15 @@ message-loop: "&6Loop"
 message-shuffle: "&6Shuffle"
 message-autostart: "&6Autostart"
 
+##### Turkish
+#message-added-disc: "{NAME} isimli disk müzik kutusuna eklendi."
+#message-already-added: "Bu müzik kutusu zaten {NAME} isimli diski içeriyor."
+#message-enabled: "&aAktifleştirildi"
+#message-disabled: "&cDeaktifleştirildi"
+#message-loop: "&6Tekrarla"
+#message-shuffle: "&6Karıştır"
+#message-autostart: "&6Otomatik oynat"
+
 ###############
 #### Done! ####
 ###############
