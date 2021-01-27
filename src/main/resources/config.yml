@@ -102,4 +102,5 @@ message-already-added: "This Jukebox already contains {NAME}."
 debug: false
 
 ### Do not change
-config-version: 2
+config-version: ${config.version}
+plugin-version: ${project.version}

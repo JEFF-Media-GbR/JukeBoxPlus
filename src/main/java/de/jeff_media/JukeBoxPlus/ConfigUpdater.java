@@ -3,104 +3,160 @@ package de.jeff_media.JukeBoxPlus;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Scanner;
-
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.logging.Logger;
 
 public class ConfigUpdater {
 
-    final Main plugin;
+    private static final String[] NODES_NEEDING_DOUBLE_QUOTES = {"message-","button-","gui-title","disc-name","disc-lore"};
+    private static final String[] NODES_NEEDING_SINGLE_QUOTES = {};
+    private static final String[] LINES_CONTAINING_STRING_LISTS = {"disabled-worlds:"};
+    private static final String[] LINES_IGNORED = {"config-version:", "plugin-version:"};
 
-    ConfigUpdater(Main plugin) {
-        this.plugin = plugin;
+
+    private static final boolean debug = true;
+
+    private static void debug(Logger logger, String message) {
+        logger.warning(message);
     }
 
-    // Admins hate config updates. Just relax and let AngelChest update to the newest
-    // config version
-    // Don't worry! Your changes will be kept
-
-    void updateConfig() {
-
-        try {
-            Files.deleteIfExists(new File(plugin.getDataFolder().getAbsolutePath()+File.separator+"config.old.yml").toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
+    public static void updateConfig(Main main) {
+        Logger logger = main.getLogger();
+        debug(logger,"Newest config version  = "+getNewConfigVersion(main));
+        debug(logger,"Current config version = "+main.getConfig().getLong(Config.CONFIG_VERSION));
+        if(main.getConfig().getLong(Config.CONFIG_VERSION) >= getNewConfigVersion(main)) {
+            debug(logger,"The config currently used has an equal or newer version than the one shipped with this release.");
+            return;
         }
 
-        Utils.renameFileInPluginDir(plugin, "config.yml", "config.old.yml");
+        logger.info("===========================================");
+        logger.info("You are using an outdated config file.");
+        logger.info("Your config file will now be updated to the");
+        logger.info("newest version. You changes will be kept.");
+        logger.info("===========================================");
 
-        plugin.saveDefaultConfig();
+        backupCurrentConfig(main);
+        main.saveDefaultConfig();
 
-        File oldConfigFile = new File(plugin.getDataFolder().getAbsolutePath() + File.separator + "config.old.yml");
-        FileConfiguration oldConfig = YamlConfiguration.loadConfiguration(oldConfigFile);
+        Set<String> oldConfigNodes = main.getConfig().getKeys(false);
+        ArrayList<String> newConfig = new ArrayList<>();
 
-        try {
-            oldConfig.load(oldConfigFile);
-        } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
+        for(String defaultLine : getNewConfigAsArrayList(main)) {
 
-        Map<String, Object> oldValues = oldConfig.getValues(false);
+            String updatedLine = defaultLine;
 
-        // Read default config to keep comments
-        ArrayList<String> linesInDefaultConfig = new ArrayList<>();
-        try {
-
-            Scanner scanner = new Scanner(
-                    new File(plugin.getDataFolder().getAbsolutePath() + File.separator + "config.yml"),"UTF-8");
-            while (scanner.hasNextLine()) {
-                linesInDefaultConfig.add(scanner.nextLine() + "");
+            if(defaultLine.startsWith("-") || defaultLine.startsWith(" -") || defaultLine.startsWith("  -")) {
+                debug(logger, "Not including default String list entry: "+defaultLine);
             }
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        ArrayList<String> newLines = new ArrayList<>();
-        for (String line : linesInDefaultConfig) {
-            String newline = line;
-            if (line.startsWith("config-version:")) {
-
+            else if(lineContainsIgnoredNode(defaultLine)) {
+                debug(logger,"Not updating this line: " + defaultLine);
+            }
+            else if(lineIsStringList(defaultLine)) {
+                updatedLine = null;
+                newConfig.add(defaultLine);
+                String node = defaultLine.split(":")[0];
+                for(String entry : main.getConfig().getStringList(node)) {
+                    newConfig.add("- " + entry);
+                }
             }
             else {
-                for (String node : oldValues.keySet()) {
-                    if (line.startsWith(node + ":")) {
+                for(String node : oldConfigNodes) {
+                    if (defaultLine.startsWith(node+":")) {
+                        String quotes = getQuotes(node);
+                        String value = main.getConfig().get(node).toString();
 
-                        String quotes = "";
-
-                        //if (node.equalsIgnoreCase("sorting-method")) // needs single quotes
-                        //	quotes = "'";
-                        if (node.startsWith("message-") || node.startsWith("button-") || node.startsWith("gui-")) // needs double quotes
-                            quotes = "\"";
-
-
-
-                        newline = node + ": " + quotes + oldValues.get(node).toString() + quotes;
-
-                        break;
+                        if(node.equals("disc-lore")) {
+                            value = value.replaceAll("\n","\\\\n");
+                        }
+                        updatedLine = node + ": " + quotes + value + quotes;
                     }
                 }
             }
-            if (newline != null)
-                newLines.add(newline);
+
+            if(updatedLine != null) {
+                newConfig.add(updatedLine);
+            }
         }
 
-        BufferedWriter fw;
-        String[] linesArray = newLines.toArray(new String[linesInDefaultConfig.size()]);
+        saveArrayListToConfig(main, newConfig);
+    }
+
+    private static String getQuotes(String line) {
+        for(String test : NODES_NEEDING_DOUBLE_QUOTES) {
+            if (line.startsWith(test)) {
+                return "\"";
+            }
+        }
+        for(String test : NODES_NEEDING_SINGLE_QUOTES) {
+            if(line.startsWith(test)) {
+                return "'";
+            }
+        }
+        return "";
+    }
+
+    private static boolean lineIsStringList(String line) {
+        for(String test : LINES_CONTAINING_STRING_LISTS) {
+            if(line.startsWith(test)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean lineContainsIgnoredNode(String line) {
+        for(String test : LINES_IGNORED) {
+            if(line.startsWith(test)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static List<String> getNewConfigAsArrayList(Main main) {
+        List<String> lines = Collections.emptyList();
         try {
-            fw = Files.newBufferedWriter(new File(plugin.getDataFolder().getAbsolutePath() + File.separator + "config.yml").toPath(), StandardCharsets.UTF_8);
-            for (String s : linesArray) {
-                fw.write(s + "\n");
+            lines = Files.readAllLines(Paths.get(getFilePath(main,"config.yml")), StandardCharsets.UTF_8);
+            return lines;
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        return null;
+    }
+
+    private static void saveArrayListToConfig(Main main, List<String> lines) {
+        try {
+            BufferedWriter fw = Files.newBufferedWriter(new File(getFilePath(main,"config.yml")).toPath(),StandardCharsets.UTF_8);
+            for(String line : lines) {
+                fw.write(line + System.lineSeparator());
             }
             fw.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
     }
 
+    private static String getFilePath(Main main, String fileName) {
+        return main.getDataFolder() + File.separator + fileName;
+    }
+
+    private static long getNewConfigVersion(Main main) {
+        InputStream in = main.getClass().getResourceAsStream("/config-version.txt");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        try {
+            return Long.parseLong(reader.readLine());
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            return 0;
+        }
+
+    }
+
+    private static void backupCurrentConfig(Main main) {
+        File oldFile = new File(getFilePath(main,"config.yml"));
+        File newFile = new File(getFilePath(main,"config-backup-"+main.getConfig().getString(Config.CONFIG_PLUGIN_VERSION)+".yml"));
+        if(newFile.exists()) newFile.delete();
+        oldFile.getAbsoluteFile().renameTo(newFile.getAbsoluteFile());
+    }
 }

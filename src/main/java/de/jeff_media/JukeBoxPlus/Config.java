@@ -11,7 +11,9 @@ public class Config {
     public static final String MSG_ALREADY_ADDED = "message-already-added";
     public static final String MSG_ADDED_DISC = "message-added-disc";
     public static final String CHECK_FOR_UPDATES = "check-for-updates";
-    public static final String UPDATE_CHECK_INTERVAL = "check-for-update-interval";
+    public static final String UPDATE_CHECK_INTERVAL = "check-for-updates-interval";
+    public static final String CONFIG_VERSION = "config-version";
+    public static final String CONFIG_PLUGIN_VERSION = "plugin-version";
 
     Config(Main main) {
         this.main = main;

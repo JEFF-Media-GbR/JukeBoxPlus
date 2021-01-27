@@ -1,2 +1,5 @@
-## 1.1.0
+## 1.0.2
+- Added automatic config updater
+
+## 1.0.1
 - Added automatic update checker
