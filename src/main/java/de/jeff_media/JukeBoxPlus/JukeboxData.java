@@ -248,6 +248,7 @@ public class JukeboxData {
         main.debug("Starting Jukebox: Record="+r+" LastRecord="+lastRecord);
         if((r==null || r==Material.AIR)&& lastRecord != null) {
             main.debug("Record is null, using last record "+lastRecord.name());
+
             r = lastRecord;
         } else {
             main.debug("Setting last record to "+r.name());
@@ -314,6 +315,15 @@ public class JukeboxData {
         if (loop) {
             if ((record == null || record == Material.AIR) && lastRecord == null) {
                 main.debug("Cannot loop without record");
+                if(p!=null) {
+                    main.messageUtils.send("Choose a record first.",false,p,true);
+                }
+                this.loop = false;
+                return;
+            }
+
+            if(!records.contains(lastRecord)) {
+                main.debug("Cannot use last record because it has been removed.");
                 if(p!=null) {
                     main.messageUtils.send("Choose a record first.",false,p,true);
                 }

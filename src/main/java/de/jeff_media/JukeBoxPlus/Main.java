@@ -1,6 +1,7 @@
 package de.jeff_media.JukeBoxPlus;
 
 import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.block.Block;
 import org.bukkit.boss.BossBar;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,8 +31,8 @@ public class Main extends JavaPlugin {
     PluginUpdateChecker updateChecker;
 
     private static final String SPIGOT_RESOURCE_ID = "87750";
-    private static final int BSTATS_ID = 10139;
-    private static final String UPDATECHECKER_LINK_API = "https://api.jeff-media.de/angelchestplus/latest-version.txt";
+    static final int BSTATS_ID = 10139;
+    private static final String UPDATECHECKER_LINK_API = "https://api.jeff-media.de/jukeboxplus/latest-version.txt";
     private static final String UPDATECHECKER_LINK_DOWNLOAD = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID;
     private static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID+"/updates";
     private static final String UPDATECHECKER_LINK_DONATE = "https://paypal.me/mfnalex";
@@ -56,11 +57,17 @@ public class Main extends JavaPlugin {
         if(reload) {
             saveJukeboxes();
             reloadConfig();
+            createConfig();
+            ConfigUpdater.updateConfig(this);
             songUtils = new SongUtils(this);
+            initUpdateChecker();
+            msg = new Messages(this);
+            messageUtils = new MessageUtils((this));
             return;
         }
 
         createConfig();
+        ConfigUpdater.updateConfig(this);
         jukeboxes = new HashMap<>();
         msg = new Messages(this);
         jukeboxUtils = new JukeboxUtils(this);
@@ -77,6 +84,7 @@ public class Main extends JavaPlugin {
         bossbars=new HashMap<>();
 
         initUpdateChecker();
+        Metrics metrics = new Metrics(this,BSTATS_ID);
 
         loadJukeboxes();
     }
@@ -94,6 +102,8 @@ public class Main extends JavaPlugin {
 
         switch(getConfig().getString(Config.CHECK_FOR_UPDATES).toLowerCase()) {
             case "true":
+                //debug(getConfig().getDouble(Config.UPDATE_CHECK_INTERVAL)+"");
+                //debug(getConfig().getDouble(Config.UPDATE_CHECK_INTERVAL)*60*60+"");
                 updateChecker.check((long) (getConfig().getDouble(Config.UPDATE_CHECK_INTERVAL) * 60 * 60));
                 break;
             case "false":
@@ -107,6 +117,7 @@ public class Main extends JavaPlugin {
         getDataFolder().getAbsoluteFile().mkdirs();
         getFile("jukeboxes").getAbsoluteFile().mkdirs();
         saveDefaultConfig();
+        new Config(this);
         if(!getFile("discs.yml").exists()) {
             saveResource("discs.yml", false);
         }

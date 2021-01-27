@@ -1,5 +1,9 @@
 package de.jeff_media.JukeBoxPlus;
 
+import org.bstats.bukkit.Metrics;
+
+import java.io.IOException;
+
 public class Config {
 
     final Main main;
@@ -8,10 +12,23 @@ public class Config {
     public static final String RADIUS_CHANGE_INTERVAL = "radius-change-interval";
     public static final String DISC_NAME = "disc-name";
     public static final String DISC_LORE = "disc-lore";
+
+
     public static final String MSG_ALREADY_ADDED = "message-already-added";
     public static final String MSG_ADDED_DISC = "message-added-disc";
+
+    public static final String MSG_ENABLED = "message-enabled";
+    public static final String MSG_DISABLED = "message-disabled";
+    public static final String MSG_LOOP = "message-loop";
+    public static final String MSG_SHUFFLE = "message-shuffle";
+    public static final String MSG_AUTOSTART = "message-autostart";
+    public static final String MSG_STOP = "message-stop";
+    public static final String MSG_RADIUS = "message-radius";
+
     public static final String CHECK_FOR_UPDATES = "check-for-updates";
-    public static final String UPDATE_CHECK_INTERVAL = "check-for-update-interval";
+    public static final String UPDATE_CHECK_INTERVAL = "check-for-updates-interval";
+    public static final String CONFIG_VERSION = "config-version";
+    public static final String CONFIG_PLUGIN_VERSION = "plugin-version";
 
     Config(Main main) {
         this.main = main;
@@ -34,4 +51,5 @@ public class Config {
         main.getConfig().addDefault("button-radius-plus", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzIzMzJiNzcwYTQ4NzQ2OTg4NjI4NTVkYTViM2ZlNDdmMTlhYjI5MWRmNzY2YjYwODNiNWY5YTBjM2M2ODQ3ZSJ9fX0=");
         main.getConfig().addDefault("button-radius-minus", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzJjYmRjOWQ0YzU5MGVhYzI4NWE0NTQ0ZjJiMWUwNjhiZDI3ZmQ1MjE3M2FjOGQ3Njc5MDEzODIzY2JhYjk1YSJ9fX0=");
     }
+
 }

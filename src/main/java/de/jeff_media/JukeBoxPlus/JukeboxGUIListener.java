@@ -50,12 +50,6 @@ public class JukeboxGUIListener implements Listener {
         if(!JukeboxGUI.isJukeboxGUI(e.getClickedInventory())) {
             if (JukeboxUtils.isRecord(e.getCurrentItem())) {
                 JukeboxGUI gui = (JukeboxGUI) e.getView().getTopInventory().getHolder();
-                /*if (!gui.jd.records.contains(e.getCursor().getType())) {
-                    System.out.println(3);
-                    gui.jd.records.add(e.getCurrentItem().getType());
-                    gui.update();
-                    return;
-                }*/
                 if (gui.jd.addRecord(e.getCurrentItem(), p)) {
                     e.getCurrentItem().setAmount(e.getCurrentItem().getAmount() - 1);
                     gui.update();
@@ -85,6 +79,7 @@ public class JukeboxGUIListener implements Listener {
 
             if (remove) {
                 if (jd.record == clicked.getType()) {
+                    // TODO: Avoid removed discs from being able to be looped after being removed
                     if(jd.shuffle) {
                         jd.stopJukebox(jb,false);
                         jd.randomRecord();

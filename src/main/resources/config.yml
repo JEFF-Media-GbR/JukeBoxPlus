@@ -95,6 +95,11 @@ check-for-updates-interval: 4
 
 message-added-disc: "Added {NAME} to this Jukebox"
 message-already-added: "This Jukebox already contains {NAME}."
+message-enabled: "&aEnabled"
+message-disabled: "&cDisabled"
+message-loop: "&6Loop"
+message-shuffle: "&6Shuffle"
+message-autostart: "&6Autostart"
 
 ###############
 #### Done! ####
@@ -102,4 +107,5 @@ message-already-added: "This Jukebox already contains {NAME}."
 debug: false
 
 ### Do not change
-config-version: 2
+config-version: ${config.version}
+plugin-version: ${project.version}
