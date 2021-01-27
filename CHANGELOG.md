@@ -1,4 +1,5 @@
 ## 1.0.2
+- Fixed loop mode being enabled after the looped record has already been removed.
 - Added automatic config updater
 - Added bStats
 
