@@ -1,6 +1,7 @@
 package de.jeff_media.JukeBoxPlus;
 
 import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.block.Block;
 import org.bukkit.boss.BossBar;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,7 +31,7 @@ public class Main extends JavaPlugin {
     PluginUpdateChecker updateChecker;
 
     private static final String SPIGOT_RESOURCE_ID = "87750";
-    private static final int BSTATS_ID = 10139;
+    static final int BSTATS_ID = 10139;
     private static final String UPDATECHECKER_LINK_API = "https://api.jeff-media.de/jukeboxplus/latest-version.txt";
     private static final String UPDATECHECKER_LINK_DOWNLOAD = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID;
     private static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID+"/updates";
@@ -81,6 +82,7 @@ public class Main extends JavaPlugin {
         bossbars=new HashMap<>();
 
         initUpdateChecker();
+        Metrics metrics = new Metrics(this,BSTATS_ID);
 
         loadJukeboxes();
     }
