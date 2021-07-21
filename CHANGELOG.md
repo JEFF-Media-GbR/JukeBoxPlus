@@ -1,3 +1,10 @@
+## 2.0.0
+- **Ability to use custom songs and custom music discs!** (Requires a resource pack)
+  - Upcoming versions will automatically generate and provide a resource pack
+  - Tutorial on how to add custom songs is coming soon, join my Discord for help: https://discord.jeff-media.com  
+- Fixed radius not working properly
+- Fixed Jukeboxes not being loaded when using them in Multiverse worlds
+
 ## 1.0.3
 - Made GUI 100% translatable
 

@@ -14,7 +14,7 @@ public class TaskController {
 
     TaskController(Main main) {
         this.main = main;
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(main, this::checkJukeboxes, 0L, main.getConfig().getLong("tick-delay",40));
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(main, this::checkJukeboxes, 0L, main.getConfig().getLong("tick-delay",5));
 
     }
 
@@ -68,6 +68,7 @@ public class TaskController {
                 } else {
                     main.debug("TaskController#checkLoopedJukeboxes(): " +
                             "Time remaining: " + (jd.endTime - time) / 1000);
+
                 }
             }
         }

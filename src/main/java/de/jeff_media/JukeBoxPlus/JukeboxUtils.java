@@ -24,7 +24,10 @@ public class JukeboxUtils {
 
     static boolean isRecord(ItemStack is) {
         if (is == null) return false;
-        return is.getType().name().startsWith("MUSIC_DISC_");
+        if(is.getType().name().startsWith("MUSIC_DISC_")) return true;
+        if(!is.getItemMeta().hasCustomModelData()) return false;
+        int modelData = is.getItemMeta().getCustomModelData();
+        return CustomSong.get(is) != null;
     }
 
     JukeboxData getJukeboxData(Block block) {

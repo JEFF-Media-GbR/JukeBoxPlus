@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class JukeboxGUIListener implements Listener {
@@ -78,7 +79,7 @@ public class JukeboxGUIListener implements Listener {
             boolean remove = e.isRightClick();
 
             if (remove) {
-                if (jd.record == clicked.getType()) {
+                if (jd.record.getType() == clicked.getType()) {
                     // TODO: Avoid removed discs from being able to be looped after being removed
                     if(jd.shuffle) {
                         jd.stopJukebox(jb,false);
@@ -94,7 +95,7 @@ public class JukeboxGUIListener implements Listener {
                 }
                 gui.update();
             } else {
-                jd.startJukebox(jb, clicked.getType(),p);
+                jd.startJukebox(jb, clicked,p);
             }
 
 

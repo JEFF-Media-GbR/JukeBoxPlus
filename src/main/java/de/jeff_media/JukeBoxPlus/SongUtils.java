@@ -2,10 +2,13 @@ package de.jeff_media.JukeBoxPlus;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class SongUtils {
 
@@ -14,12 +17,12 @@ public class SongUtils {
     SongUtils(Main main)  {
         this.main=main;
         addSongs();
-        customSongs = YamlConfiguration.loadConfiguration(new File(main.getDataFolder()+ File.separator+ "discs.yml"));
+        defaultSongs = YamlConfiguration.loadConfiguration(new File(main.getDataFolder()+ File.separator+ "discs.yml"));
     }
 
     final HashMap<Material, Integer> defaultDurations = new HashMap<>();
     final HashMap<Material, String> defaultNames = new HashMap<>();
-    final YamlConfiguration customSongs;
+    final YamlConfiguration defaultSongs;
 
     void addSong(Material mat, String name, int minutes, int seconds) {
         defaultDurations.put(mat, minutes * 60 + seconds);
@@ -54,17 +57,26 @@ public class SongUtils {
 
         Material pigstep = Material.getMaterial("MUSIC_DISC_PIGSTEP");
         if (pigstep != null) {
-            addSong(pigstep, "Pigstep",2, 24);
+            addSong(pigstep, "Pigstep",2, 22);
         }
 
     }
 
-    String getName(Material mat) {
+    public String getName(ItemStack itemStack) {
+
+        CustomSong customSong = CustomSong.get(itemStack);
+
+        if(customSong != null) {
+            return customSong.name;
+        }
+
+        Material mat = itemStack.getType();
+
         String songName = mat.name().replaceFirst("MUSIC_DISC_","").toLowerCase();
 
-        if(customSongs.getString(songName+".name")!=null) {
-            main.debug("Custom name for "+songName+" is "+customSongs.getString(songName+".name"));
-            return customSongs.getString(songName+".name");
+        if(defaultSongs.getString(songName+".name")!=null) {
+            main.debug("Custom name for "+songName+" is "+ defaultSongs.getString(songName+".name"));
+            return defaultSongs.getString(songName+".name");
         }
 
         if (defaultDurations.containsKey(mat)) {
@@ -75,13 +87,21 @@ public class SongUtils {
         return "<UnknownSong>";
     }
 
-    Integer getDuration(Material mat) {
+    Integer getDuration(ItemStack itemStack) {
+
+        CustomSong customSong = CustomSong.get(itemStack);
+
+        if(customSong!=null) {
+            return customSong.duration;
+        }
+
+        Material mat = itemStack.getType();
 
         String songName = mat.name().replaceFirst("MUSIC_DISC_","").toLowerCase();
 
-        if(customSongs.getInt(songName+".duration",0)!=0) {
-            main.debug("Custom duration for "+songName+" is "+customSongs.getInt(songName+".duration"));
-            return customSongs.getInt(songName+".duration");
+        if(defaultSongs.getInt(songName+".duration",0)!=0) {
+            main.debug("Custom duration for "+songName+" is "+ defaultSongs.getInt(songName+".duration"));
+            return defaultSongs.getInt(songName+".duration");
         }
 
         if (defaultDurations.containsKey(mat)) {
@@ -92,7 +112,16 @@ public class SongUtils {
         return -1;
     }
 
-    static Sound getSound(Material r) {
+    static String getSound(ItemStack itemStack) {
+
+        CustomSong customSong = CustomSong.get(itemStack);
+
+        if(customSong != null) {
+            return customSong.sound.toLowerCase(Locale.ROOT);
+        }
+
+        Material r = itemStack.getType();
+
         if(r==null) {
             //System.out.println("SOUT: MATERIAL R IS NULL");
             return null;
@@ -102,10 +131,10 @@ public class SongUtils {
             //System.out.println("SOUT: THIS IS NOT A MUSIC DISC");
             return null;
         }
-        return Sound.valueOf(r.name());
+        return r.name().toLowerCase(Locale.ROOT).replace("music_disc_","music_disc.");
     }
 
-    public String getFormattedDuration(Material record) {
+    public String getFormattedDuration(ItemStack record) {
         int seconds = getDuration(record);
         int minutes = 0;
         while(seconds >= 60) {

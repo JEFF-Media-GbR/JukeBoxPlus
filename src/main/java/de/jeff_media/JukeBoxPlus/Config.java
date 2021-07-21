@@ -16,6 +16,15 @@ public class Config {
 
     public static final String MSG_ALREADY_ADDED = "message-already-added";
     public static final String MSG_ADDED_DISC = "message-added-disc";
+    public static final String MSG_NOW_PLAYING = "message-now-playing";
+
+    public static final String ENABLE_PARTICLES = "enable-particles";
+    public static final String PARTICLE_TYPE = "particle-type";
+    public static final String PARTICLE_COUNT = "particle-count";
+    public static final String PARTICLE_HEIGHT = "particle-height";
+    public static final String PARTICLE_OFFSET = "particle-offset";
+    public static final String PARTICLE_SPEED = "particle-speed";
+    public static final String PARTICLE_DELAY = "particle-delay";
 
     public static final String MSG_ENABLED = "message-enabled";
     public static final String MSG_DISABLED = "message-disabled";
@@ -40,6 +49,14 @@ public class Config {
         main.getConfig().addDefault(MAX_JUKEBOX_RADIUS, 512);
         main.getConfig().addDefault("gui-title", "§4§l[§c§lJukeboxPlus§4§l]");
         main.getConfig().addDefault("tick-delay", 40);
+
+        main.getConfig().addDefault(PARTICLE_COUNT, 5);
+        main.getConfig().addDefault(PARTICLE_TYPE, "BARRIER");
+        main.getConfig().addDefault(ENABLE_PARTICLES, true);
+        main.getConfig().addDefault(PARTICLE_HEIGHT, 1.5);
+        main.getConfig().addDefault(PARTICLE_OFFSET, 0.2);
+        main.getConfig().addDefault(PARTICLE_SPEED, 2);
+        main.getConfig().addDefault(PARTICLE_DELAY, 4);
 
         main.getConfig().addDefault("button-loop-enabled", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmM4ZGVmNjdhMTI2MjJlYWQxZGVjZDNkODkzNjQyNTdiNTMxODk2ZDg3ZTQ2OTgxMzEzMWNhMjM1YjVjNyJ9fX0=");
         main.getConfig().addDefault("button-loop-disabled", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTUzZGQ0NTc5ZWRjMmE2ZjIwMzJmOTViMWMxODk4MTI5MWI2YzdjMTFlYjM0YjZhOGVkMzZhZmJmYmNlZmZmYiJ9fX0=");

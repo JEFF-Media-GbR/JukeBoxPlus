@@ -1,5 +1,7 @@
 package de.jeff_media.JukeBoxPlus;
 
+import co.aikar.commands.PaperCommandManager;
+import de.jeff_media.JukeBoxPlus.commands.DebugCommand;
 import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.block.Block;
@@ -12,6 +14,8 @@ import java.util.Map;
 import java.util.UUID;
 
 public class Main extends JavaPlugin {
+
+    private static Main instance;
 
     // TODO Allow some Jukeboxes with extra permission to autoloop on server start (for spawn etc)
 
@@ -44,6 +48,10 @@ public class Main extends JavaPlugin {
             getLogger().warning("[DEBUG] " + text);
     }
 
+    public static Main getInstance() {
+        return instance;
+    }
+
     public void onDisable() {
         saveJukeboxes();
     }
@@ -53,6 +61,8 @@ public class Main extends JavaPlugin {
     }
 
     public void onEnable(boolean reload) {
+
+        instance = this;
 
         if(reload) {
             saveJukeboxes();
@@ -66,6 +76,8 @@ public class Main extends JavaPlugin {
             return;
         }
 
+        new ParticleManager();
+
         createConfig();
         ConfigUpdater.updateConfig(this);
         jukeboxes = new HashMap<>();
@@ -76,7 +88,6 @@ public class Main extends JavaPlugin {
         openGUIs = new HashMap<>();
         this.getServer().getPluginManager().registerEvents(listener, this);
         this.getServer().getPluginManager().registerEvents(jukeboxGuiListener,this);
-        getCommand("jukebox").setExecutor(new CommandReload(this));
         taskController = new TaskController(this);
         songUtils = new SongUtils(this);
         utils = new Utils(this);
@@ -87,6 +98,10 @@ public class Main extends JavaPlugin {
         Metrics metrics = new Metrics(this,BSTATS_ID);
 
         loadJukeboxes();
+
+        PaperCommandManager commandManager = new PaperCommandManager(this);
+        commandManager.registerCommand(new DebugCommand());
+        CustomSong.init();
     }
 
     private void initUpdateChecker() {
@@ -120,6 +135,9 @@ public class Main extends JavaPlugin {
         new Config(this);
         if(!getFile("discs.yml").exists()) {
             saveResource("discs.yml", false);
+        }
+        if(!getFile("custom-discs.yml").exists()) {
+            saveResource("custom-discs.yml", false);
         }
     }
 

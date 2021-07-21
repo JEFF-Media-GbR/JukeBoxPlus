@@ -50,14 +50,18 @@ max-jukebox-radius: 512
 # Interval used when changing the radius of a jukebox
 radius-change-interval: 16
 
-# How many ticks to wait between Jukebox check
-# Setting this too high will result in pauses between loops
-# Recommended: 20 to 40 (1 to 2 seconds)
-tick-delay: 40
-
 # When using the bossbar for messages, you can change the duration for those messages here
 # 20 ticks = 1 second
 ticks-per-bossbar-message: 80
+
+# When enabled, playing Jukeboxes will show particles
+enable-particles: true
+particle-type: NOTE
+particle-count: 5
+particle-height: 1.5
+particle-offset: 0.2
+particle-speed: 2
+particle-delay: 5
 
 # You can use base64 strings to customize the Loop, Shuffle and Stop button.
 # You can for example use this website: https://minecraft-heads.com/custom-heads
@@ -100,6 +104,7 @@ message-disabled: "&cDisabled"
 message-loop: "&6Loop"
 message-shuffle: "&6Shuffle"
 message-autostart: "&6Autostart"
+message-now-playing: "&aNow playing {NAME}."
 
 ##### Turkish
 #message-added-disc: "{NAME} isimli disk müzik kutusuna eklendi."
@@ -109,6 +114,7 @@ message-autostart: "&6Autostart"
 #message-loop: "&6Tekrarla"
 #message-shuffle: "&6Karıştır"
 #message-autostart: "&6Otomatik oynat"
+#message-now-playing: "&aŞimdi {NAME} çalıyor."
 
 ###############
 #### Done! ####

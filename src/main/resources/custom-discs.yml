@@ -1,0 +1,27 @@
+# When your resource pack includes custom sounds, you can use them too!
+# You can assign an unlimited amount of sounds for each item, using CustomModelData.
+
+# WHAT YOU NEED
+#
+# You HAVE to use a texture pack that includes a song file.
+# You can optionally add custom textures for your disc as well by using CustomModelData, see below
+
+# INSTRUCTIONS
+#
+# Simply choose any item that you want to use for your disc, and choose a random number for the CustomModelData.
+# The CustomModelData will be used to identify this song. In this example, we'll use 1.
+# Define the material type, the custom model data, the duration, sound and name of your song/disc.
+
+
+# Example:
+#music_disc_stal:
+#  1:
+#    duration: 120
+#    sound: "itemsadder:item.guitar.play"
+#    name: "My Custom Song"
+
+music_disc_stal:
+  1:
+    duration: 120
+    sound: "itemsadder:item.guitar.play"
+    name: "My Custom Song"

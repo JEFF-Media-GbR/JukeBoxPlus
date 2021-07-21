@@ -163,18 +163,18 @@ public class JukeboxGUI implements InventoryHolder {
         });
     }
 
-    ItemStack getDiscItem(Material record) {
-        ItemStack disc = new ItemStack(record);
-        ItemMeta meta = disc.getItemMeta();
-        meta.setDisplayName(main.getConfig().getString(Config.DISC_NAME).replaceAll("\\{NAME}",main.songUtils.getName(record)));
+    ItemStack getDiscItem(ItemStack disc) {
+        return disc;
+        /*ItemMeta meta = disc.getItemMeta();
+        meta.setDisplayName(main.getConfig().getString(Config.DISC_NAME).replaceAll("\\{NAME}",main.songUtils.getName(disc)));
         ArrayList<String> lore = new ArrayList<>();
         for(String line : main.getConfig().getString(Config.DISC_LORE).split("\n")) {
-            lore.add(line.replaceAll("\\{DURATION}",main.songUtils.getFormattedDuration(record))
-                    .replaceAll("\\{NAME}",main.songUtils.getName(record)));
+            lore.add(line.replaceAll("\\{DURATION}",main.songUtils.getFormattedDuration(disc))
+                    .replaceAll("\\{NAME}",main.songUtils.getName(disc)));
         }
         meta.setLore(lore);
         disc.setItemMeta(meta);
-        return disc;
+        return disc;*/
     }
 
     void open(Player p) {
@@ -182,7 +182,7 @@ public class JukeboxGUI implements InventoryHolder {
 
         addFrame();
 
-        for (Material record : Objects.requireNonNull(Objects.requireNonNull(jd, "jd is null").records, "jd.records is null")) {
+        for (ItemStack record : Objects.requireNonNull(Objects.requireNonNull(jd, "jd is null").records, "jd.records is null")) {
             ItemStack disc = getDiscItem(record);
 
             if (record == jd.record) {
