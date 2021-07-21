@@ -11,16 +11,18 @@
 # Simply choose any item that you want to use for your disc, and choose a random number for the CustomModelData.
 # The CustomModelData will be used to identify this song. In this example, we'll use 1.
 # Define the material type, the custom model data, the duration, sound and name of your song/disc.
+# In this example, we used a gold ingot with a custom model data of "1". So, just take a gold ingot and enter
+# the command "/jukebox modeldata 1". This gold ingot will now be associated with your custom song! :)
 
 
 # Example:
-#music_disc_stal:
+#GOLD_INGOT:
 #  1:
 #    duration: 120
 #    sound: "itemsadder:item.guitar.play"
 #    name: "My Custom Song"
 
-music_disc_stal:
+GOLD_INGOT:
   1:
     duration: 120
     sound: "itemsadder:item.guitar.play"

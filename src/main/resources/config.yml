@@ -12,6 +12,7 @@
 # jukebox.shuffle   - Allows to set a Jukebox to shuffle
 # jukebox.loop      - Allows to set a Jukebox to loop
 # jukebox.autostart - Allows to set a Jukebox to autostart
+# jukebox.modeldata - Allows to use /jukebox modeldata (see custom-discs.yml)
 
 # Right-Click Jukebox:
 #   - When holding a disc: Add disc to Jukebox

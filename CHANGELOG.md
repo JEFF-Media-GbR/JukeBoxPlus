@@ -1,3 +1,7 @@
+## 2.0.1
+- Fixed permissions
+- Added command /jukebox modeldata (to create custom music discs)
+
 ## 2.0.0
 - **Ability to use custom songs and custom music discs!** (Requires a resource pack)
   - Upcoming versions will automatically generate and provide a resource pack

@@ -16,8 +16,8 @@ public class DebugCommand extends BaseCommand {
 
     private static final Main main = Main.getInstance();
 
-    @Subcommand("addmodeldata")
-    @CommandPermission("jukeboxplus.addmodeldata")
+    @Subcommand("modeldata")
+    @CommandPermission("jukebox.modeldata")
     public static void addModelData(Player player, String[] args) {
 
 
@@ -40,7 +40,7 @@ public class DebugCommand extends BaseCommand {
     }
 
     @Subcommand("reload")
-    @CommandPermission("jukeboxplus.reload")
+    @CommandPermission("jukebox.reload")
     public static void onReload(CommandSender sender, String[] args) {
         main.onEnable(true);
         sender.sendMessage(ChatColor.GREEN+"JukeBoxPlus has been reloaded.");
