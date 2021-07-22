@@ -5,6 +5,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Jukebox;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Map;
 
 public class TaskController {
@@ -25,20 +26,24 @@ public class TaskController {
 
         long time = new Date().getTime();
 
-        for (Map.Entry<Block, JukeboxData> entry : main.jukeboxes.entrySet()) {
+        Iterator<Map.Entry<Block, JukeboxData>> iterator = main.jukeboxes.entrySet().iterator();
+        while(iterator.hasNext()) {
+            Map.Entry<Block, JukeboxData> entry = iterator.next();
+
             Block block = entry.getKey();
             JukeboxData jd = entry.getValue();
 
-            if(!block.getChunk().isLoaded()) {
-                main.debug("Chunk "+block.getChunk().toString()+" is not loaded, skipping task");
-                continue;
+            // TODO: Make configurable
+            if(block.getChunk().isLoaded()) {
+                if(!(block.getState() instanceof Jukebox)) {
+                    main.debug("Destroying JukeboxData and dropping discs, Block "+block.getLocation().toString()+" is no longer a Jukebox");
+                    jd.destroy(block);
+                    iterator.remove();
+                    continue;
+                }
             }
 
-            if(!(block.getState() instanceof Jukebox)) {
-                main.debug("Destroying JukeboxData and dropping discs, Block "+block.getLocation().toString()+" is no longer a Jukebox");
-                jd.destroy(block);
-                continue;
-            }
+
             Jukebox jb = (Jukebox) block.getState();
 
 

@@ -1,3 +1,17 @@
+## 2.1.0
+- Jukeboxes on loop will now also work in unloaded chunks
+
+## 2.0.4
+- Fixed custom music discs being stackable inside the jukebox GUI
+- Fixed custom songs not reloading on "/jukebox reload"
+
+## 2.0.3
+- Fixed not being able to remove discs from the jukebox
+- Fixed color codes not working in disc names
+
+## 2.0.2
+- Fixed version 2.0.0+ not being compatible with old Jukebox yaml files
+
 ## 2.0.1
 - Fixed permissions
 - Added command /jukebox modeldata (to create custom music discs)

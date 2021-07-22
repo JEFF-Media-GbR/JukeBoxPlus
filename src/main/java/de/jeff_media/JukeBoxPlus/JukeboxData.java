@@ -85,7 +85,7 @@ public class JukeboxData {
                 toggleShuffle();
             }
         }
-
+        Bukkit.getWorld(world).getBlockAt(x,y,z).getChunk().addPluginChunkTicket(main);
         //file.delete();
     }
 
@@ -96,16 +96,33 @@ public class JukeboxData {
         this.z = z;
         this.main = main;
         this.radius = main.getConfig().getInt(Config.DEFAULT_JUKEBOX_RADIUS);
+        Bukkit.getWorld(world).getBlockAt(x,y,z).getChunk().addPluginChunkTicket(main);
     }
 
     boolean addRecord(ItemStack is, Player p) {
         main.debug("Trying to add music disc to jukebox...");
-        if (records.contains(is.getType())) {
+        boolean duplicate = false;
+        for(ItemStack contained : records) {
+            if(contained.getType() == is.getType()) {
+                if(!contained.getItemMeta().hasCustomModelData() && !is.getItemMeta().hasCustomModelData()) {
+                    duplicate = true;
+                } else {
+                    if(contained.getItemMeta().hasCustomModelData() && is.getItemMeta().hasCustomModelData()) {
+                        if(contained.getItemMeta().getCustomModelData() == is.getItemMeta().getCustomModelData()) {
+                            duplicate = true;
+                        }
+                    }
+                }
+            }
+        }
+        if (duplicate) {
             main.debug("Already contains " + is.getType().name());
             main.messageUtils.send(main.msg.ALREADY_ADDED.replaceAll("\\{NAME}",main.songUtils.getName(is)),  false,p,true);
             return false;
         }
-        records.add(is.clone());
+        ItemStack disc = is.clone();
+        disc.setAmount(1);
+        records.add(disc);
         main.debug("Added disc " + is.getType().name());
         main.messageUtils.send(main.msg.ADDED_DISK.replaceAll("\\{NAME}",main.songUtils.getName(is)),true,p,true);
         main.utils.updateInventoryViews("Record added");
@@ -127,7 +144,11 @@ public class JukeboxData {
     void loadRecords() {
         //YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
         for (Object s : yaml.getList("records")) {
-            records.add((ItemStack) s);
+            try {
+                records.add((ItemStack) s);
+            } catch (Throwable t) {
+                records.add(new ItemStack(Material.valueOf((String) s)));
+            }
         }
         //record = Material.getMaterial(yaml.getString("record", "nothing")); // TODO (and not here)
     }
@@ -222,7 +243,6 @@ public class JukeboxData {
         for(ItemStack itemStack : records) {
             block.getWorld().dropItem(block.getLocation(),itemStack);
         }
-        main.jukeboxes.remove(block);
     }
 
     void startJukebox() {
@@ -269,9 +289,8 @@ public class JukeboxData {
                 pn.stopSound(SongUtils.getSound(record), SoundCategory.RECORDS);
             }
             String sound = SongUtils.getSound(itemStack);
-            System.out.println("SOUND: " + sound.toLowerCase(Locale.ROOT));
             pn.playSound(getBlock().getLocation(),sound,SoundCategory.RECORDS,((float) radius)/16,1);
-            pn.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(main.msg.NOW_PLAYING.replace("{NAME}",main.songUtils.getName(itemStack))));
+            pn.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',main.msg.NOW_PLAYING.replace("{NAME}",main.songUtils.getName(itemStack)))));
             main.debug("Play volume: " + ((float) radius)/16);
         }
         setEndTime(duration);

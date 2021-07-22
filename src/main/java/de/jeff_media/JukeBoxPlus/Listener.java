@@ -143,6 +143,7 @@ public class Listener implements org.bukkit.event.Listener {
 
         Jukebox jb = (Jukebox) e.getBlock().getState();
         JukeboxData jd = main.jukeboxes.get(e.getBlock());
+        if(jd == null) return;
         jd.stopJukebox(jb,true);
         jd.destroy(e.getBlock());
         main.jukeboxes.remove(e.getBlock());

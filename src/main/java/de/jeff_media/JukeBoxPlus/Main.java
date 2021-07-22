@@ -4,9 +4,11 @@ import co.aikar.commands.PaperCommandManager;
 import de.jeff_media.JukeBoxPlus.commands.DebugCommand;
 import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.boss.BossBar;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.HashMap;
@@ -64,6 +66,9 @@ public class Main extends JavaPlugin {
 
         instance = this;
 
+        /*
+        Only on Reload
+         */
         if(reload) {
             saveJukeboxes();
             reloadConfig();
@@ -73,7 +78,20 @@ public class Main extends JavaPlugin {
             initUpdateChecker();
             msg = new Messages(this);
             messageUtils = new MessageUtils((this));
+            CustomSong.init();
             return;
+        }
+        /*
+        Only when NOT Reloading
+         */
+        else {
+            // TODO: Check whether this is working async
+            /*new BukkitRunnable() {
+                @Override
+                public void run() {
+                    saveJukeboxes();
+                }
+            }.runTaskTimerAsynchronously(this, 10*60*20,10*60*20);*/
         }
 
         new ParticleManager();

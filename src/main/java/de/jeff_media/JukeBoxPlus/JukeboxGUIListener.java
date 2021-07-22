@@ -79,7 +79,7 @@ public class JukeboxGUIListener implements Listener {
             boolean remove = e.isRightClick();
 
             if (remove) {
-                if (jd.record.getType() == clicked.getType()) {
+                if (jd.record == clicked) {
                     // TODO: Avoid removed discs from being able to be looped after being removed
                     if(jd.shuffle) {
                         jd.stopJukebox(jb,false);
@@ -89,9 +89,9 @@ public class JukeboxGUIListener implements Listener {
                         jd.stopJukebox(jb, true);
                     }
                 }
-                if(jd.records.contains(clicked.getType())) {
-                    p.getInventory().addItem(new ItemStack(clicked.getType()));
-                    jd.records.remove(clicked.getType());
+                if(jd.records.contains(clicked)) {
+                    p.getInventory().addItem(clicked.clone());
+                    jd.records.remove(clicked);
                 }
                 gui.update();
             } else {

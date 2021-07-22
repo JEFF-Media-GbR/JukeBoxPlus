@@ -1,5 +1,6 @@
 package de.jeff_media.JukeBoxPlus;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -26,20 +27,14 @@ public class CustomSong {
     }
 
     public static @Nullable CustomSong get(ItemStack itemStack) {
-        System.out.println("Checking whether "+itemStack+" is a custom song");
         if(customSongs.isConfigurationSection(itemStack.getType().name())) {
-            System.out.println("in config");
             if(itemStack.hasItemMeta()) {
-                System.out.println("has meta");
                 if(itemStack.getItemMeta().hasCustomModelData()) {
-                    System.out.println("has model data");
                     if(customSongs.isConfigurationSection(itemStack.getType().name()+"."+itemStack.getItemMeta().getCustomModelData())) {
-                        System.out.println("is config section");
                         ConfigurationSection section = customSongs.getConfigurationSection(itemStack.getType().name()+"." + itemStack.getItemMeta().getCustomModelData());
-                        String name = section.getString("name");
+                        String name = ChatColor.translateAlternateColorCodes('&',section.getString("name"));
                         int duration = section.getInt("duration");
                         String sound = section.getString("sound");
-                        System.out.println("is song " + name);
                         return new CustomSong(name, duration, sound);
                     }
                 }
