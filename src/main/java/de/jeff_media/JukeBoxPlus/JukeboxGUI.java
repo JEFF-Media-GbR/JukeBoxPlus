@@ -185,8 +185,10 @@ public class JukeboxGUI implements InventoryHolder {
         for (ItemStack record : Objects.requireNonNull(Objects.requireNonNull(jd, "jd is null").records, "jd.records is null")) {
             ItemStack disc = getDiscItem(record);
 
-            if (record == jd.record) {
+            if (record.equals(jd.record)) {
                 makeItShine(disc);
+            } else {
+                disc.removeEnchantment(new Glow(new NamespacedKey(main,main.getDescription().getName())));
             }
             inv.addItem(new ItemStack(disc));
         }

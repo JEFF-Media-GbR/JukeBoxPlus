@@ -1,3 +1,6 @@
+## 2.1.3
+- Fixed a ton of bugs! 
+
 ## 2.1.2
 - Fixed Jukebox not stopping when removing current disc
 

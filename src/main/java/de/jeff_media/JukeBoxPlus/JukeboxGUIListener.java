@@ -1,5 +1,6 @@
 package de.jeff_media.JukeBoxPlus;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Jukebox;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -10,6 +11,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Iterator;
 
 public class JukeboxGUIListener implements Listener {
 
@@ -79,33 +82,59 @@ public class JukeboxGUIListener implements Listener {
             boolean remove = e.isRightClick();
 
             if (remove) {
-                if (jd.record.equals(clicked)) {
+                clicked.removeEnchantment(new Glow(new NamespacedKey(main,main.getDescription().getName())));
+                //System.out.println(1);
+                //System.out.println(clicked);
+                if (jd.record != null && RecordUtils.itemStackEquals(jd.record,clicked)) {
+                    //System.out.println(2);
                     // TODO: Avoid removed discs from being able to be looped after being removed
                     if(jd.shuffle) {
+                        //System.out.println(3);
                         jd.stopJukebox(jb,false);
                         jd.randomRecord();
                         jd.startJukebox();
                     } else {
+                        //System.out.println(4);
                         jd.stopJukebox(jb, true);
                     }
                 }
-                if(jd.records.contains(clicked)) {
-                    p.getInventory().addItem(clicked.clone());
-                    jd.records.remove(clicked);
+                //System.out.println(5);
+                ItemStack clone = clicked.clone();
+                clone.removeEnchantment(new Glow(new NamespacedKey(main,main.getDescription().getName())));
+                Iterator<ItemStack> iterator = jd.records.iterator();
+                while(iterator.hasNext()) {
+                    //System.out.println(6);
+                    ItemStack current = iterator.next();
+                    //if(!RecordUtils.itemStackEquals(current,jd.record)) continue;
+                    System.out.println("Removing disc " + current);
+                    if(clicked == null || current == null) continue;
+                    p.getInventory().addItem(clone);
+                    iterator.remove();
+                    break;
                 }
+                /*if(jd.records.contains(clicked)) {
+
+                }*/
                 gui.update();
             } else {
                 jd.startJukebox(jb, clicked,p);
+                //System.out.println(8);
             }
 
 
         } else {
+            //System.out.println(9);
 
             switch (slot) {
                 case 4 * 9 + 1:
                     if(p.hasPermission(Permissions.ALLOW_LOOP)) {
+                        //System.out.println(1);
                         main.debug("Toggle Loop");
-                        if (jd.shuffle) jd.toggleShuffle(p);
+                        if (jd.shuffle) {
+                            //System.out.println(2);
+                            jd.toggleShuffle(p);
+                        }
+                        //System.out.println(3);
                         jd.toggleLoop(main, p);
                     }
                     break;

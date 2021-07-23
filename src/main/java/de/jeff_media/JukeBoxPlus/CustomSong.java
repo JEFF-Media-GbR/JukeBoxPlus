@@ -5,6 +5,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 
@@ -18,6 +19,10 @@ public class CustomSong {
 
     public static void init() {
         customSongs = YamlConfiguration.loadConfiguration(new File(main.getDataFolder()+File.separator, "custom-discs.yml"));
+        if(customSongs==null) customSongs = new YamlConfiguration();
+        if(customSongs==null) {
+            throw new IllegalStateException("WTF is happening");
+        }
     }
 
     private CustomSong(String name, int duration, String sound) {
@@ -27,6 +32,9 @@ public class CustomSong {
     }
 
     public static @Nullable CustomSong get(ItemStack itemStack) {
+        if(customSongs==null) {
+            throw new IllegalStateException("WTF is happening");
+        }
         if(customSongs.isConfigurationSection(itemStack.getType().name())) {
             if(itemStack.hasItemMeta()) {
                 if(itemStack.getItemMeta().hasCustomModelData()) {

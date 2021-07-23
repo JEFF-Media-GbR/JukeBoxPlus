@@ -215,6 +215,9 @@ public class JukeboxData {
     void save(File file) {
         YamlConfiguration yaml = new YamlConfiguration();
         //yaml.set("records", recordsToStringList());
+        for(ItemStack item : records) {
+            item.removeEnchantment(new Glow(new NamespacedKey(main,main.getDescription().getName())));
+        }
         yaml.set("records",records);
         //String recordName = record == null || record.getType() == Material.AIR ? "none" : record;
         //yaml.set("record", recordName); // TODO
@@ -227,6 +230,9 @@ public class JukeboxData {
         yaml.set("y", y);
         yaml.set("z", z);
         yaml.set("radius",radius);
+        /*//System.out.println("records: " + records);
+        //System.out.println("records == null: " + records == null);
+        //System.out.println("file == null: " + file == null);*/
         try {
             yaml.save(file);
         } catch (IOException e) {
@@ -270,7 +276,7 @@ public class JukeboxData {
             }
             return;
         }
-        main.debug("Starting Jukebox: Record="+itemStack+" LastRecord="+lastRecord);
+        //main.debug("Starting Jukebox: Record="+itemStack+" LastRecord="+lastRecord);
         if((itemStack==null || itemStack.getType()==Material.AIR)&& lastRecord != null) {
             main.debug("Record is null, using last record "+lastRecord.getType().name());
 
@@ -303,6 +309,14 @@ public class JukeboxData {
 
         if(endTime == 0) return;
 
+        if(record != null) {
+            for(ItemStack item : records) {
+                if(RecordUtils.itemStackEquals(item, record)) {
+                    item.removeEnchantment(new Glow(new NamespacedKey(main, main.getDescription().getName())));
+                }
+            }
+        }
+
         endTime = 0;
         if(reset) {
             loop = false;
@@ -312,7 +326,7 @@ public class JukeboxData {
         Collection<Entity> nearbyEntities = Utils.getNearbyPlayers(jb.getBlock(),radius);
         if(record!=null) {
             for (Entity entity : nearbyEntities) {
-                main.debug("Stopping " + record + " for player " + entity.getName());
+                //main.debug("Stopping " + record + " for player " + entity.getName());
                 if (entity instanceof Player)
                     ((Player) entity).stopSound(SongUtils.getSound(record), SoundCategory.RECORDS);
             }
@@ -344,12 +358,15 @@ public class JukeboxData {
                 return;
             }
 
-            if(!records.contains(lastRecord)) {
-                main.debug("Cannot use last record because it has been removed.");
-                if(p!=null) {
-                    main.messageUtils.send("Choose a record first.",false,p,true);
-                }
-                this.loop = false;
+            Iterator<ItemStack> iterator = records.iterator();
+            boolean found = false;
+            while(iterator.hasNext()) {
+                ItemStack current = iterator.next();
+                if(!RecordUtils.itemStackEquals(current,lastRecord)) continue;
+                found = true;
+                break;
+            }
+            if(!found) {
                 return;
             }
 

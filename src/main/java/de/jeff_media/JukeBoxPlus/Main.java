@@ -65,6 +65,7 @@ public class Main extends JavaPlugin {
     public void onEnable(boolean reload) {
 
         instance = this;
+        CustomSong.init();
 
         /*
         Only on Reload
