@@ -33,7 +33,7 @@ public class JukeboxGUI implements InventoryHolder {
         this.main = main;
         frame = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta meta = frame.getItemMeta();
-        meta.setDisplayName("");
+        meta.setDisplayName("§7");
         frame.setItemMeta(meta);
         this.inv = Bukkit.createInventory(this, 54, main.getConfig().getString("gui-title"));
 

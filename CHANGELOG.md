@@ -1,3 +1,6 @@
+## 2.1.1
+- Improved GUI - the placeholder items will not have a tooltip anymore.
+
 ## 2.1.0
 - Jukeboxes on loop will now also work in unloaded chunks
 
