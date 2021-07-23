@@ -79,7 +79,7 @@ public class JukeboxGUIListener implements Listener {
             boolean remove = e.isRightClick();
 
             if (remove) {
-                if (jd.record == clicked) {
+                if (jd.record.equals(clicked)) {
                     // TODO: Avoid removed discs from being able to be looped after being removed
                     if(jd.shuffle) {
                         jd.stopJukebox(jb,false);

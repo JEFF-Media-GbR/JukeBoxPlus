@@ -1,3 +1,6 @@
+## 2.1.2
+- Fixed Jukebox not stopping when removing current disc
+
 ## 2.1.1
 - Improved GUI - the placeholder items will not have a tooltip anymore.
 
