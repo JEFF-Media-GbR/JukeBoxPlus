@@ -107,6 +107,26 @@ message-shuffle: "&6Shuffle"
 message-autostart: "&6Autostart"
 message-now-playing: "&aNow playing {NAME}."
 
+##### Simplified Chinese
+#message-added-disc: "{NAME} 光盘已添加到这个唱片机"
+#message-already-added: "此唱片機已經拥有 {NAME} 的光盘"
+#message-enabled: "&a启动"
+#message-disabled: "&c禁用"
+#message-loop: "&6单曲循环"
+#message-shuffle: "&6随机播放"
+#message-autostart: "&6自动播放"
+#message-now-playing: "&a正在播放 {NAME}"
+
+##### Traditional Chinese
+#message-added-disc: "{NAME} 光盤已添加到這個唱片機"
+#message-already-added: "此唱片機已經擁有 {NAME} 的光盤"
+#message-enabled: "&a啟動"
+#message-disabled: "&c禁用"
+#message-loop: "&6單曲循環"
+#message-shuffle: "&6隨機播放"
+#message-autostart: "&6自動播放"
+#message-now-playing: "&a正在播放 {NAME}"
+
 ##### Turkish
 #message-added-disc: "{NAME} isimli disk müzik kutusuna eklendi."
 #message-already-added: "Bu müzik kutusu zaten {NAME} isimli diski içeriyor."
