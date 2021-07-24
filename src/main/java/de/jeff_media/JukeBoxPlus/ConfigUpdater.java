@@ -15,7 +15,7 @@ public class ConfigUpdater {
     private static final String[] LINES_IGNORED = {"config-version:", "plugin-version:"};
 
 
-    private static final boolean debug = true;
+    private static final boolean debug = false;
 
     private static void debug(Logger logger, String message) {
         logger.warning(message);
@@ -23,10 +23,10 @@ public class ConfigUpdater {
 
     public static void updateConfig(Main main) {
         Logger logger = main.getLogger();
-        debug(logger,"Newest config version  = "+getNewConfigVersion(main));
-        debug(logger,"Current config version = "+main.getConfig().getLong(Config.CONFIG_VERSION));
+        //debug(logger,"Newest config version  = "+getNewConfigVersion(main));
+        //debug(logger,"Current config version = "+main.getConfig().getLong(Config.CONFIG_VERSION));
         if(main.getConfig().getLong(Config.CONFIG_VERSION) >= getNewConfigVersion(main)) {
-            debug(logger,"The config currently used has an equal or newer version than the one shipped with this release.");
+            //debug(logger,"The config currently used has an equal or newer version than the one shipped with this release.");
             return;
         }
 

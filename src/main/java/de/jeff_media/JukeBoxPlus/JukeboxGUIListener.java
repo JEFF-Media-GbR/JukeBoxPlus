@@ -106,7 +106,7 @@ public class JukeboxGUIListener implements Listener {
                     //System.out.println(6);
                     ItemStack current = iterator.next();
                     //if(!RecordUtils.itemStackEquals(current,jd.record)) continue;
-                    System.out.println("Removing disc " + current);
+                    //System.out.println("Removing disc " + current);
                     if(clicked == null || current == null) continue;
                     p.getInventory().addItem(clone);
                     iterator.remove();

@@ -1,3 +1,6 @@
+## 2.1.4
+- Removed forgotten debug messages
+
 ## 2.1.3
 - Fixed a ton of bugs! 
 - Updated Azerbaijan Turkish translation
