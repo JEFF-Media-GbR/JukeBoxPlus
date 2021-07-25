@@ -3,6 +3,7 @@ package de.jeff_media.JukeBoxPlus;
 import co.aikar.commands.PaperCommandManager;
 import de.jeff_media.JukeBoxPlus.commands.DebugCommand;
 import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
+import de.jeff_media.daddy.Stepsister;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -63,6 +64,8 @@ public class Main extends JavaPlugin {
     }
 
     public void onEnable(boolean reload) {
+
+        Stepsister.init(this);
 
         instance = this;
         CustomSong.init();

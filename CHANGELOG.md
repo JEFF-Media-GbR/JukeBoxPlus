@@ -1,3 +1,6 @@
+## 2.2.0
+- Added discord-verification.html file for Discord verification (voluntarily, of course)
+
 ## 2.1.4
 - Removed forgotten debug messages
 
