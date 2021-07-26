@@ -66,6 +66,7 @@ public class Main extends JavaPlugin {
     public void onEnable(boolean reload) {
 
         Stepsister.init(this);
+        Stepsister.createVerificationFile();
 
         instance = this;
         CustomSong.init();
