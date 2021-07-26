@@ -1,3 +1,6 @@
+## 2.2.3
+- Switched to new UpdateChecker
+
 ## 2.2.0
 - Added discord-verification.html file for Discord verification (voluntarily, of course)
 

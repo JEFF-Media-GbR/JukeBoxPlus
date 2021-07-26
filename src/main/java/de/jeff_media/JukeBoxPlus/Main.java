@@ -2,8 +2,8 @@ package de.jeff_media.JukeBoxPlus;
 
 import co.aikar.commands.PaperCommandManager;
 import de.jeff_media.JukeBoxPlus.commands.DebugCommand;
-import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
 import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.updatechecker.UpdateChecker;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -35,7 +35,7 @@ public class Main extends JavaPlugin {
     HashMap<UUID, BossBar> bossbars;
     HashMap<UUID, JukeboxGUI> openGUIs;
     String uid = "%%__USER__%%";
-    PluginUpdateChecker updateChecker;
+    UpdateChecker updateChecker;
 
     private static final String SPIGOT_RESOURCE_ID = "87750";
     static final int BSTATS_ID = 10139;
@@ -128,11 +128,12 @@ public class Main extends JavaPlugin {
 
     private void initUpdateChecker() {
         if(updateChecker == null) {
-            updateChecker = new PluginUpdateChecker(this,
-                    UPDATECHECKER_LINK_API,
-                    UPDATECHECKER_LINK_DOWNLOAD,
-                    UPDATECHECKER_LINK_CHANGELOG,
-                    UPDATECHECKER_LINK_DONATE);
+            updateChecker = UpdateChecker.init(this,
+                    UPDATECHECKER_LINK_API)
+                    .setDownloadLink(UPDATECHECKER_LINK_DOWNLOAD)
+                    .setChangelogLink(UPDATECHECKER_LINK_CHANGELOG)
+                    .setDonationLink(UPDATECHECKER_LINK_DONATE)
+                    .suppressUpToDateMessage(true);
         } else {
             updateChecker.stop();
         }
@@ -141,12 +142,12 @@ public class Main extends JavaPlugin {
             case "true":
                 //debug(getConfig().getDouble(Config.UPDATE_CHECK_INTERVAL)+"");
                 //debug(getConfig().getDouble(Config.UPDATE_CHECK_INTERVAL)*60*60+"");
-                updateChecker.check((long) (getConfig().getDouble(Config.UPDATE_CHECK_INTERVAL) * 60 * 60));
+                updateChecker.checkEveryXHours(getConfig().getDouble(Config.UPDATE_CHECK_INTERVAL));
                 break;
             case "false":
                 break;
             default:
-                updateChecker.check();
+                updateChecker.checkNow();
         }
     }
 
