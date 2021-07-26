@@ -142,7 +142,7 @@ public class Main extends JavaPlugin {
             case "true":
                 //debug(getConfig().getDouble(Config.UPDATE_CHECK_INTERVAL)+"");
                 //debug(getConfig().getDouble(Config.UPDATE_CHECK_INTERVAL)*60*60+"");
-                updateChecker.checkEveryXHours(getConfig().getDouble(Config.UPDATE_CHECK_INTERVAL));
+                updateChecker.checkEveryXHours(getConfig().getDouble(Config.UPDATE_CHECK_INTERVAL)).checkNow();
                 break;
             case "false":
                 break;
