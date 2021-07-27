@@ -1,3 +1,6 @@
+## 2.2.4
+- Fixed discord-verification.html file being invalid sometimes
+
 ## 2.2.3
 - Switched to new UpdateChecker
 
