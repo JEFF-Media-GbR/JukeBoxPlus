@@ -163,19 +163,7 @@ public class JukeboxGUI implements InventoryHolder {
         });
     }
 
-    ItemStack getDiscItem(ItemStack disc) {
-        return disc;
-        /*ItemMeta meta = disc.getItemMeta();
-        meta.setDisplayName(main.getConfig().getString(Config.DISC_NAME).replaceAll("\\{NAME}",main.songUtils.getName(disc)));
-        ArrayList<String> lore = new ArrayList<>();
-        for(String line : main.getConfig().getString(Config.DISC_LORE).split("\n")) {
-            lore.add(line.replaceAll("\\{DURATION}",main.songUtils.getFormattedDuration(disc))
-                    .replaceAll("\\{NAME}",main.songUtils.getName(disc)));
-        }
-        meta.setLore(lore);
-        disc.setItemMeta(meta);
-        return disc;*/
-    }
+
 
     void open(Player p) {
         inv.clear();
@@ -183,9 +171,9 @@ public class JukeboxGUI implements InventoryHolder {
         addFrame();
 
         for (ItemStack record : Objects.requireNonNull(Objects.requireNonNull(jd, "jd is null").records, "jd.records is null")) {
-            ItemStack disc = getDiscItem(record);
+            ItemStack disc = RecordUtils.getDiscItem(record);
 
-            if (record.equals(jd.record)) {
+            if (RecordUtils.itemStackEquals(record,jd.record)) {
                 makeItShine(disc);
             } else {
                 disc.removeEnchantment(new Glow(new NamespacedKey(main,main.getDescription().getName())));

@@ -1,3 +1,8 @@
+## 2.3.0
+- Fixed autostart not working after server restart
+- Fixed players not hearing the songs when they are walking towards the jukebox while previously being outside of the set radius
+- Fixed players receiving the wrong disc when removing a disc from the jukebox
+
 ## 2.2.4
 - Fixed discord-verification.html file being invalid sometimes
 

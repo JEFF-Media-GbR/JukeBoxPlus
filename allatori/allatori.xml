@@ -1,0 +1,43 @@
+<config>
+    <input>
+        <jar in="${project.artifactId}.jar" out="${project.artifactId}.jar"/>
+    </input>
+
+    <!--<keep-names>
+        <class template="class *" />
+        <method template="@org.bukkit.event.EventHandler *(**)" />
+        <class template="class de.jeff_media.drop2inventory.Drop2InventoryAPI">
+            <method template="public *(**)" />
+        </class>
+    </keep-names>-->
+    <keep-names>
+        <class access="private+"/>
+        <method template="public static getHandlerList(**)" />
+        <!--<method template="@org.bukkit.event.EventHandler *(**)" />-->
+
+    </keep-names>
+
+    <property name="log-file" value="log.xml"/>
+
+    <property name="packages-naming" value="keep"/>
+
+    <property name="extensive-flow-obfuscation" value="maximum"/>
+    <property name="generics" value="keep"/>
+    <property name="line-numbers" value="keep"/> <!-- For Debugging: keep -->
+    <property name="inner-classes" value="remove"/>
+    <property name="synthetize-methods" value="disable"/>
+    <property name="synthetize-fields" value="disable"/>
+    <property name="remove-toString" value="enable"/>
+    <property name="string-encryption" value="enable"/>
+    <property name="string-encryption-type" value="strong"/>
+    <property name="string-encryption-ignored-strings" value="../allatori/spigotmc-patterns.txt"/>
+    <ignore-classes>
+        <class template="class com.*"/>
+        <class template="class org.*"/>
+        <class template="class de.jeff_media.JukeBoxPlus.commands.*"/>
+        <class template="class **.config.ConfigUpdater" />
+        <class template="class de.jeff_media.JukeBoxPlus.acf.**" />
+        <class template="class de.jeff_media.JukeBoxPlus.locales.**" />
+        <class template="class de.jeff_media.JukeBoxPlus.daddy.**" />
+    </ignore-classes>
+</config>

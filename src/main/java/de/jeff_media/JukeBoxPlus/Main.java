@@ -1,6 +1,7 @@
 package de.jeff_media.JukeBoxPlus;
 
 import co.aikar.commands.PaperCommandManager;
+import com.allatori.annotations.DoNotRename;
 import de.jeff_media.JukeBoxPlus.commands.DebugCommand;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.updatechecker.UpdateChecker;
@@ -51,14 +52,17 @@ public class Main extends JavaPlugin {
             getLogger().warning("[DEBUG] " + text);
     }
 
+    @DoNotRename
     public static Main getInstance() {
         return instance;
     }
 
+    @Override
     public void onDisable() {
         saveJukeboxes();
     }
 
+    @Override
     public void onEnable( ) {
         onEnable(false);
     }
@@ -178,7 +182,7 @@ public class Main extends JavaPlugin {
             } catch (JukeboxData.WorldNotFoundException e) {
                 e.printStackTrace();
             }
-            file.delete();
+            //file.delete();
         }
     }
 

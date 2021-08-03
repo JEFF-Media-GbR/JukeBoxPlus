@@ -57,6 +57,10 @@ public class JukeboxData {
         z = yaml.getInt("z");
         autostart = yaml.getBoolean("autostart");
         radius = yaml.getInt("radius",64);
+
+        if(yaml.isSet("lastRecord") && yaml.get("lastRecord") != null) {
+            lastRecord = yaml.getItemStack("lastRecord");
+        }
         /*if(!yaml.getItemStack("lastRecord").equals(null)) {
             lastRecord = null; //Material.getMaterial(yaml.getString("lastRecord"));
         }*/
@@ -126,6 +130,7 @@ public class JukeboxData {
         main.debug("Added disc " + is.getType().name());
         main.messageUtils.send(main.msg.ADDED_DISK.replaceAll("\\{NAME}",main.songUtils.getName(is)),true,p,true);
         main.utils.updateInventoryViews("Record added");
+        saveAsync();
         return true;
     }
 
@@ -212,6 +217,10 @@ public class JukeboxData {
         return list;
     }
 
+    public void saveAsync() {
+        Bukkit.getScheduler().runTaskAsynchronously(main, () -> save(Utils.block2file(getBlock(), main)));
+    }
+
     void save(File file) {
         YamlConfiguration yaml = new YamlConfiguration();
         //yaml.set("records", recordsToStringList());
@@ -272,7 +281,7 @@ public class JukeboxData {
         if ((itemStack == null || itemStack.getType() == Material.AIR) && lastRecord==null) {
             main.debug("Cannot start without a record");
             if(p != null) {
-                main.messageUtils.send("Choose a record first.",false,p,true);
+                main.messageUtils.send(main.msg.CHOOSE_RECORD_FIRST,false,p,true);
             }
             return;
         }
@@ -288,9 +297,10 @@ public class JukeboxData {
         //main.debug("Starting Jukebox with " + itemStack.getType().name() + " (radius="+radius+")");
         main.debug("Starting Jukebox with " + main.songUtils.getName(itemStack));
         int duration = main.songUtils.getDuration(itemStack);
-        Collection<Entity> nearby = Utils.getNearbyPlayers(jb.getBlock(),radius);
-        for(Entity entity : nearby) {
-            Player pn = (Player) entity;
+        //Collection<Entity> nearby = Utils.getNearbyPlayers(jb.getBlock(),radius);
+        Collection<? extends Player> nearby = Bukkit.getOnlinePlayers();
+        for(Player entity : nearby) {
+            Player pn = entity;
             if(record!=null) {
                 pn.stopSound(SongUtils.getSound(record), SoundCategory.RECORDS);
             }
@@ -352,7 +362,7 @@ public class JukeboxData {
             if ((record == null || record.getType() == Material.AIR) && lastRecord == null) {
                 main.debug("Cannot loop without record");
                 if(p!=null) {
-                    main.messageUtils.send("Choose a record first.",false,p,true);
+                    main.messageUtils.send(main.msg.CHOOSE_RECORD_FIRST,false,p,true);
                 }
                 this.loop = false;
                 return;

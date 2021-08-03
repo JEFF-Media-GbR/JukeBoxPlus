@@ -8,7 +8,7 @@ public class Messages {
             ALREADY_ADDED,
             NOW_PLAYING;
 
-    final String ENABLED, DISABLED, LOOP, SHUFFLE, AUTOSTART, STOP, RADIUS;
+    final String ENABLED, DISABLED, LOOP, SHUFFLE, AUTOSTART, STOP, RADIUS, CHOOSE_RECORD_FIRST;
 
     final Main main;
 
@@ -25,6 +25,7 @@ public class Messages {
         AUTOSTART = getMsg(Config.MSG_AUTOSTART, "&6Autostart");
         STOP = getMsg(Config.MSG_STOP,"&6Stop");
         RADIUS = getMsg(Config.MSG_RADIUS,"&6Radius");
+        CHOOSE_RECORD_FIRST = getMsg(Config.MSG_CHOOSE_RECORD_FIRST, "Choose a record first.");
     }
 
     private String getMsg(String path, String defaultText) {

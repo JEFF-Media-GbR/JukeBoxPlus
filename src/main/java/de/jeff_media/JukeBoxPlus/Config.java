@@ -33,6 +33,7 @@ public class Config {
     public static final String MSG_AUTOSTART = "message-autostart";
     public static final String MSG_STOP = "message-stop";
     public static final String MSG_RADIUS = "message-radius";
+    public static final String MSG_CHOOSE_RECORD_FIRST = "message-choose-record-first";
 
     public static final String CHECK_FOR_UPDATES = "check-for-updates";
     public static final String UPDATE_CHECK_INTERVAL = "check-for-updates-interval";
