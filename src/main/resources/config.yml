@@ -123,6 +123,19 @@ message-choose-record-first: "Choose a record first."
 #message-radius: "&6Radius"
 #message-choose-record-first: "Choose a record first."
 
+##### Russian
+#message-added-disc: "{NAME} добавлена в Проигрыватель"
+#message-already-added: "В этом Проигрывателе уже есть {NAME}."
+#message-enabled: "&aВключен"
+#message-disabled: "&cОтключен"
+#message-loop: "&6Зациклить"
+#message-shuffle: "&6Перемешать"
+#message-autostart: "&6Автозапуск"
+#message-now-playing: "&aСейчас играет {NAME}."
+#message-stop: "&6Стоп"
+#message-radius: "&6Радиус"
+#message-choose-record-first: "Сначала выберите пластинку."
+
 ##### Simplified Chinese
 #message-added-disc: "{NAME} 光盘已添加到这个唱片机"
 #message-already-added: "此唱片機已經拥有 {NAME} 的光盘"
