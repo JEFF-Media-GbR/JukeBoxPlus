@@ -306,7 +306,11 @@ public class JukeboxData {
             }
             String sound = SongUtils.getSound(itemStack);
             pn.playSound(getBlock().getLocation(),sound,SoundCategory.RECORDS,((float) radius)/16,1);
-            pn.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',main.msg.NOW_PLAYING.replace("{NAME}",main.songUtils.getName(itemStack)))));
+            if(pn.getWorld().equals(jb.getWorld())) {
+                if(pn.getLocation().distanceSquared(jb.getLocation()) < radius*radius) {
+                    pn.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', main.msg.NOW_PLAYING.replace("{NAME}", main.songUtils.getName(itemStack)))));
+                }
+            }
             main.debug("Play volume: " + ((float) radius)/16);
         }
         setEndTime(duration);

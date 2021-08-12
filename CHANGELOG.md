@@ -1,3 +1,6 @@
+## 2.3.1
+- Fixed "now playing" message being shown to all players, instead only nearby players
+
 ## 2.3.0
 - Fixed autostart not working after server restart
 - Fixed players not hearing the songs when they are walking towards the jukebox while previously being outside of the set radius
