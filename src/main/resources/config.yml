@@ -123,6 +123,19 @@ message-choose-record-first: "Choose a record first."
 #message-radius: "&6Radius"
 #message-choose-record-first: "Choose a record first."
 
+##### Hungarian
+#message-added-disc: "{NAME} lemez hozzáadva a Zenedobozhoz."
+#message-already-added: "Ez a Zenedoboz már tartalmazza a(z) {NAME} lemezt."
+#message-enabled: "&aEngedélyezve"
+#message-disabled: "&cLetiltva"
+#message-loop: "&6Ismétlés"
+#message-shuffle: "&6Véletlenszerű"
+#message-autostart: "&6Autokezdés"
+#message-now-playing: "&aNow playing {NAME}."
+#message-stop: "&6Stop"
+#message-radius: "&6Radius"
+#message-choose-record-first: "Choose a record first."
+
 ##### Russian
 #message-added-disc: "{NAME} добавлена в Проигрыватель"
 #message-already-added: "В этом Проигрывателе уже есть {NAME}."
