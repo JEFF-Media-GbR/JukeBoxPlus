@@ -1,3 +1,6 @@
+## 2.3.2
+- Improved performance
+
 ## 2.3.1
 - Fixed "now playing" message being shown to all players, instead only nearby players
 

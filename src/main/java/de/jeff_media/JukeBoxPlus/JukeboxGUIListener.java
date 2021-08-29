@@ -22,7 +22,7 @@ public class JukeboxGUIListener implements Listener {
         this.main=main;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    /*@EventHandler(priority = EventPriority.HIGHEST)
     public void onJukeboxGUI(InventoryMoveItemEvent e) {
         main.debug("InventoryMoveItemEvent");
         if (e.getDestination() == null) return;
@@ -30,7 +30,7 @@ public class JukeboxGUIListener implements Listener {
         if (!(e.getDestination().getHolder() instanceof JukeboxGUI)) return;
         e.setCancelled(true);
 
-    }
+    }*/
 
     @EventHandler
     public void onJukeboxGUI(InventoryClickEvent e) {
