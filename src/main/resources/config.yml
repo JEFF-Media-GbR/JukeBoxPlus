@@ -64,6 +64,14 @@ particle-offset: 0.2
 particle-speed: 2
 particle-delay: 5
 
+# When set to true, players who teleport into a world or freshly join the server
+# will be sent the music from already running Jukeboxes. This however means that
+# they will hear the song out-of-sync to players who already were in the world
+# when the song started playing. If this annoys you, you can set this option to
+# false, however that means that new players will have to wait until the song
+# restarts before they can hear it.
+restart-songs-to-new-players: true
+
 # You can use base64 strings to customize the Loop, Shuffle and Stop button.
 # You can for example use this website: https://minecraft-heads.com/custom-heads
 # At the bottom of each head's page, copy the string at Other -> Value

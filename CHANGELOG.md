@@ -1,3 +1,6 @@
+## 2.4.0
+- Added config option "restart-songs-to-new-players"
+
 ## 2.3.2
 - Improved performance
 - Added Polish and Hungarian translation

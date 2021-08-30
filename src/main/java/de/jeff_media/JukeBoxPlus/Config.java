@@ -35,6 +35,8 @@ public class Config {
     public static final String MSG_RADIUS = "message-radius";
     public static final String MSG_CHOOSE_RECORD_FIRST = "message-choose-record-first";
 
+    public static final String RESTART_SONG_TO_NEW_PLAYERS = "restart-songs-to-new-players";
+
     public static final String CHECK_FOR_UPDATES = "check-for-updates";
     public static final String UPDATE_CHECK_INTERVAL = "check-for-updates-interval";
     public static final String CONFIG_VERSION = "config-version";
@@ -50,6 +52,8 @@ public class Config {
         main.getConfig().addDefault(MAX_JUKEBOX_RADIUS, 512);
         main.getConfig().addDefault("gui-title", "§4§l[§c§lJukeboxPlus§4§l]");
         main.getConfig().addDefault("tick-delay", 40);
+
+        main.getConfig().addDefault(RESTART_SONG_TO_NEW_PLAYERS, true);
 
         main.getConfig().addDefault(PARTICLE_COUNT, 5);
         main.getConfig().addDefault(PARTICLE_TYPE, "BARRIER");

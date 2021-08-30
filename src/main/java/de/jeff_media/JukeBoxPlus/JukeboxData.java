@@ -32,7 +32,7 @@ public class JukeboxData {
     boolean autostart = false;
     ItemStack record = null;
     ItemStack lastRecord = null;
-    long endTime = 0;
+    public long endTime = 0;
     File file;
     YamlConfiguration yaml;
     final Random random = new Random();
@@ -275,6 +275,14 @@ public class JukeboxData {
 
     void startJukebox(Jukebox jb, @Nullable Player p) {
         startJukebox(jb,record,p);
+    }
+
+    public void play(Location loc, Player player) {
+        if(record == null) return;
+        String song = SongUtils.getSound(record);
+        if(song == null) return;
+        player.stopSound(song, SoundCategory.RECORDS);
+        player.playSound(loc,song,SoundCategory.RECORDS,((float) radius)/16, 1);
     }
 
     void startJukebox(Jukebox jb, ItemStack itemStack,@Nullable Player p) {

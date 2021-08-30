@@ -3,6 +3,7 @@ package de.jeff_media.JukeBoxPlus.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Subcommand;
 import de.jeff_media.JukeBoxPlus.Main;
 import org.bukkit.ChatColor;
@@ -40,6 +41,7 @@ public class DebugCommand extends BaseCommand {
     }
 
     @Subcommand("reload")
+    @Default
     @CommandPermission("jukebox.reload")
     public static void onReload(CommandSender sender, String[] args) {
         main.onEnable(true);

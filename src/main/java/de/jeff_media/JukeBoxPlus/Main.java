@@ -3,8 +3,10 @@ package de.jeff_media.JukeBoxPlus;
 import co.aikar.commands.PaperCommandManager;
 import com.allatori.annotations.DoNotRename;
 import de.jeff_media.JukeBoxPlus.commands.DebugCommand;
+import de.jeff_media.JukeBoxPlus.listeners.JoinListener;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.updatechecker.UpdateChecker;
+import lombok.Getter;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -26,7 +28,7 @@ public class Main extends JavaPlugin {
     String spigotUserId = "%%__USER__%%";
     JukeboxUtils jukeboxUtils;
     Messages msg;
-    HashMap<Block, JukeboxData> jukeboxes;
+    @Getter HashMap<Block, JukeboxData> jukeboxes;
     TaskController taskController;
     SongUtils songUtils;
     Utils utils;
@@ -115,6 +117,7 @@ public class Main extends JavaPlugin {
         openGUIs = new HashMap<>();
         this.getServer().getPluginManager().registerEvents(listener, this);
         this.getServer().getPluginManager().registerEvents(jukeboxGuiListener,this);
+        this.getServer().getPluginManager().registerEvents(new JoinListener(), this);
         taskController = new TaskController(this);
         songUtils = new SongUtils(this);
         utils = new Utils(this);
