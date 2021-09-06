@@ -263,9 +263,9 @@ public class JukeboxData {
     void startJukebox() {
         try {
             startJukebox(getJukebox());
-        } catch (BlockIsNoJukeboxException e) {
-            main.debug("Tried to start a jukebox that is no jukebox.");
-            main.debug(getBlock().toString());
+        } catch (BlockIsNoJukeboxException ignored) {
+            //main.debug("Tried to start a jukebox that is no jukebox.");
+            //main.debug(getBlock().toString());
         }
     }
 
@@ -422,8 +422,8 @@ public class JukeboxData {
                     try {
                         randomRecord();
                         startJukebox(getJukebox(),record,p); //main.taskController.startLoop(getBlock());
-                    } catch (BlockIsNoJukeboxException e) {
-                        e.printStackTrace();
+                    } catch (BlockIsNoJukeboxException ignored) {
+                        //e.printStackTrace();
                     }
                 }
             }

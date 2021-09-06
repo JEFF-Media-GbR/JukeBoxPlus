@@ -1,3 +1,6 @@
+## 2.4.1
+- Removed warnings for old, already removed jukeboxes
+
 ## 2.4.0
 - Added config option "restart-songs-to-new-players"
 
