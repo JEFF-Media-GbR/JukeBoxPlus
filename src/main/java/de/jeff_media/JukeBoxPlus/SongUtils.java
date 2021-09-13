@@ -21,43 +21,45 @@ public class SongUtils {
     }
 
     final HashMap<Material, Integer> defaultDurations = new HashMap<>();
+    final HashMap<Material, Integer> defaultRedstone = new HashMap<>();
     final HashMap<Material, String> defaultNames = new HashMap<>();
     final YamlConfiguration defaultSongs;
 
-    void addSong(Material mat, String name, int minutes, int seconds) {
+    void addSong(Material mat, String name, int minutes, int seconds, int redstone) {
         defaultDurations.put(mat, minutes * 60 + seconds);
         defaultNames.put(mat, name);
+        defaultRedstone.put(mat,redstone);
     }
 
     void addSongs() {
 
-        addSong(Material.MUSIC_DISC_13, "13",2, 58);
+        addSong(Material.MUSIC_DISC_13, "13",2, 58, 1);
 
-        addSong(Material.MUSIC_DISC_CAT, "Cat",3, 5);
+        addSong(Material.MUSIC_DISC_CAT, "Cat",3, 5, 2);
 
-        addSong(Material.MUSIC_DISC_BLOCKS, "Blocks",5, 45);
+        addSong(Material.MUSIC_DISC_BLOCKS, "Blocks",5, 45, 3);
 
-        addSong(Material.MUSIC_DISC_CHIRP, "Chirp",3, 5);
+        addSong(Material.MUSIC_DISC_CHIRP, "Chirp",3, 5, 4);
 
-        addSong(Material.MUSIC_DISC_FAR, "Far",2, 54);
+        addSong(Material.MUSIC_DISC_FAR, "Far",2, 54, 5);
 
-        addSong(Material.MUSIC_DISC_MALL, "Mall",3, 17);
+        addSong(Material.MUSIC_DISC_MALL, "Mall",3, 17, 6);
 
-        addSong(Material.MUSIC_DISC_MELLOHI, "Mellohi",1, 36);
+        addSong(Material.MUSIC_DISC_MELLOHI, "Mellohi",1, 36, 7);
 
-        addSong(Material.MUSIC_DISC_STAL, "Stal",2, 30);
+        addSong(Material.MUSIC_DISC_STAL, "Stal",2, 30, 8);
 
-        addSong(Material.MUSIC_DISC_STRAD, "Strad",3, 8);
+        addSong(Material.MUSIC_DISC_STRAD, "Strad",3, 8, 9);
 
-        addSong(Material.MUSIC_DISC_WARD, "Ward",4, 11);
+        addSong(Material.MUSIC_DISC_WARD, "Ward",4, 11, 10);
 
-        addSong(Material.MUSIC_DISC_11, "11",1, 11);
+        addSong(Material.MUSIC_DISC_11, "11",1, 11, 11);
 
-        addSong(Material.MUSIC_DISC_WAIT, "Wait",3, 58);
+        addSong(Material.MUSIC_DISC_WAIT, "Wait",3, 58, 12);
 
         Material pigstep = Material.getMaterial("MUSIC_DISC_PIGSTEP");
         if (pigstep != null) {
-            addSong(pigstep, "Pigstep",2, 22);
+            addSong(pigstep, "Pigstep",2, 22, 13);
         }
 
     }

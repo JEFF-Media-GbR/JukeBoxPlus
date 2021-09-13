@@ -1,3 +1,6 @@
+## 2.4.2
+- Fixed exception creating console spam
+
 ## 2.4.1
 - Removed warnings for old, already removed jukeboxes
 
