@@ -309,6 +309,7 @@ public class JukeboxData {
         Collection<? extends Player> nearby = Bukkit.getOnlinePlayers();
         for(Player entity : nearby) {
             Player pn = entity;
+            if(!pn.getWorld().equals(getBlock().getWorld())) continue;
             if(record!=null) {
                 pn.stopSound(SongUtils.getSound(record), SoundCategory.RECORDS);
             }

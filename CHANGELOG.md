@@ -1,3 +1,6 @@
+## 2.4.3
+- Fixed songs being played in all worlds at the same coordinates
+
 ## 2.4.2
 - Fixed exception creating console spam
 
