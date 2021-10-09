@@ -1,3 +1,6 @@
+## 2.4.5
+- Fixed JukeBox files not being deleted sometimes when breaking a jukebox
+
 ## 2.4.4
 - Fixed discord-verification.html file not being generated
 

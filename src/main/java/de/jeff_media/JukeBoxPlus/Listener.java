@@ -1,5 +1,6 @@
 package de.jeff_media.JukeBoxPlus;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Jukebox;
@@ -147,6 +148,8 @@ public class Listener implements org.bukkit.event.Listener {
         jd.stopJukebox(jb,true);
         jd.destroy(e.getBlock());
         main.jukeboxes.remove(e.getBlock());
+
+        Bukkit.getScheduler().runTaskAsynchronously(main, () -> jd.file.delete());
 
         /*Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {
             jd.stopJukebox(jb,true);
