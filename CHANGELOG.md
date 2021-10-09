@@ -1,3 +1,6 @@
+## 2.4.6
+- Fixed possible NPE
+
 ## 2.4.5
 - Fixed JukeBox files not being deleted sometimes when breaking a jukebox
 

@@ -149,7 +149,11 @@ public class Listener implements org.bukkit.event.Listener {
         jd.destroy(e.getBlock());
         main.jukeboxes.remove(e.getBlock());
 
-        Bukkit.getScheduler().runTaskAsynchronously(main, () -> jd.file.delete());
+        Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
+            if(jd.file != null && jd.file.exists()) {
+                jd.file.delete();
+            }
+        });
 
         /*Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {
             jd.stopJukebox(jb,true);
