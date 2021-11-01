@@ -3,6 +3,10 @@
         <jar in="${project.artifactId}.jar" out="${project.artifactId}.jar"/>
     </input>
 
+    <classpath>
+        <jar name="C:\Users\mfnal\.m2\repository\org\spigotmc\spigot\1.17.1-R0.1-SNAPSHOT\spigot-1.17.1-R0.1-SNAPSHOT.jar" />
+    </classpath>
+
     <!--<keep-names>
         <class template="class *" />
         <method template="@org.bukkit.event.EventHandler *(**)" />

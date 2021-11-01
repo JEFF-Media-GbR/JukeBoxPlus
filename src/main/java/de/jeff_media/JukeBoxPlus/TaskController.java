@@ -38,6 +38,11 @@ public class TaskController {
                 if(!(block.getState() instanceof Jukebox)) {
                     main.debug("Destroying JukeboxData and dropping discs, Block "+block.getLocation().toString()+" is no longer a Jukebox");
                     jd.destroy(block);
+                    Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
+                                if (jd.file != null && jd.file.exists()) {
+                                    jd.file.delete();
+                                }
+                            });
                     iterator.remove();
                     continue;
                 }

@@ -183,7 +183,7 @@ public class Main extends JavaPlugin {
                 JukeboxData jbData = new JukeboxData(file,this);
                 jukeboxes.put(jbData.getBlock(), jbData);
             } catch (JukeboxData.WorldNotFoundException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
             //file.delete();
         }

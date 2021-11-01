@@ -20,9 +20,6 @@ public class DebugCommand extends BaseCommand {
     @Subcommand("modeldata")
     @CommandPermission("jukebox.modeldata")
     public static void addModelData(Player player, String[] args) {
-
-
-
         ItemStack item = player.getInventory().getItemInMainHand();
         if(item != null && !item.getType().isAir()) {
             ItemMeta meta = item.getItemMeta();

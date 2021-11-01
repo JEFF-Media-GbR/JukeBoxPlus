@@ -1,3 +1,9 @@
+## 2.4.8
+- Chunks containing jukeboxes no longer need to be kept loaded
+
+## 2.4.7
+- Automatically removes old leftover Jukebox files once their chunk gets loaded
+
 ## 2.4.6
 - Fixed possible NPE
 

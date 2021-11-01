@@ -67,7 +67,7 @@ public class JukeboxData {
         this.file = file;
         World worldByUUID = main.getServer().getWorld(world);
         if(worldByUUID==null) {
-            main.getLogger().warning("World with uuid "+world.toString()+" not found. Did you generate it? To restore jukeboxes, type /jukebox admin restore <worldname>");
+            /*main.getLogger().warning("World with uuid "+world.toString()+" not found. Did you generate it? To restore jukeboxes, type /jukebox admin restore <worldname>");*/
             throw new WorldNotFoundException();
         }
         loadRecords();
@@ -89,7 +89,8 @@ public class JukeboxData {
                 toggleShuffle();
             }
         }
-        Bukkit.getWorld(world).getBlockAt(x,y,z).getChunk().addPluginChunkTicket(main);
+        // TODO: Don't keep chunks loaded
+        //Bukkit.getWorld(world).getBlockAt(x,y,z).getChunk().addPluginChunkTicket(main);
         //file.delete();
     }
 
