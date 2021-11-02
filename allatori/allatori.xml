@@ -17,6 +17,7 @@
     <keep-names>
         <class access="private+"/>
         <method template="public static getHandlerList(**)" />
+        <method access="public"/>
         <!--<method template="@org.bukkit.event.EventHandler *(**)" />-->
 
     </keep-names>

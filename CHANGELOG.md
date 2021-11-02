@@ -1,3 +1,7 @@
+## 2.4.9
+- Fixed "/jukebox reload" throwing an exception
+- Fixed exception when using both JukeboxPlus and AutoShulker
+
 ## 2.4.8
 - Chunks containing jukeboxes no longer need to be kept loaded
 

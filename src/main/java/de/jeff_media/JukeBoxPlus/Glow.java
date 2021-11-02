@@ -34,7 +34,7 @@ public class Glow extends Enchantment {
 
     @Override
     public String getName() {
-        return "Glow";
+        return "JukeboxPlus";
     }
 
     @Override
