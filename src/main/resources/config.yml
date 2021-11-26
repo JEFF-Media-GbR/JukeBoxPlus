@@ -196,6 +196,19 @@ message-choose-record-first: "Choose a record first."
 #message-radius: "&6Radius"
 #message-choose-record-first: "Choose a record first."
 
+##### Swedish
+#message-added-disc: "Lade till {NAME} i denna Jukebox"
+#message-already-added: "Denna Jukebox innehåller redan {NAME}."
+#message-enabled: "&aAktiverad"
+#message-disabled: "&cavaktiverad"
+#message-loop: "&6Repetera"
+#message-shuffle: "&6Mixa"
+#message-autostart: "&6Autostart"
+#message-now-playing: "&aNu spelar {NAME}."
+#message-stop: "&6Sluta"
+#message-radius: "&6Radius"
+#message-choose-record-first: "Välj en skiva först."
+
 ##### Turkish
 #message-added-disc: "{NAME} isimli disk müzik kutusuna eklendi."
 #message-already-added: "Bu müzik kutusu zaten {NAME} isimli diski içeriyor."
