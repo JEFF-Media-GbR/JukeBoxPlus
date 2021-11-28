@@ -6,7 +6,7 @@
 
     <groupId>de.jeff_media</groupId>
     <artifactId>JukeBoxPlus</artifactId>
-    <version>2.4.9</version>
+    <version>3.0.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -157,10 +157,6 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>jeff-media-gbr</id>
-            <url>https://repo.jeff-media.de/maven2</url>
-        </repository>
-        <repository>
             <id>CodeMC</id>
             <url>https://repo.codemc.org/repository/maven-public</url>
         </repository>
@@ -180,7 +176,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.16.1-R0.1-SNAPSHOT</version>
+            <version>1.18-rc3-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.18-rc3-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!--<dependency>
@@ -226,13 +228,6 @@
             <systemPath>${project.basedir}/allatori/allatori-annotations.jar</systemPath>
         </dependency>
     </dependencies>
-
-    <distributionManagement>
-        <repository>
-            <id>jeff-ftp</id>
-            <url>ftps://ftp.jeff-media.de/maven2</url>
-        </repository>
-    </distributionManagement>
 
 
 </project>

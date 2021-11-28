@@ -107,7 +107,9 @@ public class Main extends JavaPlugin {
 
         new ParticleManager();
 
+        reloadConfig();
         createConfig();
+        initUpdateChecker();
         ConfigUpdater.updateConfig(this);
         jukeboxes = new HashMap<>();
         msg = new Messages(this);
