@@ -90,7 +90,7 @@ public class JukeboxData {
             }
         }
         // TODO: Don't keep chunks loaded
-        //Bukkit.getWorld(world).getBlockAt(x,y,z).getChunk().addPluginChunkTicket(main);
+        Bukkit.getWorld(world).getBlockAt(x,y,z).getChunk().addPluginChunkTicket(main);
         //file.delete();
     }
 
@@ -351,8 +351,12 @@ public class JukeboxData {
         if(record!=null) {
             for (Entity entity : nearbyEntities) {
                 //main.debug("Stopping " + record + " for player " + entity.getName());
-                if (entity instanceof Player)
-                    ((Player) entity).stopSound(SongUtils.getSound(record), SoundCategory.RECORDS);
+                if (entity instanceof Player) {
+                    String sound = SongUtils.getSound(record);
+                    if(sound != null) {
+                        ((Player) entity).stopSound(sound, SoundCategory.RECORDS);
+                    }
+                }
             }
         }
 

@@ -1,3 +1,6 @@
+## 3.0.1
+- Fixed exception
+
 ## 2.4.9
 - Fixed "/jukebox reload" throwing an exception
 - Fixed exception when using both JukeboxPlus and AutoShulker
