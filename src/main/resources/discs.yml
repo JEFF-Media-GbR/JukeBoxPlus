@@ -40,3 +40,6 @@ wait:
 ward:
   duration: 0
   name: "Ward"
+otherside:
+  duration: 0
+  name: "Otherside"

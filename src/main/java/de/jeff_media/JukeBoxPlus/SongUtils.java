@@ -62,6 +62,10 @@ public class SongUtils {
             addSong(pigstep, "Pigstep",2, 22, 13);
         }
 
+        Material otherside = Material.getMaterial("MUSIC_DISC_OTHERSIDE");
+        if(otherside != null) {
+            addSong(otherside, "Otherside",3,15,14);
+        }
     }
 
     public String getName(ItemStack itemStack) {
