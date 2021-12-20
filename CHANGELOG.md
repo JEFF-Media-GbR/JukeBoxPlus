@@ -1,3 +1,6 @@
+## 3.0.3
+- Fixed "Sound of Music" advancement not working
+
 ## 3.0.2
 - Fixed "otherside" not working properly
 

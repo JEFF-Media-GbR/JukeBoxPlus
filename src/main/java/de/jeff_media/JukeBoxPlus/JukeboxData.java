@@ -3,6 +3,9 @@ package de.jeff_media.JukeBoxPlus;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
+import org.bukkit.advancement.Advancement;
+import org.bukkit.advancement.AdvancementProgress;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.Jukebox;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -105,6 +108,7 @@ public class JukeboxData {
     }
 
     boolean addRecord(ItemStack is, Player p) {
+        tryAdvancement(p);
         main.debug("Trying to add music disc to jukebox...");
         boolean duplicate = false;
         for(ItemStack contained : records) {
@@ -133,6 +137,25 @@ public class JukeboxData {
         main.utils.updateInventoryViews("Record added");
         saveAsync();
         return true;
+    }
+
+    private void tryAdvancement(Player p) {
+        if(!getBlock().getBiome().getKey().getKey().equalsIgnoreCase("MEADOW")) {
+            //System.out.println("Not a meadow");
+            return;
+        }
+        Iterator<Advancement> it = Bukkit.advancementIterator();
+        while(it.hasNext()) {
+            Advancement ad = it.next();
+            if(!ad.getKey().getKey().equals("adventure/play_jukebox_in_meadows")) continue;
+            //System.out.println("found meadow advancement");
+            AdvancementProgress progress = p.getAdvancementProgress(ad);
+            for(String crit : progress.getRemainingCriteria()) {
+                progress.awardCriteria(crit);
+                //System.out.println("awarded crit");
+            }
+        }
+
     }
 
     Block getBlock() {
