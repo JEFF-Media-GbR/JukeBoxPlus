@@ -3,6 +3,7 @@ package de.jeff_media.JukeBoxPlus.listeners;
 import de.jeff_media.JukeBoxPlus.Config;
 import de.jeff_media.JukeBoxPlus.JukeboxData;
 import de.jeff_media.JukeBoxPlus.Main;
+import net.minecraft.util.profiling.jfr.event.WorldLoadFinishedEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -11,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.world.WorldLoadEvent;
 
 import java.util.Map;
 
@@ -42,5 +44,11 @@ public class JoinListener implements Listener {
                 jd.play(block.getLocation(), player);
             }
         }, 5L);
+    }
+
+    @EventHandler
+    public void onWorldLoad(WorldLoadEvent event) {
+        //System.out.println("WorldLoadEvent: " + event.getWorld().getName());
+        Bukkit.getScheduler().runTaskAsynchronously(main, () -> main.loadJukeboxes(event.getWorld()));
     }
 }

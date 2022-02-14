@@ -1,3 +1,9 @@
+## 3.2.1
+- Removed console warning when trying to load jukeboxes from deleted worlds
+
+## 3.1.0
+- Improved Discord Verification
+
 ## 3.0.3
 - Fixed "Sound of Music" advancement not working
 

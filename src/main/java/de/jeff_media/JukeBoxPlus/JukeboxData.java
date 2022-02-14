@@ -50,6 +50,10 @@ public class JukeboxData {
         this(block.getWorld().getUID(),block.getX(),block.getY(), block.getZ(), main);
     }
 
+    public UUID getWorld() {
+        return world;
+    }
+
     JukeboxData(File file, Main main) throws WorldNotFoundException {
         this.main=main;
         main.debug("LOADING JB " + file.getName());
@@ -93,7 +97,9 @@ public class JukeboxData {
             }
         }
         // TODO: Don't keep chunks loaded
-        Bukkit.getWorld(world).getBlockAt(x,y,z).getChunk().addPluginChunkTicket(main);
+        Bukkit.getScheduler().runTask(main, () -> {
+                    Bukkit.getWorld(world).getBlockAt(x, y, z).getChunk().addPluginChunkTicket(main);
+                });
         //file.delete();
     }
 

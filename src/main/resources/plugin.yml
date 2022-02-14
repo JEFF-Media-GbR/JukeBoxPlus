@@ -6,3 +6,4 @@ author: mfnalex
 #website: https://www.chestsort.de
 softdepend:
   - Multiverse-Core
+  - BentoBox

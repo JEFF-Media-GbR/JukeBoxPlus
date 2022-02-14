@@ -9,6 +9,7 @@ import de.jeff_media.updatechecker.UpdateChecker;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.boss.BossBar;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -129,7 +130,7 @@ public class Main extends JavaPlugin {
         initUpdateChecker();
         Metrics metrics = new Metrics(this,BSTATS_ID);
 
-        loadJukeboxes();
+        loadJukeboxes(null);
 
         PaperCommandManager commandManager = new PaperCommandManager(this);
         commandManager.registerCommand(new DebugCommand());
@@ -178,15 +179,22 @@ public class Main extends JavaPlugin {
         return new File(getDataFolder()+File.separator+name);
     }
 
-    public void loadJukeboxes() {
+    public void loadJukeboxes(World world) {
+        //System.out.println("Loading Jukeboxes in World " + world);
         File jukeboxesDir = new File(getDataFolder() + File.separator + "jukeboxes");
         for (File file : jukeboxesDir.listFiles()) {
-            try {
-                JukeboxData jbData = new JukeboxData(file,this);
-                jukeboxes.put(jbData.getBlock(), jbData);
-            } catch (JukeboxData.WorldNotFoundException e) {
-                //e.printStackTrace();
-            }
+            Bukkit.getScheduler().runTask(this, () -> {
+                        try {
+                            JukeboxData jbData = new JukeboxData(file, this);
+                            //System.out.println("  Loading JB - Saved UUID: " + jbData.getWorld());
+                            if (world == null || jbData.getWorld().equals(world.getUID())) {
+                                //System.out.println("Loaded Jukebox at " + jbData.getBlock());
+                                jukeboxes.put(jbData.getBlock(), jbData);
+                            }
+                        } catch (JukeboxData.WorldNotFoundException e) {
+                            //e.printStackTrace();
+                        }
+                    });
             //file.delete();
         }
     }
