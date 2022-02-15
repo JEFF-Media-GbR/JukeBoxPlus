@@ -1,3 +1,6 @@
+## 3.2.2
+- Fixed exceptions when you remove a custom song while still having it added to some jukeboxes
+
 ## 3.2.1
 - Removed console warning when trying to load jukeboxes from deleted worlds
 

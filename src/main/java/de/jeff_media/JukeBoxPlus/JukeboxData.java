@@ -341,7 +341,10 @@ public class JukeboxData {
             Player pn = entity;
             if(!pn.getWorld().equals(getBlock().getWorld())) continue;
             if(record!=null) {
-                pn.stopSound(SongUtils.getSound(record), SoundCategory.RECORDS);
+                String sound = SongUtils.getSound(record);
+                if(sound != null) {
+                    pn.stopSound(sound, SoundCategory.RECORDS);
+                }
             }
             String sound = SongUtils.getSound(itemStack);
             pn.playSound(getBlock().getLocation(),sound,SoundCategory.RECORDS,((float) radius)/16,1);
