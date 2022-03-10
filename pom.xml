@@ -6,7 +6,7 @@
 
     <groupId>de.jeff_media</groupId>
     <artifactId>JukeBoxPlus</artifactId>
-    <version>3.2.2</version>
+    <version>3.2.3</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -141,14 +141,6 @@
             </plugin>
 
         </plugins>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ftp</artifactId>
-                <version>3.4.1</version>
-            </extension>
-        </extensions>
-
     </build>
 
     <repositories>
@@ -174,7 +166,7 @@
         <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>Stepsister</artifactId>
-            <version>10.0.0</version>
+            <version>11.0.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

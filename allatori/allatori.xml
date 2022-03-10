@@ -15,20 +15,25 @@
         </class>
     </keep-names>-->
     <keep-names>
-        <class access="private+"/>
+        <!--<class access="private+"/>-->
         <method template="public static getHandlerList(**)" />
-        <method access="public"/>
+        <method template="@java.lang.Override *(**)"/>
+        <class template="class de.jeff_media.JukeBoxPlus.Main"/>
         <!--<method template="@org.bukkit.event.EventHandler *(**)" />-->
 
     </keep-names>
 
     <property name="log-file" value="log.xml"/>
 
-    <property name="packages-naming" value="keep"/>
+    <property name="default-package" value="de.jeff_media.JukeBoxPlus"/>
+    <property name="force-default-package" value="enable"/>
 
+    <property name="methods-naming" value="keywords"/>
+    <property name="fields-naming" value="keywords"/>
+    <property name="classes-naming" value="windows"/>
     <property name="extensive-flow-obfuscation" value="maximum"/>
     <property name="generics" value="keep"/>
-    <property name="line-numbers" value="keep"/> <!-- For Debugging: keep -->
+    <property name="line-numbers" value="obfuscate"/> <!-- For Debugging: keep -->
     <property name="inner-classes" value="remove"/>
     <property name="synthetize-methods" value="disable"/>
     <property name="synthetize-fields" value="disable"/>
@@ -43,6 +48,6 @@
         <class template="class **.config.ConfigUpdater" />
         <class template="class de.jeff_media.JukeBoxPlus.acf.**" />
         <class template="class de.jeff_media.JukeBoxPlus.locales.**" />
-        <class template="class de.jeff_media.JukeBoxPlus.daddy.**" />
+        <!--<class template="class de.jeff_media.JukeBoxPlus.daddy.**" />-->
     </ignore-classes>
 </config>

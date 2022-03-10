@@ -1,3 +1,7 @@
+## 3.2.3
+- Full 1.18.2 support
+- Fixed rare exception
+
 ## 3.2.2
 - Fixed exceptions when you remove a custom song while still having it added to some jukeboxes
 

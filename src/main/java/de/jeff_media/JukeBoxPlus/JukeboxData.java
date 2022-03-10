@@ -286,6 +286,7 @@ public class JukeboxData {
     void destroy(Block block) {
         closeAllInventoryViews();
         for(ItemStack itemStack : records) {
+            if(itemStack == null || itemStack.getAmount() == 0) continue;
             block.getWorld().dropItem(block.getLocation(),itemStack);
         }
     }
