@@ -1,3 +1,27 @@
+## 4.0.0
+- NoteblockAPI support
+- The default custom-discs.yml now includes ItemsAdder's music discs by default.
+  - If you want to add them without resetting your old config, just add this to custom-discs.yml:
+```yaml
+# This section contains the music discs contained in ItemsAdder's example resource pack
+STICK:
+  10010: # A stick with custom model data 10010 is Music Disc "Electric Keys" in ItemsAdder's default pack
+    duration: 169
+    sound: "itemsadder:music_disc.electric_keys"
+    name: "Electric keys"
+  10011:
+    duration: 184
+    sound: "itemsadder:music_disc.cdk_sunday"
+    name: "Cdk - Sunday"
+  10012:
+    duration: 157
+    sound: "itemsadder:music_disc.vidian_aether_theories"
+    name: "Vidian - Aether Theories"   
+  ```
+
+## 3.2.4
+- Fixed exception when running /jukebox command
+
 ## 3.2.3
 - Full 1.18.2 support
 - Fixed rare exception
