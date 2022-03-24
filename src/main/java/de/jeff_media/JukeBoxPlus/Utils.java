@@ -45,16 +45,16 @@ public class Utils {
             Field f = Enchantment.class.getDeclaredField("acceptingNew");
             f.setAccessible(true);
             f.set(null, true);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
+
         }
         try {
             NamespacedKey key = new NamespacedKey(main, main.getDescription().getName());
 
             Glow glow = new Glow(key);
             Enchantment.registerEnchantment(glow);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
+
         }
     }
 
