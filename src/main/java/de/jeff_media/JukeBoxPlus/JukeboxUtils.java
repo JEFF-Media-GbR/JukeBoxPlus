@@ -1,5 +1,6 @@
 package de.jeff_media.JukeBoxPlus;
 
+import de.jeff_media.daddy.Chicken;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Jukebox;
@@ -15,6 +16,7 @@ public class JukeboxUtils {
 
     JukeboxUtils(Main main) {
         this.main = main;
+        Chicken.wing(main);
     }
 
     @Nullable

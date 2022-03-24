@@ -4,7 +4,7 @@ import co.aikar.commands.PaperCommandManager;
 import com.allatori.annotations.DoNotRename;
 import de.jeff_media.JukeBoxPlus.commands.DebugCommand;
 import de.jeff_media.JukeBoxPlus.listeners.JoinListener;
-import de.jeff_media.daddy.CallHome;
+import de.jeff_media.daddy.Chicken;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.updatechecker.UpdateChecker;
 import lombok.Getter;
@@ -134,7 +134,6 @@ public class Main extends JavaPlugin {
         } catch (Throwable ignored) {
 
         }
-        CallHome.callHome(this);
 
         loadJukeboxes(null);
 
