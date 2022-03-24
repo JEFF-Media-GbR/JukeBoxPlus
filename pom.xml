@@ -6,7 +6,7 @@
 
     <groupId>de.jeff_media</groupId>
     <artifactId>JukeBoxPlus</artifactId>
-    <version>3.2.3</version>
+    <version>3.2.4</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -46,7 +46,12 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <finalName>JukeBoxPlus</finalName>
+                    <finalName>JukeBoxPlus-${project.version}</finalName>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.jeff_media.standalonepluginscreen.StandalonePluginScreen</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
             <plugin>
@@ -54,7 +59,12 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
                 <configuration>
+                    <minimizeJar>true</minimizeJar>
                     <relocations>
+                        <relocation>
+                            <pattern>com.jeff_media.stringencryption</pattern>
+                            <shadedPattern>de.jeff_media.JukeBoxPlus</shadedPattern>
+                        </relocation>
                         <relocation>
                             <pattern>org.bstats</pattern>
                             <!-- Replace this with your package! -->
@@ -77,6 +87,24 @@
                             <shadedPattern>de.jeff_media.JukeBoxPlus.updatechecker</shadedPattern>
                         </relocation>
                     </relocations>
+                    <filters>
+                        <filter>
+                            <artifact>com.jeff_media:StringEncryption</artifact>
+                            <excludeDefaults>false</excludeDefaults>
+                            <excludes>
+                                <exclude>**/StringEncryption.class</exclude>
+                            </excludes>
+                            <includes>
+                                <include>**/StringDecryption</include>
+                            </includes>
+                        </filter>
+                        <filter>
+                            <artifact>com.jeff_media:StandalonePluginScreen</artifact>
+                            <includes>
+                                <include>**</include>
+                            </includes>
+                        </filter>
+                    </filters>
                 </configuration>
                 <executions>
                     <execution>
@@ -166,20 +194,26 @@
         <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>Stepsister</artifactId>
-            <version>11.0.0</version>
+            <version>12.0.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.18-rc3-R0.1-SNAPSHOT</version>
+            <version>1.18.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.18-rc3-R0.1-SNAPSHOT</version>
+            <version>1.18.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jeff_media</groupId>
+            <artifactId>StringEncryption</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <!--<dependency>
             <groupId>org.apache.commons</groupId>
@@ -189,7 +223,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>19.0.0</version>
+            <version>23.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -207,7 +241,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.20</version>
+            <version>1.18.22</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -217,11 +251,22 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>allatori</groupId>
+            <groupId>com.jeff_media</groupId>
+            <artifactId>StandalonePluginScreen</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.allatori</groupId>
             <artifactId>allatori-annotations</artifactId>
-            <version>SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/allatori/allatori-annotations.jar</systemPath>
+            <version>8.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.xxmicloxx</groupId>
+            <artifactId>NoteBlockAPI</artifactId>
+            <version>1.9.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
