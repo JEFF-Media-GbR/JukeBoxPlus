@@ -218,9 +218,9 @@ message-choose-record-first: "Choose a record first."
 #message-shuffle: "&6Karıştır"
 #message-autostart: "&6Otomatik oynat"
 #message-now-playing: "&aŞimdi {NAME} çalıyor."
-#message-stop: "&6Stop"
-#message-radius: "&6Radius"
-#message-choose-record-first: "Choose a record first."
+#message-stop: "&6Durdur"
+#message-radius: "&6Mesafe"
+#message-choose-record-first: "Lütfen ilk olarak bir müzik seçin.
 
 ###############
 #### Done! ####
