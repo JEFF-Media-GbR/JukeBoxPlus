@@ -1,10 +1,12 @@
 package de.jeff_media.JukeBoxPlus;
 
+import com.jeff_media.jefflib.internal.glowenchantment.GlowEnchantmentFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Jukebox;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -71,7 +73,7 @@ public class JukeboxGUI implements InventoryHolder {
     void makeItShine(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         NamespacedKey key = new NamespacedKey(main, main.getDescription().getName());
-        Glow glow = new Glow(key);
+        Enchantment glow = GlowEnchantmentFactory.getInstance();
         meta.addEnchant(glow, 1, true);
         item.setItemMeta(meta);
     }
@@ -176,7 +178,7 @@ public class JukeboxGUI implements InventoryHolder {
             if (RecordUtils.itemStackEquals(record,jd.record)) {
                 makeItShine(disc);
             } else {
-                disc.removeEnchantment(new Glow(new NamespacedKey(main,main.getDescription().getName())));
+                disc.removeEnchantment(GlowEnchantmentFactory.getInstance());
             }
             inv.addItem(new ItemStack(disc));
         }

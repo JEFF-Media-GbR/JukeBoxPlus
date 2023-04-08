@@ -99,7 +99,7 @@ gui-title: "§4§l[§c§lJukeboxPlus§4§l]"
 # When set to false, don't check for updates
 check-for-updates: true
 
-# When check-for-updates is true, AngelChest will check every X hours
+# When check-for-updates is true, JukeboxPlus will check every X hours
 check-for-updates-interval: 4
 
 ##################

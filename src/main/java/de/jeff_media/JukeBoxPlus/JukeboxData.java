@@ -1,5 +1,6 @@
 package de.jeff_media.JukeBoxPlus;
 
+import com.jeff_media.jefflib.internal.glowenchantment.GlowEnchantmentFactory;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -255,7 +256,7 @@ public class JukeboxData {
         YamlConfiguration yaml = new YamlConfiguration();
         //yaml.set("records", recordsToStringList());
         for(ItemStack item : records) {
-            item.removeEnchantment(new Glow(new NamespacedKey(main,main.getDescription().getName())));
+            item.removeEnchantment(GlowEnchantmentFactory.getInstance());
         }
         yaml.set("records",records);
         //String recordName = record == null || record.getType() == Material.AIR ? "none" : record;
@@ -369,7 +370,7 @@ public class JukeboxData {
         if(record != null) {
             for(ItemStack item : records) {
                 if(RecordUtils.itemStackEquals(item, record)) {
-                    item.removeEnchantment(new Glow(new NamespacedKey(main, main.getDescription().getName())));
+                    item.removeEnchantment(GlowEnchantmentFactory.getInstance());
                 }
             }
         }
@@ -403,6 +404,7 @@ public class JukeboxData {
         if(reset) {
             record = null;
         }
+        //lastRecord = null;
         main.utils.updateInventoryViews("Stopped Jukebox");
     }
 

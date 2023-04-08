@@ -19,6 +19,15 @@ STICK:
     name: "Vidian - Aether Theories"   
   ```
 
+## 3.4.1
+- Fixed warning about async tasks
+- Added 1.19.4 support
+- Players no longer can skip / restart songs using left click when "use" or "interact" is disallowed in that region by WorldGuard, Towny, PlotSquared, Factions, Lands, etc.
+  - Only works on Java 17+ because ProtectionLib insists on using Java 17 
+
+## 3.3.1
+- Added music disc 5
+
 ## 3.2.4
 - Fixed exception when running /jukebox command
 

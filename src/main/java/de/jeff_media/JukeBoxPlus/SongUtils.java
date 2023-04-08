@@ -66,6 +66,11 @@ public class SongUtils {
         if(otherside != null) {
             addSong(otherside, "Otherside",3,15,14);
         }
+
+        Material five = Material.getMaterial("MUSIC_DISC_5");
+        if(five != null) {
+            addSong(five, "5",2,58,15);
+        }
     }
 
     public String getName(ItemStack itemStack) {

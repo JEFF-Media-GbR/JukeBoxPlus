@@ -7,3 +7,9 @@ author: mfnalex
 softdepend:
   - Multiverse-Core
   - BentoBox
+  - WorldGuard
+  - Towny
+  - Factions
+  - Lands
+  - PlotSquared
+  - CrashClaim

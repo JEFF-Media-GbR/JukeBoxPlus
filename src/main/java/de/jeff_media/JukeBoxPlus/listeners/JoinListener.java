@@ -3,7 +3,6 @@ package de.jeff_media.JukeBoxPlus.listeners;
 import de.jeff_media.JukeBoxPlus.Config;
 import de.jeff_media.JukeBoxPlus.JukeboxData;
 import de.jeff_media.JukeBoxPlus.Main;
-import net.minecraft.util.profiling.jfr.event.WorldLoadFinishedEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;

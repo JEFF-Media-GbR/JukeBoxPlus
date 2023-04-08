@@ -1,5 +1,6 @@
 package de.jeff_media.JukeBoxPlus;
 
+import com.jeff_media.jefflib.internal.glowenchantment.GlowEnchantmentFactory;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -13,8 +14,8 @@ public class RecordUtils {
 
     public static boolean itemStackEquals(ItemStack item1, ItemStack item2) {
         //System.out.println("Checking Equals: " + item1 + ", " + item2);
-        if(item1 == null) //System.out.println("Item1 == null");
-        if(item2 == null) //System.out.println("Item2 == null");
+        //if(item1 == null) //System.out.println("Item1 == null");
+        //if(item2 == null) //System.out.println("Item2 == null");
         if(item1 == null && item2 != null) {
             //System.out.println("No: 1");
             return false;
@@ -32,8 +33,8 @@ public class RecordUtils {
         item2 = item2.clone();
         item1 = getDiscItem(item1);
         item2 = getDiscItem(item2);
-        item1.removeEnchantment(new Glow(new NamespacedKey(Main.getInstance(),Main.getInstance().getDescription().getName())));
-        item2.removeEnchantment(new Glow(new NamespacedKey(Main.getInstance(),Main.getInstance().getDescription().getName())));
+        item1.removeEnchantment(GlowEnchantmentFactory.getInstance());
+        item2.removeEnchantment(GlowEnchantmentFactory.getInstance());
         if(item1.equals(item2)) {
             //System.out.println("Yes!");
             return true;

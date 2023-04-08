@@ -6,7 +6,7 @@
 
     <groupId>de.jeff_media</groupId>
     <artifactId>JukeBoxPlus</artifactId>
-    <version>3.3.0</version>
+    <version>3.4.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -57,7 +57,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.3.0</version>
                 <configuration>
                     <minimizeJar>true</minimizeJar>
                     <relocations>
@@ -85,6 +85,14 @@
                         <relocation>
                             <pattern>de.jeff_media.updatechecker</pattern>
                             <shadedPattern>de.jeff_media.JukeBoxPlus.updatechecker</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>io.th0rgal.protectionlib</pattern>
+                            <shadedPattern>de.jeff_media.JukeBoxPlus.protectionlib</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.jeff_media.jefflib</pattern>
+                            <shadedPattern>de.jeff_media.JukeBoxPlus.jefflib</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>
@@ -162,7 +170,7 @@
                         <argument>-Xms128m</argument>
                         <argument>-Xmx512m</argument>
                         <argument>-jar</argument>
-                        <argument>${basedir}/allatori/allatori.jar</argument>
+                        <argument>${settings.localRepository}/com/allatori/allatori/8.5/allatori-8.5.jar</argument>
                         <argument>${basedir}/target/allatori.xml</argument>
                     </arguments>
                 </configuration>
@@ -188,33 +196,49 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>minecraft-repo</id>
+            <url>https://libraries.minecraft.net/</url>
+        </repository>
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>de.jeff_media</groupId>
+            <groupId>com.jeff_media</groupId>
             <artifactId>Stepsister</artifactId>
-            <version>12.0.0</version>
+            <version>14</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.18.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.18.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.jeff_media</groupId>
-            <artifactId>StringEncryption</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <artifactId>JeffLib</artifactId>
+            <version>12.3.1</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.mojang</groupId>
+            <artifactId>authlib</artifactId>
+            <version>1.5.25</version>
+            <scope>provided</scope>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.spigotmc</groupId>-->
+<!--            <artifactId>spigot</artifactId>-->
+<!--            <version>1.19.4-R0.1-SNAPSHOT</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.19.4-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.jeff_media</groupId>-->
+<!--            <artifactId>StringEncryption</artifactId>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
         <!--<dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
@@ -267,6 +291,12 @@
             <artifactId>NoteBlockAPI</artifactId>
             <version>1.9.0</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.oraxen</groupId>
+            <artifactId>protectionlib</artifactId>
+            <version>1.2.7</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

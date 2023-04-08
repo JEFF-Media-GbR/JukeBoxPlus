@@ -1,13 +1,19 @@
 package de.jeff_media.JukeBoxPlus;
 
+import com.jeff_media.jefflib.internal.glowenchantment.GlowEnchantmentFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -51,7 +57,7 @@ public class Utils {
         try {
             NamespacedKey key = new NamespacedKey(main, main.getDescription().getName());
 
-            Glow glow = new Glow(key);
+            Enchantment glow = GlowEnchantmentFactory.getInstance();
             Enchantment.registerEnchantment(glow);
         } catch (Exception ignored) {
 

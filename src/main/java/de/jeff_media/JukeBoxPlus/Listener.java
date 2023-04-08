@@ -67,6 +67,11 @@ public class Listener implements org.bukkit.event.Listener {
                 return;
             }
 
+            if(!ProtectionLibWrapper.canUse(p, e.getClickedBlock())) {
+                main.debug("Ignoring Left-Click because player can't interact with block");
+                return;
+            }
+
             // Shuffle: Next random song
             // Loop: Restart song
             // Normal: Next song

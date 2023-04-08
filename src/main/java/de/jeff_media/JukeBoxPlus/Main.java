@@ -2,11 +2,12 @@ package de.jeff_media.JukeBoxPlus;
 
 import co.aikar.commands.PaperCommandManager;
 import com.allatori.annotations.DoNotRename;
+import com.jeff_media.jefflib.JeffLib;
 import de.jeff_media.JukeBoxPlus.commands.DebugCommand;
 import de.jeff_media.JukeBoxPlus.listeners.JoinListener;
-import de.jeff_media.daddy.Chicken;
-import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.daddy.Daddy_Stepsister;
 import de.jeff_media.updatechecker.UpdateChecker;
+import io.th0rgal.protectionlib.ProtectionLib;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -24,6 +25,12 @@ import java.util.UUID;
 public class Main extends JavaPlugin {
 
     private static Main instance;
+
+    {
+        try {
+            JeffLib.init(this);
+        } catch (Throwable ignored) { }
+    }
 
     // TODO Allow some Jukeboxes with extra permission to autoloop on server start (for spawn etc)
 
@@ -68,13 +75,19 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable( ) {
+        try {
+            ProtectionLib.init(this);
+        } catch (Throwable ignored) { }
+
         onEnable(false);
     }
 
     public void onEnable(boolean reload) {
 
-        Stepsister.init(this);
-        Stepsister.createVerificationFile();
+        Daddy_Stepsister.init(this);
+        if(Daddy_Stepsister.allows(null)) {
+            Daddy_Stepsister.createVerificationFile();
+        }
 
         instance = this;
         CustomSong.init();

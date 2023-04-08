@@ -1,9 +1,9 @@
 package de.jeff_media.JukeBoxPlus;
 
-import de.jeff_media.daddy.Chicken;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Jukebox;
+import org.bukkit.entity.Chicken;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,7 +16,6 @@ public class JukeboxUtils {
 
     JukeboxUtils(Main main) {
         this.main = main;
-        Chicken.wing(main);
     }
 
     @Nullable

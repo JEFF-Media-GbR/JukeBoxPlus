@@ -1,5 +1,6 @@
 package de.jeff_media.JukeBoxPlus;
 
+import com.jeff_media.jefflib.internal.glowenchantment.GlowEnchantmentFactory;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Jukebox;
 import org.bukkit.entity.HumanEntity;
@@ -82,7 +83,7 @@ public class JukeboxGUIListener implements Listener {
             boolean remove = e.isRightClick();
 
             if (remove) {
-                clicked.removeEnchantment(new Glow(new NamespacedKey(main,main.getDescription().getName())));
+                clicked.removeEnchantment(GlowEnchantmentFactory.getInstance());
                 //System.out.println(1);
                 //System.out.println(clicked);
                 if (jd.record != null && RecordUtils.itemStackEquals(jd.record,clicked)) {
@@ -100,7 +101,7 @@ public class JukeboxGUIListener implements Listener {
                 }
                 //System.out.println(5);
                 ItemStack clone = clicked.clone();
-                clone.removeEnchantment(new Glow(new NamespacedKey(main,main.getDescription().getName())));
+                clone.removeEnchantment(GlowEnchantmentFactory.getInstance());
                 Iterator<ItemStack> iterator = jd.records.iterator();
                 while(iterator.hasNext()) {
                     //System.out.println(6);
