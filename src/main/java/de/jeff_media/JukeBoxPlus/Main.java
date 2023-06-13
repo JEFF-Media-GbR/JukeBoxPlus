@@ -84,9 +84,13 @@ public class Main extends JavaPlugin {
 
     public void onEnable(boolean reload) {
 
-        Daddy_Stepsister.init(this);
-        if(Daddy_Stepsister.allows(null)) {
-            Daddy_Stepsister.createVerificationFile();
+        try {
+            Daddy_Stepsister.init(this);
+            if (Daddy_Stepsister.allows(null)) {
+                Daddy_Stepsister.createVerificationFile();
+            }
+        } catch (Throwable ignored) {
+            // ignored
         }
 
         instance = this;
