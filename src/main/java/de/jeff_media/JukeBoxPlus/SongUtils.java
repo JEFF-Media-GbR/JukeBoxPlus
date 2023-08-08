@@ -71,6 +71,11 @@ public class SongUtils {
         if(five != null) {
             addSong(five, "5",2,58,15);
         }
+
+        Material relic = Material.getMaterial("MUSIC_DISC_RELIC");
+        if(relic != null) {
+            addSong(relic, "5",3,38,14);
+        }
     }
 
     public String getName(ItemStack itemStack) {
