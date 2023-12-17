@@ -25,7 +25,7 @@ public class Utils {
 
     Utils(Main main) {
         this.main = main;
-        registerGlow();
+        //registerGlow();
     }
 
     static Collection<Entity> getNearbyPlayers(Block block, int radius) {
@@ -46,23 +46,23 @@ public class Utils {
         return new File(main.getDataFolder() + File.separator + "jukeboxes" + File.separator + fileName);
     }
 
-    public void registerGlow() {
-        try {
-            Field f = Enchantment.class.getDeclaredField("acceptingNew");
-            f.setAccessible(true);
-            f.set(null, true);
-        } catch (Exception ignored) {
-
-        }
-        try {
-            NamespacedKey key = new NamespacedKey(main, main.getDescription().getName());
-
-            Enchantment glow = GlowEnchantmentFactory.getInstance();
-            Enchantment.registerEnchantment(glow);
-        } catch (Exception ignored) {
-
-        }
-    }
+//    public void registerGlow() {
+//        try {
+//            Field f = Enchantment.class.getDeclaredField("acceptingNew");
+//            f.setAccessible(true);
+//            f.set(null, true);
+//        } catch (Exception ignored) {
+//
+//        }
+//        try {
+//            NamespacedKey key = new NamespacedKey(main, main.getDescription().getName());
+//
+//            Enchantment glow = Enchantment.DURABILITY;
+//            Enchantment.registerEnchantment(glow);
+//        } catch (Exception ignored) {
+//
+//        }
+//    }
 
     void updateInventoryViews(String reason) {
         for(Player p : Bukkit.getOnlinePlayers()) {

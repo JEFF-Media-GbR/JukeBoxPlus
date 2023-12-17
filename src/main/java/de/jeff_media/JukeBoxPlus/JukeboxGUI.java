@@ -73,7 +73,7 @@ public class JukeboxGUI implements InventoryHolder {
     void makeItShine(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         NamespacedKey key = new NamespacedKey(main, main.getDescription().getName());
-        Enchantment glow = GlowEnchantmentFactory.getInstance();
+        Enchantment glow = Enchantment.DURABILITY;
         meta.addEnchant(glow, 1, true);
         item.setItemMeta(meta);
     }
@@ -178,7 +178,7 @@ public class JukeboxGUI implements InventoryHolder {
             if (RecordUtils.itemStackEquals(record,jd.record)) {
                 makeItShine(disc);
             } else {
-                disc.removeEnchantment(GlowEnchantmentFactory.getInstance());
+                disc.removeEnchantment(Enchantment.DURABILITY);
             }
             inv.addItem(new ItemStack(disc));
         }

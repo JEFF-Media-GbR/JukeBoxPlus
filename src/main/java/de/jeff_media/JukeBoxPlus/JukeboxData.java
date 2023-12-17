@@ -1,6 +1,8 @@
 package de.jeff_media.JukeBoxPlus;
 
 import com.jeff_media.jefflib.data.McVersion;
+//import com.jeff_media.jefflib.internal.glowenchantment.GlowEnchantmentFactory;
+
 import com.jeff_media.jefflib.internal.glowenchantment.GlowEnchantmentFactory;
 import de.jeff_media.JukeBoxPlus.version.Version1_19Utils;
 import net.md_5.bungee.api.ChatMessageType;
@@ -12,6 +14,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.Jukebox;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -258,7 +261,8 @@ public class JukeboxData {
         YamlConfiguration yaml = new YamlConfiguration();
         //yaml.set("records", recordsToStringList());
         for(ItemStack item : records) {
-            item.removeEnchantment(GlowEnchantmentFactory.getInstance());
+            //item.removeEnchantment(Enchantment.DURABILITY);
+            item.removeEnchantment(Enchantment.DURABILITY);
         }
         yaml.set("records",records);
         //String recordName = record == null || record.getType() == Material.AIR ? "none" : record;
@@ -379,7 +383,7 @@ public class JukeboxData {
         if(record != null) {
             for(ItemStack item : records) {
                 if(RecordUtils.itemStackEquals(item, record)) {
-                    item.removeEnchantment(GlowEnchantmentFactory.getInstance());
+                    item.removeEnchantment(/*Enchantment.DURABILITY*/ Enchantment.DURABILITY);
                 }
             }
         }
