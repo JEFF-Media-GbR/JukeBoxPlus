@@ -10,6 +10,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -75,6 +76,7 @@ public class JukeboxGUI implements InventoryHolder {
         NamespacedKey key = new NamespacedKey(main, main.getDescription().getName());
         Enchantment glow = Enchantment.DURABILITY;
         meta.addEnchant(glow, 1, true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
     }
 

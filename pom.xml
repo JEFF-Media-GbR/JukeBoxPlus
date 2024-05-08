@@ -6,7 +6,7 @@
 
     <groupId>de.jeff_media</groupId>
     <artifactId>JukeBoxPlus</artifactId>
-    <version>3.5.1</version>
+    <version>3.5.3</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -170,7 +170,7 @@
                         <argument>-Xms128m</argument>
                         <argument>-Xmx512m</argument>
                         <argument>-jar</argument>
-                        <argument>${settings.localRepository}/com/allatori/allatori/8.5/allatori-8.5.jar</argument>
+                        <argument>${settings.localRepository}/com/allatori/allatori/8.8/allatori-8.8.jar</argument>
                         <argument>${basedir}/target/allatori.xml</argument>
                     </arguments>
                 </configuration>
@@ -212,7 +212,7 @@
         <dependency>
             <groupId>com.jeff-media.jefflib</groupId>
             <artifactId>jefflib</artifactId>
-            <version>13.0.3</version>
+            <version>14.0.5</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -230,7 +230,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.19.3-R0.1-SNAPSHOT</version>
+            <version>1.20.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 <!--        <dependency>-->

@@ -1,6 +1,6 @@
 <config>
     <input>
-        <jar in="${project.artifactId}-${project.version}.jar" out="${project.artifactId}-${project.version}.jar"/>
+        <jar in="${project.artifactId}-${project.version}.jar" out="${project.artifactId}-${project.version}-obf.jar"/>
     </input>
 
     <classpath basedir="C:\Users\mfnal\.m2\repository">

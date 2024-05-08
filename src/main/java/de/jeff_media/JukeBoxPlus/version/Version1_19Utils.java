@@ -3,6 +3,7 @@ package de.jeff_media.JukeBoxPlus.version;
 import org.bukkit.Location;
 import org.bukkit.entity.Allay;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Parrot;
 
 import java.util.function.Predicate;
 
