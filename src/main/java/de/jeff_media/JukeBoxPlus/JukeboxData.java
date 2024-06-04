@@ -45,6 +45,7 @@ public class JukeboxData {
     File file;
     YamlConfiguration yaml;
     final Random random = new Random();
+    public int currentPage = 0;
 
     JukeboxData(Block block, Main main) {
         /*this.world = block.getWorld().getUID();

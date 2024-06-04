@@ -10,6 +10,8 @@ public class Messages {
 
     final String ENABLED, DISABLED, LOOP, SHUFFLE, AUTOSTART, STOP, RADIUS, CHOOSE_RECORD_FIRST;
 
+    final String NEXT_PAGE, PREVIOUS_PAGE;
+
     final Main main;
 
     Messages(Main main) {
@@ -26,6 +28,9 @@ public class Messages {
         STOP = getMsg(Config.MSG_STOP,"&6Stop");
         RADIUS = getMsg(Config.MSG_RADIUS,"&6Radius");
         CHOOSE_RECORD_FIRST = getMsg(Config.MSG_CHOOSE_RECORD_FIRST, "Choose a record first.");
+
+        NEXT_PAGE = getMsg(Config.MSG_NEXT_PAGE, "&6Next page");
+        PREVIOUS_PAGE = getMsg(Config.MSG_PREVIOUS_PAGE, "&6Previous page");
     }
 
     private String getMsg(String path, String defaultText) {

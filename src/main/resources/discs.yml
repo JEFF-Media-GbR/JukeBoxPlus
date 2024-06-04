@@ -46,3 +46,6 @@ otherside:
 5:
   duration: 0
   name: "5"
+relic:
+  duration: 0
+  name: "Relic"

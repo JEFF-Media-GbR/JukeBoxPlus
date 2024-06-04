@@ -1,8 +1,7 @@
 package de.jeff_media.JukeBoxPlus;
 
-import com.jeff_media.jefflib.internal.glowenchantment.GlowEnchantmentFactory;
+import com.jeff_media.jefflib.PDCUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Jukebox;
@@ -13,11 +12,14 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class JukeboxGUI implements InventoryHolder {
 
@@ -29,6 +31,14 @@ public class JukeboxGUI implements InventoryHolder {
 
     final ItemStack frame;
 
+    public static Set<Integer> DISC_SPACES = new HashSet<Integer>() {
+        {
+            add(1);
+            add(2);
+            add(3);
+        }
+    };
+
 
     JukeboxGUI(Jukebox jb, JukeboxData jd, Main main) {
         this.jb = jb;
@@ -39,7 +49,6 @@ public class JukeboxGUI implements InventoryHolder {
         meta.setDisplayName("§7");
         frame.setItemMeta(meta);
         this.inv = Bukkit.createInventory(this, 54, main.getConfig().getString("gui-title"));
-
     }
 
     void addFrame() {
@@ -47,14 +56,18 @@ public class JukeboxGUI implements InventoryHolder {
         drawLine(frame, 0);
         inv.setItem(1 * 9 + 0, frame);
         inv.setItem(1 * 9 + 8, frame);
+        //drawLine(frame, 1);
         inv.setItem(2 * 9 + 0, frame);
         inv.setItem(2 * 9 + 8, frame);
-        drawLine(frame, 3);
-        inv.setItem(4 * 9 + 0, frame);
-        inv.setItem(4 * 9 + 8, frame);
-        inv.setItem(4 * 9 + 0, frame);
-        inv.setItem(4 * 9 + 8, frame);
-        drawLine(frame, 5);
+        inv.setItem(3 * 9 + 0, frame);
+        inv.setItem(3 * 9 + 8, frame);
+        //drawLine(frame, 3);
+        drawLine(frame, 4);
+        inv.setItem(5 * 9 + 0, frame);
+        inv.setItem(5 * 9 + 8, frame);
+        inv.setItem(5 * 9 + 0, frame);
+        inv.setItem(5 * 9 + 8, frame);
+        //drawLine(frame, 5);
 
     }
 
@@ -68,7 +81,7 @@ public class JukeboxGUI implements InventoryHolder {
         meta.setDisplayName(main.msg.LOOP+": " + enabledString(jd.loop));
         button.setItemMeta(meta);
         if(jd.loop) makeItShine(button);
-        inv.setItem(4 * 9 + 1, button);
+        inv.setItem(ButtonSlot.LOOP, button);
     }
 
     void makeItShine(ItemStack item) {
@@ -89,7 +102,27 @@ public class JukeboxGUI implements InventoryHolder {
         meta.setDisplayName(main.msg.SHUFFLE+": " + enabledString(jd.shuffle));
         button.setItemMeta(meta);
         if(jd.shuffle) makeItShine(button);
-        inv.setItem(4 * 9 + 2, button);
+        inv.setItem(ButtonSlot.SHUFFLE, button);
+    }
+
+    void addNextPageButton(int currentPage) {
+        ItemStack button = HeadCreator.getHead(
+                main.getConfig().getString("button-next-page"));
+        ItemMeta meta = button.getItemMeta();
+        meta.setDisplayName(main.msg.NEXT_PAGE);
+        button.setItemMeta(meta);
+        PDCUtils.set(button, PDC.CURRENT_PAGE, PersistentDataType.INTEGER, currentPage);
+        inv.setItem(ButtonSlot.NEXT_PAGE, button);
+    }
+
+    void addPrevPageButton(int currentPage) {
+        ItemStack button = HeadCreator.getHead(
+                main.getConfig().getString("button-previous-page"));
+        ItemMeta meta = button.getItemMeta();
+        meta.setDisplayName(main.msg.PREVIOUS_PAGE);
+        button.setItemMeta(meta);
+        PDCUtils.set(button, PDC.CURRENT_PAGE, PersistentDataType.INTEGER, currentPage);
+        inv.setItem(ButtonSlot.PREVIOUS_PAGE, button);
     }
 
     void addAutostartButton() {
@@ -101,7 +134,7 @@ public class JukeboxGUI implements InventoryHolder {
         meta.setDisplayName(main.msg.AUTOSTART+": " + enabledString(jd.autostart));
         button.setItemMeta(meta);
         if(jd.autostart) makeItShine(button);
-        inv.setItem(4 * 9 + 3, button);
+        inv.setItem(ButtonSlot.AUTOSTART, button);
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
@@ -116,10 +149,10 @@ public class JukeboxGUI implements InventoryHolder {
         ItemMeta meta = button.getItemMeta();
         meta.setDisplayName(main.msg.STOP);
         button.setItemMeta(meta);
-        inv.setItem(4 * 9 + 7, button);
+        inv.setItem(ButtonSlot.STOP, button);
     }
 
-    private List<String> StringToList(String s) {
+    private List<String> stringToList(String s) {
         ArrayList<String> list = new ArrayList<>();
         list.add(s);
         return list;
@@ -129,18 +162,18 @@ public class JukeboxGUI implements InventoryHolder {
         ItemStack button = HeadCreator.getHead(main.getConfig().getString("button-radius-minus"));
         ItemMeta meta = button.getItemMeta();
         meta.setDisplayName(main.msg.RADIUS+" -");
-        meta.setLore(StringToList(main.msg.RADIUS+": "+jd.radius));
+        meta.setLore(stringToList(main.msg.RADIUS+": "+jd.radius));
         button.setItemMeta(meta);
-        inv.setItem(4*9+4,button);
+        inv.setItem(ButtonSlot.RADIUS_MINUS,button);
     }
 
     private void addRadiusPlusButton() {
         ItemStack button = HeadCreator.getHead(main.getConfig().getString("button-radius-plus"));
         ItemMeta meta = button.getItemMeta();
         meta.setDisplayName(main.msg.RADIUS+" +");
-        meta.setLore(StringToList(main.msg.RADIUS+": "+jd.radius));
+        meta.setLore(stringToList(main.msg.RADIUS+": "+jd.radius));
         button.setItemMeta(meta);
-        inv.setItem(4*9+5,button);
+        inv.setItem(ButtonSlot.RADIUS_PLUS,button);
     }
 
     void drawLine(ItemStack is, int line) {
@@ -167,23 +200,16 @@ public class JukeboxGUI implements InventoryHolder {
         });
     }
 
+//    void open(Player p) {
+//        open(p, 0);
+//    }
 
+    void open(Player p/*, int page*/) {
 
-    void open(Player p) {
+        int page = jd.currentPage;
         inv.clear();
 
         addFrame();
-
-        for (ItemStack record : Objects.requireNonNull(Objects.requireNonNull(jd, "jd is null").records, "jd.records is null")) {
-            ItemStack disc = RecordUtils.getDiscItem(record);
-
-            if (RecordUtils.itemStackEquals(record,jd.record)) {
-                makeItShine(disc);
-            } else {
-                disc.removeEnchantment(Enchantment.DURABILITY);
-            }
-            inv.addItem(new ItemStack(disc));
-        }
 
         addStopButton();
 
@@ -194,6 +220,52 @@ public class JukeboxGUI implements InventoryHolder {
             addRadiusMinusButton();
             addRadiusPlusButton();
         }
+
+
+        for(int line = 0; line <= 5; line++) {
+            if(DISC_SPACES.contains(line)) continue;
+
+            for(int column = 0; column <= 8; column++) {
+                if(inv.getItem(line*9+column)==null) {
+                    inv.setItem(line*9+column,frame);
+                }
+            }
+        }
+
+        if(page < 0) page = 0;
+        //if(page > getMaxPage()) page = getMaxPage();
+
+        int spacesPerPage = DISC_SPACES.size() * 7; // or 9
+
+        int startingIndex = page * spacesPerPage;
+        int checkedDiscs = 0;
+        boolean hasNextPage = false;
+
+        for (ItemStack record : Objects.requireNonNull(Objects.requireNonNull(jd, "jd is null").records, "jd.records is null")) {
+            if (checkedDiscs++ < startingIndex) {
+                continue;
+            }
+
+            ItemStack disc = RecordUtils.getDiscItem(record);
+
+            if (RecordUtils.itemStackEquals(record,jd.record)) {
+                makeItShine(disc);
+            } else {
+                disc.removeEnchantment(Enchantment.DURABILITY);
+            }
+            hasNextPage = !inv.addItem(new ItemStack(disc)).isEmpty();
+        }
+
+        if(page > 0) {
+            addPrevPageButton(page);
+        }
+        if(hasNextPage) {
+            addNextPageButton(page);
+        }
+
+        jd.currentPage = page;
+
+
         // TODO heads must not glow as it cannot be seen anyway
 
         if (p.getOpenInventory() == null || p.getOpenInventory().getTopInventory() != inv) {

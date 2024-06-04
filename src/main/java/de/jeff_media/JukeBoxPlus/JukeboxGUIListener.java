@@ -1,18 +1,16 @@
 package de.jeff_media.JukeBoxPlus;
 
-import com.jeff_media.jefflib.internal.glowenchantment.GlowEnchantmentFactory;
-import org.bukkit.NamespacedKey;
+import com.jeff_media.jefflib.PDCUtils;
+import org.bukkit.Material;
 import org.bukkit.block.Jukebox;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
-import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Iterator;
 
@@ -21,7 +19,7 @@ public class JukeboxGUIListener implements Listener {
     final Main main;
 
     JukeboxGUIListener(Main main) {
-        this.main=main;
+        this.main = main;
     }
 
     /*@EventHandler(priority = EventPriority.HIGHEST)
@@ -36,13 +34,13 @@ public class JukeboxGUIListener implements Listener {
 
     @EventHandler
     public void onJukeboxGUI(InventoryClickEvent e) {
-        EventDebugger.debug(e,main);
+        EventDebugger.debug(e, main);
 
         if (!(e.getWhoClicked() instanceof Player)) return;
 
         // Don't do anything if none of the inventories is a JukeboxGUI
-        if(!JukeboxGUI.isJukeboxGUI(e.getClickedInventory())
-            && !JukeboxGUI.isJukeboxGUI(e.getInventory())) {
+        if (!JukeboxGUI.isJukeboxGUI(e.getClickedInventory())
+                && !JukeboxGUI.isJukeboxGUI(e.getInventory())) {
             main.debug("None of those inventories is a JukeboxGUI");
             return;
         }
@@ -53,7 +51,7 @@ public class JukeboxGUIListener implements Listener {
         Player p = (Player) e.getWhoClicked();
 
         // Only do stuff if the clicked inventory is a JukeboxGUI or when adding discs
-        if(!JukeboxGUI.isJukeboxGUI(e.getClickedInventory())) {
+        if (!JukeboxGUI.isJukeboxGUI(e.getClickedInventory())) {
             if (JukeboxUtils.isRecord(e.getCurrentItem())) {
                 JukeboxGUI gui = (JukeboxGUI) e.getView().getTopInventory().getHolder();
                 if (gui.jd.addRecord(e.getCurrentItem(), p)) {
@@ -71,7 +69,6 @@ public class JukeboxGUIListener implements Listener {
         Jukebox jb = ((JukeboxGUI) e.getClickedInventory().getHolder()).jb;
 
 
-
         // Contains the clicked item
         ItemStack clicked = e.getCurrentItem();
         if (clicked == null) {
@@ -87,12 +84,12 @@ public class JukeboxGUIListener implements Listener {
                 clicked.removeEnchantment(Enchantment.DURABILITY);
                 //System.out.println(1);
                 //System.out.println(clicked);
-                if (jd.record != null && RecordUtils.itemStackEquals(jd.record,clicked)) {
+                if (jd.record != null && RecordUtils.itemStackEquals(jd.record, clicked)) {
                     //System.out.println(2);
                     // TODO: Avoid removed discs from being able to be looped after being removed
-                    if(jd.shuffle) {
+                    if (jd.shuffle) {
                         //System.out.println(3);
-                        jd.stopJukebox(jb,false);
+                        jd.stopJukebox(jb, false);
                         jd.randomRecord();
                         jd.startJukebox();
                     } else {
@@ -104,12 +101,12 @@ public class JukeboxGUIListener implements Listener {
                 ItemStack clone = clicked.clone();
                 clone.removeEnchantment(Enchantment.DURABILITY);
                 Iterator<ItemStack> iterator = jd.records.iterator();
-                while(iterator.hasNext()) {
+                while (iterator.hasNext()) {
                     //System.out.println(6);
                     ItemStack current = iterator.next();
-                    if(!RecordUtils.itemStackEquals(current,clicked)) continue;
+                    if (!RecordUtils.itemStackEquals(current, clicked)) continue;
                     //System.out.println("Removing disc " + current);
-                    if(clicked == null || current == null) continue;
+                    if (clicked == null || current == null) continue;
                     p.getInventory().addItem(clone);
                     iterator.remove();
                     jd.saveAsync();
@@ -120,7 +117,7 @@ public class JukeboxGUIListener implements Listener {
                 }*/
                 gui.update();
             } else {
-                jd.startJukebox(jb, clicked,p);
+                jd.startJukebox(jb, clicked, p);
                 //System.out.println(8);
             }
 
@@ -129,8 +126,8 @@ public class JukeboxGUIListener implements Listener {
             //System.out.println(9);
 
             switch (slot) {
-                case 4 * 9 + 1:
-                    if(p.hasPermission(Permissions.ALLOW_LOOP)) {
+                case ButtonSlot.LOOP:
+                    if (p.hasPermission(Permissions.ALLOW_LOOP)) {
                         //System.out.println(1);
                         main.debug("Toggle Loop");
                         if (jd.shuffle) {
@@ -141,8 +138,8 @@ public class JukeboxGUIListener implements Listener {
                         jd.toggleLoop(main, p);
                     }
                     break;
-                case 4 * 9 + 2:
-                    if(p.hasPermission(Permissions.ALLOW_SHUFFLE)) {
+                case ButtonSlot.SHUFFLE:
+                    if (p.hasPermission(Permissions.ALLOW_SHUFFLE)) {
                         main.debug("Toggle Shuffle");
                         if (jd.loop) {
                             jd.toggleLoop(main, null);
@@ -151,37 +148,54 @@ public class JukeboxGUIListener implements Listener {
                         jd.toggleShuffle(null);
                     }
                     break;
-                case 4 * 9 + 3:
-                    if(p.hasPermission(Permissions.ALLOW_AUTOSTART)) {
+                case ButtonSlot.AUTOSTART:
+                    if (p.hasPermission(Permissions.ALLOW_AUTOSTART)) {
                         main.debug("Toggle Autostart");
-                        jd.autostart=!jd.autostart;
+                        jd.autostart = !jd.autostart;
                     }
                     break;
-                case 4*9 + 4:
+                case ButtonSlot.RADIUS_MINUS:
                     if (p.hasPermission(Permissions.ALLOW_CHANGE_RADIUS)) {
                         main.debug("Radius minus");
                         jd.radiusMinus();
                     }
                     break;
-                case 4*9 + 5:
+                case ButtonSlot.RADIUS_PLUS:
                     if (p.hasPermission(Permissions.ALLOW_CHANGE_RADIUS)) {
                         main.debug("Radius plus");
                         jd.radiusPlus();
                     }
                     break;
-                case 4 * 9 + 7:
+                case ButtonSlot.STOP:
                     main.debug("Stop");
-                    if (jd.loop) jd.toggleLoop(main,null);
-                    jd.stopJukebox(jb,true);
+                    if (jd.loop) jd.toggleLoop(main, null);
+                    jd.stopJukebox(jb, true);
                     break;
+
+                case ButtonSlot.NEXT_PAGE:
+                    main.debug("Next page");
+                    if(clicked != null && clicked.getType() == Material.PLAYER_HEAD && PDCUtils.has(clicked, PDC.CURRENT_PAGE, PersistentDataType.INTEGER)) {
+                        jd.currentPage++;
+                    } else {
+                        main.debug("Next page -> no, empty");
+                    }
+                    break;
+
+                case ButtonSlot.PREVIOUS_PAGE:
+                    main.debug("Previous page");
+                    if(clicked != null && clicked.getType() == Material.PLAYER_HEAD && PDCUtils.has(clicked, PDC.CURRENT_PAGE, PersistentDataType.INTEGER)) {
+                        jd.currentPage--;
+                    }
+                    break;
+
                 default:
                     break;
             }
         }
 
         gui.open((Player) e.getWhoClicked());
-        for(HumanEntity entity : gui.getInventory().getViewers()) {
-            if(entity instanceof Player) {
+        for (HumanEntity entity : gui.getInventory().getViewers()) {
+            if (entity instanceof Player) {
                 Player viewer = (Player) entity;
                 gui.open(viewer);
             }

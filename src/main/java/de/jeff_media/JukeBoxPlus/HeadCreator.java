@@ -13,29 +13,13 @@ import java.util.UUID;
 public class HeadCreator {
 
     static ItemStack getHead(String base64) {
+        try {
+            return SkullUtils.getHead(base64);
+        }catch (Exception e) {
+            e.printStackTrace();
+            ItemStack item = new ItemStack(Material.PLAYER_HEAD);
+            return item;
+        }
 
-        return SkullUtils.getHead(base64);
-
-//        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-//
-//        SkullMeta meta = (SkullMeta) head.getItemMeta();
-//
-//        GameProfile profile = new GameProfile(UUID.randomUUID(), "");
-//
-//        profile.getProperties().put("textures", new Property("textures", base64));
-//
-//        Field profileField = null;
-//
-//        try {
-//            profileField = meta.getClass().getDeclaredField("profile");
-//            profileField.setAccessible(true);
-//            profileField.set(meta, profile);
-//        } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-//            e.printStackTrace();
-//        }
-//
-//        head.setItemMeta(meta);
-//
-//        return head;
     }
 }
