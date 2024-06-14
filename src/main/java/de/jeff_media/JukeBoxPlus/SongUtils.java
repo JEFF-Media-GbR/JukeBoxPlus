@@ -76,6 +76,21 @@ public class SongUtils {
         if(relic != null) {
             addSong(relic, "5",3,38,14);
         }
+
+        Material creator = Material.getMaterial("MUSIC_DISC_CREATOR");
+        if(creator != null) {
+            addSong(creator, "Creator", 2, 56, 15); // TODO: Redstone level
+        }
+
+        Material creatorMusicBox = Material.getMaterial("MUSIC_DISC_CREATOR_MUSIC_BOX");
+        if(creatorMusicBox != null) {
+            addSong(creatorMusicBox, "Creator (Music Box)", 1, 13, 15); // TODO: Redstone level
+        }
+
+        Material precipice = Material.getMaterial("MUSIC_DISC_PRECIPICE");
+        if(precipice != null) {
+            addSong(precipice, "Precipice", 4, 59, 15); // TODO: Redstone level
+        }
     }
 
     public String getName(ItemStack itemStack) {

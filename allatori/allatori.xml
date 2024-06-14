@@ -1,6 +1,6 @@
 <config>
     <input>
-        <jar in="${project.artifactId}-${project.version}.jar" out="${project.artifactId}-${project.version}-obf.jar"/>
+        <jar in="${project.artifactId}-${project.version}.jar" out="${project.artifactId}-${project.version}.jar"/>
     </input>
 
     <classpath basedir="C:\Users\mfnal\.m2\repository">
@@ -28,7 +28,8 @@
     <property name="fields-naming" value="keywords"/>
     <property name="classes-naming" value="windows"/>
     <property name="local-variables-naming" value="optimize"/>
-    <property name="extensive-flow-obfuscation" value="maximum"/>
+    <property name="extensive-flow-obfuscation" value="disable"/>
+    <property name="control-flow-obfuscation" value="disable"/>
     <property name="generics" value="remove"/>
     <property name="line-numbers" value="keep"/> <!-- For Debugging: keep -->
     <property name="inner-classes" value="remove"/>

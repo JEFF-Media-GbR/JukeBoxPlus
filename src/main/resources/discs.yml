@@ -49,3 +49,12 @@ otherside:
 relic:
   duration: 0
   name: "Relic"
+creator:
+  duration: 0
+  name: "Creator"
+"creator (music box)":
+  duration: 0
+  name: "Creator (Music Box)"
+precipice:
+  duration: 0
+  name: "Precipice"
