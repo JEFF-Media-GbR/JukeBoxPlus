@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.Yaml;
 
@@ -37,10 +38,11 @@ public class CustomSong {
         }
         if(customSongs.isConfigurationSection(itemStack.getType().name())) {
             if(itemStack.hasItemMeta()) {
-                if(itemStack.getItemMeta().hasCustomModelData()) {
+                ItemMeta meta = itemStack.getItemMeta();
+                if(meta != null && meta.hasCustomModelData()) {
                     if(customSongs.isConfigurationSection(itemStack.getType().name()+"."+itemStack.getItemMeta().getCustomModelData())) {
                         ConfigurationSection section = customSongs.getConfigurationSection(itemStack.getType().name()+"." + itemStack.getItemMeta().getCustomModelData());
-                        String name = ChatColor.translateAlternateColorCodes('&',section.getString("name"));
+                        String name = ChatColor.translateAlternateColorCodes('&',section.getString("name", "[Unknown Song]"));
                         int duration = section.getInt("duration");
                         String sound = section.getString("sound");
                         return new CustomSong(name, duration, sound);

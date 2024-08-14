@@ -5,6 +5,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Jukebox;
 import org.bukkit.entity.Chicken;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -26,7 +27,9 @@ public class JukeboxUtils {
     static boolean isRecord(ItemStack is) {
         if (is == null) return false;
         if(is.getType().name().startsWith("MUSIC_DISC_")) return true;
-        if(!is.getItemMeta().hasCustomModelData()) return false;
+        ItemMeta meta = is.getItemMeta();
+        if(meta == null) return false;
+        if(!meta.hasCustomModelData()) return false;
         int modelData = is.getItemMeta().getCustomModelData();
         return CustomSong.get(is) != null;
     }
