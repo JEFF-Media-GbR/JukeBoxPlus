@@ -34,8 +34,8 @@ public class RecordUtils {
         item2 = item2.clone();
         item1 = getDiscItem(item1);
         item2 = getDiscItem(item2);
-        item1.removeEnchantment(Enchantment.DURABILITY);
-        item2.removeEnchantment(Enchantment.DURABILITY);
+        item1.removeEnchantment(Enchantment.UNBREAKING);
+        item2.removeEnchantment(Enchantment.UNBREAKING);
         if(item1.equals(item2)) {
             //System.out.println("Yes!");
             return true;

@@ -263,7 +263,7 @@ public class JukeboxData {
         //yaml.set("records", recordsToStringList());
         for(ItemStack item : records) {
             //item.removeEnchantment(Enchantment.DURABILITY);
-            item.removeEnchantment(Enchantment.DURABILITY);
+            item.removeEnchantment(Enchantment.UNBREAKING);
         }
         yaml.set("records",records);
         //String recordName = record == null || record.getType() == Material.AIR ? "none" : record;
@@ -384,7 +384,7 @@ public class JukeboxData {
         if(record != null) {
             for(ItemStack item : records) {
                 if(RecordUtils.itemStackEquals(item, record)) {
-                    item.removeEnchantment(/*Enchantment.DURABILITY*/ Enchantment.DURABILITY);
+                    item.removeEnchantment(/*Enchantment.DURABILITY*/ Enchantment.UNBREAKING);
                 }
             }
         }

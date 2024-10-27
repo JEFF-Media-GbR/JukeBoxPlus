@@ -81,7 +81,7 @@ public class JukeboxGUIListener implements Listener {
             boolean remove = e.isRightClick();
 
             if (remove) {
-                clicked.removeEnchantment(Enchantment.DURABILITY);
+                clicked.removeEnchantment(Enchantment.UNBREAKING);
                 //System.out.println(1);
                 //System.out.println(clicked);
                 if (jd.record != null && RecordUtils.itemStackEquals(jd.record, clicked)) {
@@ -99,7 +99,7 @@ public class JukeboxGUIListener implements Listener {
                 }
                 //System.out.println(5);
                 ItemStack clone = clicked.clone();
-                clone.removeEnchantment(Enchantment.DURABILITY);
+                clone.removeEnchantment(Enchantment.UNBREAKING);
                 Iterator<ItemStack> iterator = jd.records.iterator();
                 while (iterator.hasNext()) {
                     //System.out.println(6);
