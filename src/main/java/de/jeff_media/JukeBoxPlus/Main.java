@@ -3,7 +3,7 @@ package de.jeff_media.JukeBoxPlus;
 import co.aikar.commands.PaperCommandManager;
 import de.jeff_media.JukeBoxPlus.commands.DebugCommand;
 import de.jeff_media.JukeBoxPlus.listeners.JoinListener;
-import de.jeff_media.updatechecker.UpdateChecker;
+import com.jeff_media.updatechecker.UpdateChecker;
 import io.th0rgal.protectionlib.ProtectionLib;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -23,8 +23,6 @@ public class Main extends JavaPlugin {
     private static Main instance;
 
     // TODO Allow some Jukeboxes with extra permission to autoloop on server start (for spawn etc)
-
-    String spigotUserId = "%%__USER__%%";
     JukeboxUtils jukeboxUtils;
     Messages msg;
     HashMap<Block, JukeboxData> jukeboxes;
@@ -36,7 +34,6 @@ public class Main extends JavaPlugin {
     MessageUtils messageUtils;
     HashMap<UUID, BossBar> bossbars;
     HashMap<UUID, JukeboxGUI> openGUIs;
-    String uid = "%%__USER__%%";
     UpdateChecker updateChecker;
 
     private static final String SPIGOT_RESOURCE_ID = "87750";
