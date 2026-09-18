@@ -1,6 +1,5 @@
 package de.jeff_media.JukeBoxPlus;
 
-import com.jeff_media.jefflib.PDCUtils;
 import org.bukkit.Material;
 import org.bukkit.block.Jukebox;
 import org.bukkit.enchantments.Enchantment;
@@ -174,7 +173,9 @@ public class JukeboxGUIListener implements Listener {
 
                 case ButtonSlot.NEXT_PAGE:
                     main.debug("Next page");
-                    if(clicked != null && clicked.getType() == Material.PLAYER_HEAD && PDCUtils.has(clicked, PDC.CURRENT_PAGE, PersistentDataType.INTEGER)) {
+                    if(clicked != null && clicked.getType() == Material.PLAYER_HEAD
+                            && clicked.getItemMeta() != null
+                            && clicked.getItemMeta().getPersistentDataContainer().has(PDC.CURRENT_PAGE, PersistentDataType.INTEGER)) {
                         jd.currentPage++;
                     } else {
                         main.debug("Next page -> no, empty");
@@ -183,7 +184,9 @@ public class JukeboxGUIListener implements Listener {
 
                 case ButtonSlot.PREVIOUS_PAGE:
                     main.debug("Previous page");
-                    if(clicked != null && clicked.getType() == Material.PLAYER_HEAD && PDCUtils.has(clicked, PDC.CURRENT_PAGE, PersistentDataType.INTEGER)) {
+                    if(clicked != null && clicked.getType() == Material.PLAYER_HEAD
+                            && clicked.getItemMeta() != null
+                            && clicked.getItemMeta().getPersistentDataContainer().has(PDC.CURRENT_PAGE, PersistentDataType.INTEGER)) {
                         jd.currentPage--;
                     }
                     break;

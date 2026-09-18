@@ -1,6 +1,5 @@
 package de.jeff_media.JukeBoxPlus;
 
-import com.jeff_media.jefflib.PDCUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -110,8 +109,8 @@ public class JukeboxGUI implements InventoryHolder {
                 main.getConfig().getString("button-next-page"));
         ItemMeta meta = button.getItemMeta();
         meta.setDisplayName(main.msg.NEXT_PAGE);
+        meta.getPersistentDataContainer().set(PDC.CURRENT_PAGE, PersistentDataType.INTEGER, currentPage);
         button.setItemMeta(meta);
-        PDCUtils.set(button, PDC.CURRENT_PAGE, PersistentDataType.INTEGER, currentPage);
         inv.setItem(ButtonSlot.NEXT_PAGE, button);
     }
 
@@ -120,8 +119,8 @@ public class JukeboxGUI implements InventoryHolder {
                 main.getConfig().getString("button-previous-page"));
         ItemMeta meta = button.getItemMeta();
         meta.setDisplayName(main.msg.PREVIOUS_PAGE);
+        meta.getPersistentDataContainer().set(PDC.CURRENT_PAGE, PersistentDataType.INTEGER, currentPage);
         button.setItemMeta(meta);
-        PDCUtils.set(button, PDC.CURRENT_PAGE, PersistentDataType.INTEGER, currentPage);
         inv.setItem(ButtonSlot.PREVIOUS_PAGE, button);
     }
 

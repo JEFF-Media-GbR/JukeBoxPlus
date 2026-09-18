@@ -1,6 +1,5 @@
 package de.jeff_media.JukeBoxPlus;
 
-import com.jeff_media.jefflib.internal.glowenchantment.GlowEnchantmentFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.advancement.Advancement;

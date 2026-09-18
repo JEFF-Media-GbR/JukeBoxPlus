@@ -6,11 +6,11 @@
 
     <groupId>de.jeff_media</groupId>
     <artifactId>JukeBoxPlus</artifactId>
-    <version>3.8.0</version>
+    <version>4.0.0-RC1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
+        <java.version>25</java.version>
 
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
         <config.version>${maven.build.timestamp}</config.version>
@@ -22,57 +22,28 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
-            <resource>
-                <directory>allatori</directory>
-                <filtering>true</filtering>
-                <excludes>
-                    <exclude>**</exclude>
-                </excludes>
-            </resource>
-
         </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.14.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <finalName>JukeBoxPlus-${project.version}</finalName>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.jeff_media.standalonepluginscreen.StandalonePluginScreen</mainClass>
-                        </manifest>
-                    </archive>
+                    <release>${java.version}</release>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.6.2</version>
                 <configuration>
                     <minimizeJar>true</minimizeJar>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
                     <relocations>
-                        <relocation>
-                            <pattern>com.jeff_media.stringencryption</pattern>
-                            <shadedPattern>de.jeff_media.JukeBoxPlus</shadedPattern>
-                        </relocation>
                         <relocation>
                             <pattern>org.bstats</pattern>
                             <!-- Replace this with your package! -->
                             <shadedPattern>de.jeff_media.JukeBoxPlus</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>de.jeff_media.daddy</pattern>
-                            <shadedPattern>de.jeff_media.JukeBoxPlus.daddy</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>co.aikar.commands</pattern>
@@ -90,29 +61,7 @@
                             <pattern>io.th0rgal.protectionlib</pattern>
                             <shadedPattern>de.jeff_media.JukeBoxPlus.protectionlib</shadedPattern>
                         </relocation>
-                        <relocation>
-                            <pattern>com.jeff_media.jefflib</pattern>
-                            <shadedPattern>de.jeff_media.JukeBoxPlus.jefflib</shadedPattern>
-                        </relocation>
                     </relocations>
-                    <filters>
-                        <filter>
-                            <artifact>com.jeff_media:StringEncryption</artifact>
-                            <excludeDefaults>false</excludeDefaults>
-                            <excludes>
-                                <exclude>**/StringEncryption.class</exclude>
-                            </excludes>
-                            <includes>
-                                <include>**/StringDecryption</include>
-                            </includes>
-                        </filter>
-                        <filter>
-                            <artifact>com.jeff_media:StandalonePluginScreen</artifact>
-                            <includes>
-                                <include>**</include>
-                            </includes>
-                        </filter>
-                    </filters>
                 </configuration>
                 <executions>
                     <execution>
@@ -122,58 +71,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.6</version>
-                <executions>
-                    <execution>
-                        <id>copy-and-filter-allatori-config</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/target</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}/allatori</directory>
-                                    <includes>
-                                        <include>allatori.xml</include>
-                                    </includes>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <executions>
-                    <execution>
-                        <id>run-allatori</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <executable>java</executable>
-                    <arguments>
-                        <argument>-Xms128m</argument>
-                        <argument>-Xmx512m</argument>
-                        <argument>-jar</argument>
-                        <argument>${settings.localRepository}/com/allatori/allatori/8.8/allatori-8.8.jar</argument>
-                        <argument>${basedir}/target/allatori.xml</argument>
-                    </arguments>
-                </configuration>
             </plugin>
 
         </plugins>
@@ -189,7 +86,15 @@
             <url>https://repo.codemc.org/repository/maven-public</url>
         </repository>
         <repository>
-            <id>any-name-you-like</id>
+            <id>jeff-media-public</id>
+            <url>https://hub.jeff-media.com/nexus/repository/jeff-media-public/</url>
+        </repository>
+        <repository>
+            <id>jeff-media-thirdparty</id>
+            <url>https://hub.jeff-media.com/nexus/repository/jeff-media-thirdparty/</url>
+        </repository>
+        <repository>
+            <id>apache-snapshots</id>
             <url>https://repository.apache.org/content/repositories/snapshots/</url>
         </repository>
         <repository>
@@ -204,46 +109,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.jeff_media</groupId>
-            <artifactId>Stepsister</artifactId>
-            <version>14</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.jeff-media.jefflib</groupId>
-            <artifactId>jefflib</artifactId>
-            <version>14.2.3</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.mojang</groupId>
-            <artifactId>authlib</artifactId>
-            <version>1.5.25</version>
-            <scope>provided</scope>
-        </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.spigotmc</groupId>-->
-<!--            <artifactId>spigot</artifactId>-->
-<!--            <version>1.19.4-R0.1-SNAPSHOT</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
-        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.21.3-R0.1-SNAPSHOT</version>
+            <version>26.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.jeff_media</groupId>-->
-<!--            <artifactId>StringEncryption</artifactId>-->
-<!--            <version>1.0-SNAPSHOT</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
-        <!--<dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>4.1</version>
-        </dependency>-->
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
@@ -263,34 +133,10 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>co.aikar</groupId>
             <artifactId>acf-paper</artifactId>
             <version>0.5.1-SNAPSHOT</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.jeff_media</groupId>
-            <artifactId>StandalonePluginScreen</artifactId>
-            <version>1.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.allatori</groupId>
-            <artifactId>allatori-annotations</artifactId>
-            <version>8.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.xxmicloxx</groupId>
-            <artifactId>NoteBlockAPI</artifactId>
-            <version>1.9.0</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.oraxen</groupId>

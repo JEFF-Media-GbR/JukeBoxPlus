@@ -1,9 +1,6 @@
 package de.jeff_media.JukeBoxPlus;
 
-import com.jeff_media.jefflib.data.McVersion;
-//import com.jeff_media.jefflib.internal.glowenchantment.GlowEnchantmentFactory;
-
-import com.jeff_media.jefflib.internal.glowenchantment.GlowEnchantmentFactory;
+import de.jeff_media.JukeBoxPlus.version.Version1_19;
 import de.jeff_media.JukeBoxPlus.version.Version1_19Utils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -364,7 +361,7 @@ public class JukeboxData {
             }
             main.debug("Play volume: " + ((float) radius)/16);
         }
-        if(McVersion.current().isAtLeast(1,19)) {
+        if(Version1_19.is1_19()) {
             Version1_19Utils.makeAllaysDance(jb.getBlock().getLocation(), 32);
         }
         setEndTime(duration);
@@ -375,7 +372,7 @@ public class JukeboxData {
 
     void stopJukebox(Jukebox jb, boolean reset) {
 
-        if(McVersion.current().isAtLeast(1,19)) {
+        if(Version1_19.is1_19()) {
             Version1_19Utils.makeAllaysStopDance(jb.getBlock().getLocation(), 32);
         }
 
