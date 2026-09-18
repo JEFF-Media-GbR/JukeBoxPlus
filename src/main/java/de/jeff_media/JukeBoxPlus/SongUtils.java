@@ -74,7 +74,7 @@ public class SongUtils {
 
         Material relic = Material.getMaterial("MUSIC_DISC_RELIC");
         if(relic != null) {
-            addSong(relic, "5",3,38,14);
+            addSong(relic, "Relic",3,39,15);
         }
 
         Material creator = Material.getMaterial("MUSIC_DISC_CREATOR");
@@ -91,6 +91,23 @@ public class SongUtils {
         if(precipice != null) {
             addSong(precipice, "Precipice", 4, 59, 15); // TODO: Redstone level
         }
+
+        Material tears = Material.getMaterial("MUSIC_DISC_TEARS");
+        if(tears != null) {
+            addSong(tears, "Tears", 2, 55, 15); // TODO: Redstone level
+        }
+
+        Material lavaChicken = Material.getMaterial("MUSIC_DISC_LAVA_CHICKEN");
+        if(lavaChicken != null) {
+            addSong(lavaChicken, "Lava Chicken", 2, 15, 15); // TODO: Redstone level
+        }
+
+        Material bounce = Material.getMaterial("MUSIC_DISC_BOUNCE");
+        if(bounce != null) {
+            addSong(bounce, "Bounce", 3, 54, 15); // TODO: Redstone level
+        }
+
+
     }
 
     public String getName(ItemStack itemStack) {
